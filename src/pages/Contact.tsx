@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import ContactSection from "@/components/home/ContactSection";
+import ContactSection from "@/components/contact/ContactSection";
 import { motion } from "framer-motion";
 
 const Contact = () => {
