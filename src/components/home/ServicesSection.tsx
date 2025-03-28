@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Megaphone, Globe, PenTool, BarChart, Users, Search } from 'lucide-react';
