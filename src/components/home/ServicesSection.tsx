@@ -1,11 +1,8 @@
-
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Megaphone, Globe, PenTool, BarChart, Users, Search } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-
-<lov-add-dependency>framer-motion@^10.16.4</lov-add-dependency>
 
 interface ServiceCardProps {
   icon: React.ReactNode;
