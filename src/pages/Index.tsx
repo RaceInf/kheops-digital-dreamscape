@@ -1,13 +1,27 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import { useEffect } from "react";
+import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
+import HeroSection from "@/components/home/HeroSection";
+import ServicesSection from "@/components/home/ServicesSection";
+import AboutSection from "@/components/home/AboutSection";
+import ContactSection from "@/components/home/ContactSection";
 
 const Index = () => {
+  useEffect(() => {
+    // Set page title
+    document.title = "KHEOPS SET DIGITAL - Agence de Communication Digitale";
+  }, []);
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
-    </div>
+    <main className="min-h-screen w-full">
+      <Navbar />
+      <HeroSection />
+      <ServicesSection />
+      <AboutSection />
+      <ContactSection />
+      <Footer />
+    </main>
   );
 };
 
