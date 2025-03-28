@@ -11,27 +11,29 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/services" element={<Services />} />
-            {/* Routes to be implemented in future iterations */}
-            <Route path="/portfolio" element={<NotFound />} />
-            <Route path="/about" element={<NotFound />} />
-            <Route path="/contact" element={<NotFound />} />
-            {/* Catch-all route */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </QueryClientProvider>
-  </React.StrictMode>
-);
+const App = () => {
+  return (
+    <React.StrictMode>
+      <BrowserRouter>
+        <QueryClientProvider client={queryClient}>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/services" element={<Services />} />
+              {/* Routes to be implemented in future iterations */}
+              <Route path="/portfolio" element={<NotFound />} />
+              <Route path="/about" element={<NotFound />} />
+              <Route path="/contact" element={<NotFound />} />
+              {/* Catch-all route */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </TooltipProvider>
+        </QueryClientProvider>
+      </BrowserRouter>
+    </React.StrictMode>
+  );
+};
 
 export default App;
