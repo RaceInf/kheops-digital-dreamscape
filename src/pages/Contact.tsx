@@ -18,7 +18,7 @@ const Contact = () => {
     <main className="min-h-screen w-full">
       <Navbar />
       
-      <section className="pt-32 pb-12 bg-kheops-lightGray">
+      <section className="pt-32 pb-16 bg-gradient-to-b from-kheops-gold/10 to-white">
         <div className="container-custom">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -30,7 +30,7 @@ const Contact = () => {
               Contactez <span className="text-kheops-gold">Nous</span>
             </h1>
             <p className="text-gray-600 max-w-3xl mx-auto text-lg">
-              Nous sommes à votre écoute. N'hésitez pas à nous contacter pour toute question ou demande de devis.
+              Notre équipe est à votre écoute pour répondre à toutes vos questions et vous accompagner dans vos projets digitaux.
             </p>
           </motion.div>
         </div>

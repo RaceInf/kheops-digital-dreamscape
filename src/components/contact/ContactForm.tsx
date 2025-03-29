@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const ContactForm = () => {
   const { toast } = useToast();
@@ -42,20 +43,24 @@ const ContactForm = () => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-xl p-8">
-      <h3 className="text-2xl font-bold mb-6">Envoyez-nous un message</h3>
+    <Card className="border-none shadow-lg rounded-2xl overflow-hidden">
+      <CardHeader className="bg-gradient-to-r from-kheops-gold to-kheops-salmon text-white p-6">
+        <CardTitle className="text-2xl font-bold">Envoyez-nous un message</CardTitle>
+      </CardHeader>
       
-      {formSubmitted ? (
-        <SuccessMessage onReset={() => setFormSubmitted(false)} />
-      ) : (
-        <ContactFormFields 
-          formState={formState}
-          handleChange={handleChange}
-          handleSubmit={handleSubmit}
-          isSubmitting={isSubmitting}
-        />
-      )}
-    </div>
+      <CardContent className="p-6">
+        {formSubmitted ? (
+          <SuccessMessage onReset={() => setFormSubmitted(false)} />
+        ) : (
+          <ContactFormFields 
+            formState={formState}
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+            isSubmitting={isSubmitting}
+          />
+        )}
+      </CardContent>
+    </Card>
   );
 };
 
@@ -74,7 +79,7 @@ const SuccessMessage = ({ onReset }: { onReset: () => void }) => {
         Merci de nous avoir contacté. Notre équipe vous répondra dans les meilleurs délais.
       </p>
       <Button 
-        className="bg-kheops-gold hover:bg-kheops-salmon text-white"
+        className="bg-gradient-to-r from-kheops-gold to-kheops-salmon hover:from-kheops-salmon hover:to-kheops-gold text-white"
         onClick={onReset}
       >
         Envoyer un autre message
@@ -101,8 +106,8 @@ const ContactFormFields = ({
   isSubmitting: boolean;
 }) => {
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <FormField
           id="name"
           label="Nom complet"
@@ -137,13 +142,13 @@ const ContactFormFields = ({
         />
       </div>
       
-      <div className="space-y-2 mb-6">
-        <Label htmlFor="message" className="text-gray-700">Message</Label>
+      <div className="space-y-2">
+        <Label htmlFor="message" className="text-gray-700 font-medium">Message</Label>
         <Textarea
           id="message"
           name="message"
           placeholder="Votre message..."
-          className="h-40 border-gray-300 focus:border-kheops-gold focus:ring-kheops-gold"
+          className="h-40 border-gray-300 focus:border-kheops-gold focus:ring-kheops-gold rounded-lg resize-none"
           required
           value={formState.message}
           onChange={handleChange}
@@ -174,13 +179,13 @@ const FormField = ({
 }) => {
   return (
     <div className="space-y-2">
-      <Label htmlFor={id} className="text-gray-700">{label}</Label>
+      <Label htmlFor={id} className="text-gray-700 font-medium">{label}</Label>
       <Input
         id={id}
         name={id}
         type={type}
         placeholder={placeholder}
-        className="border-gray-300 focus:border-kheops-gold focus:ring-kheops-gold"
+        className="border-gray-300 focus:border-kheops-gold focus:ring-kheops-gold rounded-lg"
         required={required}
         value={value}
         onChange={onChange}
@@ -193,7 +198,7 @@ const SubmitButton = ({ isSubmitting }: { isSubmitting: boolean }) => {
   return (
     <Button 
       type="submit" 
-      className="w-full bg-kheops-gold hover:bg-kheops-salmon text-white flex items-center justify-center"
+      className="w-full bg-gradient-to-r from-kheops-gold to-kheops-salmon hover:from-kheops-salmon hover:to-kheops-gold text-white flex items-center justify-center py-6"
       disabled={isSubmitting}
     >
       {isSubmitting ? (
