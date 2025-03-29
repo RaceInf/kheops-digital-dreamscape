@@ -1,7 +1,6 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
 import { Megaphone, Globe, PenTool, BarChart, Users, Search } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -12,10 +11,9 @@ interface ServiceCardProps {
   description: string;
   expanded: boolean;
   onClick: () => void;
-  serviceId: string;
 }
 
-const ServiceCard = ({ icon, title, description, expanded, onClick, serviceId }: ServiceCardProps) => {
+const ServiceCard = ({ icon, title, description, expanded, onClick }: ServiceCardProps) => {
   return (
     <Card 
       className={`cursor-pointer overflow-hidden transition-all duration-500 ${
@@ -58,11 +56,9 @@ const ServiceCard = ({ icon, title, description, expanded, onClick, serviceId }:
                 <span>Accompagnement expert à chaque étape</span>
               </li>
             </ul>
-            <Link to={`/services/${serviceId}`}>
-              <Button className="bg-kheops-salmon hover:bg-kheops-gold text-white mt-2">
-                En savoir plus
-              </Button>
-            </Link>
+            <Button className="bg-kheops-salmon hover:bg-kheops-gold text-white mt-2">
+              En savoir plus
+            </Button>
           </motion.div>
         )}
       </CardContent>
@@ -77,38 +73,32 @@ const ServicesSection = () => {
     {
       icon: <Megaphone size={28} />,
       title: "Community Management",
-      description: "Stratégies ciblées pour renforcer votre présence sur les réseaux sociaux et engager votre audience de manière authentique.",
-      serviceId: "community-management"
+      description: "Stratégies ciblées pour renforcer votre présence sur les réseaux sociaux et engager votre audience de manière authentique."
     },
     {
       icon: <Globe size={28} />,
       title: "Création de Sites Web",
-      description: "Sites vitrines et e-commerce modernes, responsives et optimisés pour convertir les visiteurs en clients.",
-      serviceId: "creation-sites-web"
+      description: "Sites vitrines et e-commerce modernes, responsives et optimisés pour convertir les visiteurs en clients."
     },
     {
       icon: <PenTool size={28} />,
       title: "Identité Visuelle",
-      description: "Logos, chartes graphiques et supports visuels qui reflètent l'unicité de votre marque et marquent les esprits.",
-      serviceId: "identite-visuelle"
+      description: "Logos, chartes graphiques et supports visuels qui reflètent l'unicité de votre marque et marquent les esprits."
     },
     {
       icon: <BarChart size={28} />,
       title: "Stratégie Digitale",
-      description: "Élaboration de feuilles de route digitales complètes pour atteindre vos objectifs commerciaux.",
-      serviceId: "strategie-digitale"
+      description: "Élaboration de feuilles de route digitales complètes pour atteindre vos objectifs commerciaux."
     },
     {
       icon: <Users size={28} />,
       title: "Social Media Marketing",
-      description: "Campagnes publicitaires ciblées sur les réseaux sociaux pour augmenter votre visibilité et vos conversions.",
-      serviceId: "social-media-marketing"
+      description: "Campagnes publicitaires ciblées sur les réseaux sociaux pour augmenter votre visibilité et vos conversions."
     },
     {
       icon: <Search size={28} />,
       title: "Référencement SEO",
-      description: "Optimisation de votre visibilité sur les moteurs de recherche pour attirer un trafic qualifié sur votre site.",
-      serviceId: "referencement-seo"
+      description: "Optimisation de votre visibilité sur les moteurs de recherche pour attirer un trafic qualifié sur votre site."
     }
   ];
 
@@ -139,17 +129,14 @@ const ServicesSection = () => {
               description={service.description}
               expanded={expandedCard === index}
               onClick={() => handleCardClick(index)}
-              serviceId={service.serviceId}
             />
           ))}
         </div>
 
         <div className="text-center mt-16">
-          <Link to="/services">
-            <Button className="bg-kheops-gold hover:bg-kheops-salmon text-white px-8 py-6 rounded-md font-medium transition-all duration-300 text-lg">
-              Tous nos services
-            </Button>
-          </Link>
+          <Button className="bg-kheops-gold hover:bg-kheops-salmon text-white px-8 py-6 rounded-md font-medium transition-all duration-300 text-lg">
+            Tous nos services
+          </Button>
         </div>
       </div>
     </section>
