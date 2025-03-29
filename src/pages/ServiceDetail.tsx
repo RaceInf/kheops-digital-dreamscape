@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Check, ChevronDown, ChevronUp, Users, BarChart4, TrendingUp, Clock, Award } from 'lucide-react';
+import { ArrowLeft, Check, ChevronDown, ChevronUp, Users, BarChart4, TrendingUp, Clock, Award, Megaphone, Globe, PenTool, BarChart, Search } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { Button } from '@/components/ui/button';
@@ -667,6 +667,18 @@ const ServiceDetail = () => {
     }
   };
 
+  const renderServiceIcon = (iconName: string) => {
+    switch(iconName) {
+      case 'Megaphone': return <Megaphone size={64} />;
+      case 'Globe': return <Globe size={64} />;
+      case 'PenTool': return <PenTool size={64} />;
+      case 'BarChart': return <BarChart4 size={64} />;
+      case 'Users': return <Users size={64} />;
+      case 'Search': return <Search size={64} />;
+      default: return <Award size={64} />;
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -711,17 +723,7 @@ const ServiceDetail = () => {
                     {/* Default placeholder if image is not available */}
                     <div className="w-full h-full flex items-center justify-center bg-gradient-to-r from-kheops-gold/30 to-kheops-salmon/30">
                       <span className="text-4xl text-kheops-gold/80">
-                        {(() => {
-                          switch(service.icon) {
-                            case 'Megaphone': return <Megaphone size={64} />;
-                            case 'Globe': return <Globe size={64} />;
-                            case 'PenTool': return <PenTool size={64} />;
-                            case 'BarChart': return <BarChart4 size={64} />;
-                            case 'Users': return <Users size={64} />;
-                            case 'Search': return <Search size={64} />;
-                            default: return <Award size={64} />;
-                          }
-                        })()}
+                        {renderServiceIcon(service.icon)}
                       </span>
                     </div>
                   </div>
