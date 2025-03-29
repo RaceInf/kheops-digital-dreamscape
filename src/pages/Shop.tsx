@@ -1,13 +1,15 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import EbookCard from '@/components/shop/EbookCard';
 import WhatsAppButton from '@/components/shop/WhatsAppButton';
 import { ebooks } from '@/data/ebooks';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
-import { Grid2X2, LayoutList } from 'lucide-react';
+import { Grid2X2, LayoutList, Book } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 const Shop = () => {
   const [currentPage, setCurrentPage] = useState(1);

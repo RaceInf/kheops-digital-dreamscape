@@ -2,7 +2,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { WhatsApp } from 'lucide-react';
+import { MessageCircle } from 'lucide-react';
 
 interface WhatsAppButtonProps {
   productName?: string;
@@ -29,7 +29,7 @@ const WhatsAppButton = ({ productName, className = "", variant = "default" }: Wh
         className={`gap-2 ${className}`}
         onClick={() => window.open(whatsappLink, '_blank')}
       >
-        <WhatsApp size={20} />
+        <MessageCircle size={20} className="text-white" />
         Commander par WhatsApp
       </Button>
     </motion.div>
