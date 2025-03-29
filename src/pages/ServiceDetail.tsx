@@ -32,7 +32,7 @@ const servicesData = {
     icon: 'Megaphone',
     heroImage: '/images/services/community-management.jpg',
     description: 'Une gestion professionnelle de vos réseaux sociaux pour développer votre communauté et engager votre audience.',
-    overview: `Le Community Management est l'art de gérer et d'animer votre présence sur les réseaux sociaux afin de créer une communauté engagée autour de votre marque. Chez KHEOPS SET DIGITAL, nous proposons une approche stratégique et personnalisée du Community Management, avec pour objectif de transformer vos followers en véritables ambassadeurs de votre marque.`,
+    overview: "Le Community Management est l'art de gérer et d'animer votre présence sur les réseaux sociaux afin de créer une communauté engagée autour de votre marque. Chez KHEOPS SET DIGITAL, nous proposons une approche stratégique et personnalisée du Community Management, avec pour objectif de transformer vos followers en véritables ambassadeurs de votre marque.",
     benefits: [
       'Augmentation de votre visibilité sur les réseaux sociaux',
       'Engagement accru de votre audience',
@@ -130,7 +130,7 @@ const servicesData = {
     icon: 'Globe',
     heroImage: '/images/services/web-creation.jpg',
     description: 'Des sites web modernes, sur mesure et optimisés pour convertir vos visiteurs en clients.',
-    overview: `La création de sites web est au cœur de toute stratégie digitale efficace. Chez KHEOPS SET DIGITAL, nous concevons des sites web qui vont bien au-delà de la simple vitrine en ligne. Nos sites sont conçus pour offrir une expérience utilisateur exceptionnelle tout en générant des résultats concrets pour votre entreprise.`,
+    overview: "La création de sites web est au cœur de toute stratégie digitale efficace. Chez KHEOPS SET DIGITAL, nous concevons des sites web qui vont bien au-delà de la simple vitrine en ligne. Nos sites sont conçus pour offrir une expérience utilisateur exceptionnelle tout en générant des résultats concrets pour votre entreprise.",
     benefits: [
       'Image professionnelle et crédibilité renforcée',
       'Acquisition de nouveaux clients 24h/24 et 7j/7',
@@ -234,7 +234,7 @@ const servicesData = {
     icon: 'PenTool',
     heroImage: '/images/services/visual-identity.jpg',
     description: 'Une identité visuelle distinctive et cohérente pour démarquer votre marque et marquer les esprits.',
-    overview: `L'identité visuelle est la personnalité graphique de votre entreprise, ce qui vous rend reconnaissable en un coup d'œil. Chez KHEOPS SET DIGITAL, nous créons des identités visuelles mémorables qui reflètent l'essence de votre marque et établissent une connexion émotionnelle avec votre audience.`,
+    overview: "L'identité visuelle est la personnalité graphique de votre entreprise, ce qui vous rend reconnaissable en un coup d'œil. Chez KHEOPS SET DIGITAL, nous créons des identités visuelles mémorables qui reflètent l'essence de votre marque et établissent une connexion émotionnelle avec votre audience.",
     benefits: [
       'Différenciation face à la concurrence',
       'Renforcement de la reconnaissance de marque',
@@ -332,7 +332,7 @@ const servicesData = {
     icon: 'BarChart',
     heroImage: '/images/services/digital-strategy.jpg',
     description: 'Une feuille de route digitale adaptée à vos objectifs pour maximiser votre impact en ligne.',
-    overview: `La stratégie digitale est la clé d'une présence en ligne efficace et cohérente. Chez KHEOPS SET DIGITAL, nous élaborons des plans d'action digitaux sur mesure qui s'alignent parfaitement avec vos objectifs commerciaux et votre positionnement sur le marché.`,
+    overview: "La stratégie digitale est la clé d'une présence en ligne efficace et cohérente. Chez KHEOPS SET DIGITAL, nous élaborons des plans d'action digitaux sur mesure qui s'alignent parfaitement avec vos objectifs commerciaux et votre positionnement sur le marché.",
     benefits: [
       'Vision claire de vos objectifs digitaux',
       'Cohérence de toutes vos actions en ligne',
@@ -431,7 +431,7 @@ const servicesData = {
     icon: 'Users',
     heroImage: '/images/services/social-media-marketing.jpg',
     description: 'Des campagnes publicitaires ciblées sur les réseaux sociaux pour booster votre visibilité et vos conversions.',
-    overview: `Le Social Media Marketing va au-delà du simple Community Management en intégrant une dimension publicitaire stratégique. Chez KHEOPS SET DIGITAL, nous concevons et gérons des campagnes publicitaires sur les réseaux sociaux qui ciblent précisément votre audience pour générer des résultats mesurables et maximiser votre ROI.`,
+    overview: "Le Social Media Marketing va au-delà du simple Community Management en intégrant une dimension publicitaire stratégique. Chez KHEOPS SET DIGITAL, nous concevons et gérons des campagnes publicitaires sur les réseaux sociaux qui ciblent précisément votre audience pour générer des résultats mesurables et maximiser votre ROI.",
     benefits: [
       'Ciblage ultra-précis de votre audience idéale',
       'Augmentation rapide de votre visibilité',
@@ -535,7 +535,7 @@ const servicesData = {
     icon: 'Search',
     heroImage: '/images/services/seo.jpg',
     description: 'Optimization de votre présence sur les moteurs de recherche pour attirer un trafic qualifié et générer des prospects.',
-    overview: `Le référencement naturel (SEO) est l'art de positionner votre site web en tête des résultats de recherche pour les requêtes pertinentes de votre audience. Chez KHEOPS SET DIGITAL, nous mettons en œuvre des stratégies SEO durables et conformes aux meilleures pratiques pour améliorer votre visibilité organique et générer un trafic qualifié.`,
+    overview: "Le référencement naturel (SEO) est l'art de positionner votre site web en tête des résultats de recherche pour les requêtes pertinentes de votre audience. Chez KHEOPS SET DIGITAL, nous mettons en œuvre des stratégies SEO durables et conformes aux meilleures pratiques pour améliorer votre visibilité organique et générer un trafic qualifié.",
     benefits: [
       'Visibilité accrue sur les moteurs de recherche',
       'Trafic qualifié et ciblé vers votre site',
