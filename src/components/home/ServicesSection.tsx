@@ -1,11 +1,13 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { Megaphone, Globe, PenTool, BarChart, Users, Search } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 
 interface ServiceCardProps {
+  id: string;
   icon: React.ReactNode;
   title: string;
   description: string;
@@ -13,7 +15,7 @@ interface ServiceCardProps {
   onClick: () => void;
 }
 
-const ServiceCard = ({ icon, title, description, expanded, onClick }: ServiceCardProps) => {
+const ServiceCard = ({ id, icon, title, description, expanded, onClick }: ServiceCardProps) => {
   return (
     <Card 
       className={`cursor-pointer overflow-hidden transition-all duration-500 ${
@@ -56,9 +58,11 @@ const ServiceCard = ({ icon, title, description, expanded, onClick }: ServiceCar
                 <span>Accompagnement expert à chaque étape</span>
               </li>
             </ul>
-            <Button className="bg-kheops-salmon hover:bg-kheops-gold text-white mt-2">
-              En savoir plus
-            </Button>
+            <Link to={`/services/${id}`}>
+              <Button className="bg-kheops-salmon hover:bg-kheops-gold text-white mt-2">
+                En savoir plus
+              </Button>
+            </Link>
           </motion.div>
         )}
       </CardContent>
@@ -71,31 +75,37 @@ const ServicesSection = () => {
 
   const services = [
     {
+      id: "community-management",
       icon: <Megaphone size={28} />,
       title: "Community Management",
       description: "Stratégies ciblées pour renforcer votre présence sur les réseaux sociaux et engager votre audience de manière authentique."
     },
     {
+      id: "creation-sites-web",
       icon: <Globe size={28} />,
       title: "Création de Sites Web",
       description: "Sites vitrines et e-commerce modernes, responsives et optimisés pour convertir les visiteurs en clients."
     },
     {
+      id: "identite-visuelle",
       icon: <PenTool size={28} />,
       title: "Identité Visuelle",
       description: "Logos, chartes graphiques et supports visuels qui reflètent l'unicité de votre marque et marquent les esprits."
     },
     {
+      id: "strategie-digitale",
       icon: <BarChart size={28} />,
       title: "Stratégie Digitale",
       description: "Élaboration de feuilles de route digitales complètes pour atteindre vos objectifs commerciaux."
     },
     {
+      id: "social-media-marketing",
       icon: <Users size={28} />,
       title: "Social Media Marketing",
       description: "Campagnes publicitaires ciblées sur les réseaux sociaux pour augmenter votre visibilité et vos conversions."
     },
     {
+      id: "referencement-seo",
       icon: <Search size={28} />,
       title: "Référencement SEO",
       description: "Optimisation de votre visibilité sur les moteurs de recherche pour attirer un trafic qualifié sur votre site."
@@ -124,6 +134,7 @@ const ServicesSection = () => {
           {services.map((service, index) => (
             <ServiceCard
               key={index}
+              id={service.id}
               icon={service.icon}
               title={service.title}
               description={service.description}
@@ -134,9 +145,11 @@ const ServicesSection = () => {
         </div>
 
         <div className="text-center mt-16">
-          <Button className="bg-kheops-gold hover:bg-kheops-salmon text-white px-8 py-6 rounded-md font-medium transition-all duration-300 text-lg">
-            Tous nos services
-          </Button>
+          <Link to="/services">
+            <Button className="bg-kheops-gold hover:bg-kheops-salmon text-white px-8 py-6 rounded-md font-medium transition-all duration-300 text-lg">
+              Tous nos services
+            </Button>
+          </Link>
         </div>
       </div>
     </section>
