@@ -2,7 +2,22 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Check, ChevronDown, ChevronUp, Users, BarChart4, TrendingUp, Clock, Award, Megaphone, Globe, PenTool, BarChart, Search } from 'lucide-react';
+import { 
+  ArrowLeft, 
+  Check, 
+  ChevronDown, 
+  ChevronUp, 
+  Users, 
+  BarChart4, 
+  TrendingUp, 
+  Clock, 
+  Award, 
+  Megaphone, 
+  Globe, 
+  PenTool, 
+  BarChart, 
+  Search 
+} from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { Button } from '@/components/ui/button';
