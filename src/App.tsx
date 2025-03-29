@@ -9,6 +9,8 @@ import Index from "./pages/Index";
 import Services from "./pages/Services";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import Shop from "./pages/Shop";
+import EbookDetail from "./pages/EbookDetail";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,8 +28,8 @@ const App = () => {
               <Route path="/services" element={<Services />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
-              {/* Routes to be implemented in future iterations */}
-              <Route path="/portfolio" element={<NotFound />} />
+              <Route path="/shop" element={<Shop />} />
+              <Route path="/shop/:id" element={<EbookDetail />} />
               {/* Catch-all route */}
               <Route path="*" element={<NotFound />} />
             </Routes>
