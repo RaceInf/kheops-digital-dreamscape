@@ -14,8 +14,8 @@ const WhatsAppButton = ({ productName, className = "", variant = "default" }: Wh
   const phoneNumber = "237620113107"; // Numéro au format international
   
   const message = productName 
-    ? `Bonjour, je suis intéressé(e) par votre ebook "${productName}". Pouvez-vous me donner plus d'informations pour l'achat ?` 
-    : "Bonjour, je suis intéressé(e) par vos ebooks. Pouvez-vous me donner plus d'informations ?";
+    ? `Bonjour, je suis intéressé(e) par votre service "${productName}". Pouvez-vous me donner plus d'informations ?` 
+    : "Bonjour, je suis intéressé(e) par vos services. Pouvez-vous me donner plus d'informations ?";
   
   const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
   

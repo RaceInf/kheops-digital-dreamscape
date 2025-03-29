@@ -1,6 +1,6 @@
-
 import React, { useEffect } from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { Megaphone, Globe, PenTool, BarChart, Users, Search } from 'lucide-react';
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -44,7 +44,8 @@ const Services = () => {
         "Interaction avec votre communauté et modération des commentaires",
         "Veille concurrentielle et analyse des tendances",
         "Rapports de performance mensuels détaillés"
-      ]
+      ],
+      serviceId: "community-management"
     },
     {
       icon: <Globe size={28} />,
@@ -55,7 +56,8 @@ const Services = () => {
         "Optimisation pour tous les appareils (desktop, tablette, mobile)",
         "Intégration d'outils d'analyse et de suivi",
         "Maintenance et support technique"
-      ]
+      ],
+      serviceId: "creation-sites-web"
     },
     {
       icon: <PenTool size={28} />,
@@ -66,7 +68,8 @@ const Services = () => {
         "Définition d'une charte graphique complète",
         "Conception de supports imprimés (cartes de visite, plaquettes...)",
         "Kit de communication digitale (bannières, signatures mail...)"
-      ]
+      ],
+      serviceId: "identite-visuelle"
     },
     {
       icon: <BarChart size={28} />,
@@ -77,7 +80,8 @@ const Services = () => {
         "Définition des objectifs et KPIs",
         "Plan d'action personnalisé sur 6 à 12 mois",
         "Accompagnement dans la mise en œuvre"
-      ]
+      ],
+      serviceId: "strategie-digitale"
     },
     {
       icon: <Users size={28} />,
@@ -88,7 +92,8 @@ const Services = () => {
         "Ciblage précis des audiences pertinentes",
         "Optimisation des budgets et enchères",
         "Tests A/B et amélioration continue"
-      ]
+      ],
+      serviceId: "social-media-marketing"
     },
     {
       icon: <Search size={28} />,
@@ -99,7 +104,8 @@ const Services = () => {
         "Optimisation on-page (balises, contenus, structure)",
         "Stratégie de création de contenu",
         "Suivi de positionnement et rapports mensuels"
-      ]
+      ],
+      serviceId: "referencement-seo"
     }
   ];
 
@@ -221,9 +227,11 @@ const Services = () => {
                         </li>
                       ))}
                     </ul>
-                    <Button className="mt-6 bg-white text-kheops-gold hover:bg-kheops-gold hover:text-white border border-kheops-gold transition-all duration-300">
-                      En savoir plus
-                    </Button>
+                    <Link to={`/services/${service.serviceId}`}>
+                      <Button className="mt-6 bg-white text-kheops-gold hover:bg-kheops-gold hover:text-white border border-kheops-gold transition-all duration-300">
+                        En savoir plus
+                      </Button>
+                    </Link>
                   </CardContent>
                 </Card>
               </motion.div>
