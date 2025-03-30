@@ -2,11 +2,10 @@
 import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Check, ArrowRight } from "lucide-react";
+import { Check, ArrowRight, ChevronRight } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
-import WhatsAppButton from "@/components/shop/WhatsAppButton";
 
 // Animation variants
 const fadeIn = {
@@ -409,194 +408,242 @@ const ServiceDetail = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-white">
       <Navbar />
       
-      {/* Hero Section */}
-      <section className="relative bg-kheops-lightGray pt-32 pb-20 overflow-hidden">
-        <div className="container-custom">
-          <motion.div 
-            className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center"
-            initial="hidden"
-            animate="visible"
-            variants={fadeIn}
-          >
-            <div>
-              <h1 className="mb-6">
+      {/* Hero Section - Redesigned with a split layout */}
+      <section className="relative pt-32 pb-16 overflow-hidden bg-gradient-to-r from-gray-50 to-gray-100">
+        <div className="container mx-auto px-4">
+          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={fadeIn}
+              className="relative z-10"
+            >
+              <h1 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
                 {currentService.title}
               </h1>
-              <p className="text-gray-700 text-lg mb-10">
+              <div className="w-20 h-1 bg-kheops-gold mb-6"></div>
+              <p className="text-gray-700 text-lg mb-10 leading-relaxed">
                 {currentService.longDescription}
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button 
-                  className="bg-kheops-gold hover:bg-kheops-salmon text-white px-8 py-6 rounded-md transition-all duration-300 text-lg"
-                  onClick={() => window.location.href = '#contactez-nous'}
-                >
-                  Demander un devis
-                </Button>
-                <WhatsAppButton className="bg-green-600 hover:bg-green-700 px-8 py-6 rounded-md text-lg" />
-              </div>
-            </div>
-            <div>
-              <img 
-                src={currentService.image} 
-                alt={currentService.title} 
-                className="rounded-lg shadow-xl w-full h-auto object-cover"
-                style={{ maxHeight: '500px' }}
-              />
-            </div>
-          </motion.div>
-        </div>
-        {/* Background decorative elements */}
-        <div className="absolute -bottom-10 -right-10 w-72 h-72 bg-kheops-gold opacity-10 rounded-full blur-3xl"></div>
-        <div className="absolute -top-10 -left-10 w-72 h-72 bg-kheops-salmon opacity-10 rounded-full blur-3xl"></div>
-      </section>
-
-      {/* Benefits Section */}
-      <section className="py-16 bg-white">
-        <div className="container-custom">
-          <div className="text-center mb-12">
-            <h2 className="mb-4">Les <span className="text-kheops-gold">Avantages</span></h2>
-            <p className="text-gray-600 max-w-3xl mx-auto text-lg">
-              Découvrez pourquoi notre service de {currentService.title} est la solution idéale pour votre entreprise.
-            </p>
-          </div>
-
-          <motion.div 
-            className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8"
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.1 }}
-          >
-            {currentService.benefits.map((benefit, index) => (
-              <motion.div key={index} variants={fadeIn} className="bg-kheops-lightGray p-8 rounded-lg">
-                <div className="w-12 h-12 bg-kheops-gold text-white rounded-full flex items-center justify-center mb-4">
-                  <Check size={24} />
-                </div>
-                <h3 className="text-xl font-bold mb-3">{benefit}</h3>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section className="py-16 bg-gradient-to-r from-kheops-gold/10 to-kheops-salmon/10">
-        <div className="container-custom">
-          <div className="text-center mb-12">
-            <h2 className="mb-4">Nos <span className="text-kheops-gold">Services</span></h2>
-            <p className="text-gray-600 max-w-3xl mx-auto text-lg">
-              Une approche complète et personnalisée pour répondre à tous vos besoins.
-            </p>
-          </div>
-
-          <motion.div 
-            className="grid grid-cols-1 md:grid-cols-2 gap-8"
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.1 }}
-          >
-            {currentService.features.map((feature, index) => (
-              <motion.div key={index} variants={fadeIn} className="flex items-start">
-                <div className="flex-shrink-0 w-10 h-10 bg-kheops-gold text-white rounded-full flex items-center justify-center mr-4 mt-1">
-                  <Check size={20} />
-                </div>
-                <div>
-                  <p className="text-lg">{feature}</p>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Process Section */}
-      <section className="py-16 bg-white">
-        <div className="container-custom">
-          <div className="text-center mb-12">
-            <h2 className="mb-4">Notre <span className="text-kheops-gold">Processus</span></h2>
-            <p className="text-gray-600 max-w-3xl mx-auto text-lg">
-              Une méthodologie éprouvée pour assurer le succès de vos projets de {currentService.title.toLowerCase()}.
-            </p>
-          </div>
-
-          <motion.div 
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative"
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.1 }}
-          >
-            {/* Connecting line */}
-            <div className="hidden lg:block absolute top-24 left-[calc(12.5%+1rem)] right-[calc(12.5%+1rem)] h-0.5 bg-gray-200"></div>
-            
-            {/* Process steps */}
-            {currentService.process.map((step, index) => (
-              <motion.div key={index} variants={fadeIn} className="relative">
-                <div className="text-center">
-                  <div className="w-12 h-12 bg-kheops-gold text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4 relative z-10">{index + 1}</div>
-                  <h3 className="text-xl font-bold mb-2">{step.title}</h3>
-                  <p className="text-gray-600">{step.description}</p>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section className="py-16 bg-kheops-lightGray">
-        <div className="container-custom">
-          <div className="text-center mb-12">
-            <h2 className="mb-4">Questions <span className="text-kheops-gold">Fréquentes</span></h2>
-            <p className="text-gray-600 max-w-3xl mx-auto text-lg">
-              Tout ce que vous devez savoir sur notre service de {currentService.title.toLowerCase()}.
-            </p>
-          </div>
-
-          <motion.div 
-            className="max-w-4xl mx-auto"
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.1 }}
-          >
-            {currentService.faqs.map((faq, index) => (
-              <motion.div 
-                key={index} 
-                variants={fadeIn}
-                className="mb-6 bg-white rounded-lg shadow-sm overflow-hidden"
-              >
-                <div className="p-6">
-                  <h3 className="text-xl font-bold mb-3">{faq.question}</h3>
-                  <p className="text-gray-600">{faq.answer}</p>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section id="contactez-nous" className="py-16 bg-gradient-to-r from-kheops-gold to-kheops-salmon text-white">
-        <div className="container-custom">
-          <div className="text-center max-w-3xl mx-auto">
-            <h2 className="mb-6 text-white">Prêt à transformer votre présence digitale ?</h2>
-            <p className="text-white opacity-90 mb-8 text-lg">
-              Contactez-nous dès aujourd'hui pour discuter de votre projet de {currentService.title.toLowerCase()} et découvrir comment nous pouvons vous aider à atteindre vos objectifs.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
+                className="bg-kheops-gold hover:bg-kheops-salmon text-white px-8 py-6 rounded-md transition-all duration-300 text-lg flex items-center gap-2"
                 onClick={() => window.location.href = '/contact'}
-                className="bg-white text-kheops-gold hover:bg-gray-100 font-medium px-8 py-6 text-lg"
               >
-                Demander un devis
+                Demander un devis <ChevronRight size={18} />
               </Button>
-              <WhatsAppButton className="bg-green-600 hover:bg-green-700 border-2 border-white px-8 py-6 text-lg" />
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="relative z-10 hidden lg:block"
+            >
+              <div className="relative rounded-lg overflow-hidden shadow-2xl transform rotate-1 hover:rotate-0 transition-transform duration-500">
+                <img 
+                  src={currentService.image} 
+                  alt={currentService.title} 
+                  className="w-full h-[450px] object-cover"
+                />
+                <div className="absolute inset-0 bg-kheops-gold/20 mix-blend-multiply"></div>
+              </div>
+              <div className="absolute -bottom-6 -left-6 w-24 h-24 bg-kheops-gold rounded-full opacity-30 blur-xl"></div>
+            </motion.div>
+          </div>
+        </div>
+        
+        {/* Background decorative elements */}
+        <div className="absolute -top-24 -right-24 w-96 h-96 bg-kheops-gold opacity-5 rounded-full"></div>
+        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-kheops-salmon opacity-5 rounded-full"></div>
+      </section>
+
+      {/* Features Highlights Section - New */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">Ce que nous <span className="text-kheops-gold">proposons</span></h2>
+              <div className="w-20 h-1 bg-kheops-gold mx-auto mb-6"></div>
+              <p className="text-gray-600 max-w-3xl mx-auto text-lg">
+                Notre service de {currentService.title.toLowerCase()} offre une approche complète et stratégique pour répondre à tous vos besoins.
+              </p>
             </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {currentService.features.slice(0, 6).map((feature, index) => (
+                <motion.div 
+                  key={index} 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  className="bg-white p-8 rounded-lg shadow-lg border border-gray-100 hover:shadow-xl transition-shadow duration-300 hover:border-kheops-gold/20"
+                >
+                  <div className="w-12 h-12 bg-kheops-gold/10 text-kheops-gold rounded-lg flex items-center justify-center mb-4">
+                    <Check size={24} />
+                  </div>
+                  <h3 className="text-xl font-semibold mb-3 text-gray-900">{feature}</h3>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Benefits Section - Redesigned with Cards + Icons */}
+      <section className="py-16 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">Les <span className="text-kheops-gold">Avantages</span></h2>
+              <div className="w-20 h-1 bg-kheops-gold mx-auto mb-6"></div>
+              <p className="text-gray-600 max-w-3xl mx-auto text-lg">
+                Découvrez pourquoi notre service de {currentService.title.toLowerCase()} est la solution idéale pour votre entreprise.
+              </p>
+            </div>
+
+            <motion.div 
+              className="grid grid-cols-1 md:grid-cols-2 gap-8"
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.1 }}
+            >
+              {currentService.benefits.map((benefit, index) => (
+                <motion.div 
+                  key={index} 
+                  variants={fadeIn} 
+                  className="flex items-start p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
+                >
+                  <div className="flex-shrink-0 w-12 h-12 bg-kheops-gold text-white rounded-full flex items-center justify-center mr-4">
+                    <Check size={20} />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold mb-2 text-gray-900">{benefit}</h3>
+                    <div className="w-12 h-1 bg-kheops-gold/30 mb-2"></div>
+                    <p className="text-gray-600">
+                      {index === 0 && "Amplifiez votre présence digitale et augmentez votre notoriété grâce à nos stratégies personnalisées."}
+                      {index === 1 && "Développez une base de clients fidèles qui interagissent régulièrement avec votre marque et deviennent vos ambassadeurs."}
+                      {index === 2 && "Maintenez une image professionnelle cohérente sur tous les canaux digitaux et gérez efficacement les commentaires."}
+                      {index === 3 && "Bénéficiez d'un suivi régulier pour mesurer les résultats et ajuster votre stratégie en fonction des performances."}
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Process Section - Redesigned with Horizontal Timeline */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">Notre <span className="text-kheops-gold">Processus</span></h2>
+              <div className="w-20 h-1 bg-kheops-gold mx-auto mb-6"></div>
+              <p className="text-gray-600 max-w-3xl mx-auto text-lg">
+                Une méthodologie éprouvée pour assurer le succès de vos projets de {currentService.title.toLowerCase()}.
+              </p>
+            </div>
+
+            <div className="relative">
+              {/* Timeline line */}
+              <div className="hidden md:block absolute top-1/2 left-0 right-0 h-0.5 bg-gray-200 transform -translate-y-1/2 z-0"></div>
+              
+              <motion.div 
+                className="grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10"
+                variants={staggerContainer}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.1 }}
+              >
+                {currentService.process.map((step, index) => (
+                  <motion.div 
+                    key={index} 
+                    variants={fadeIn}
+                    className="relative"
+                  >
+                    <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-100 h-full">
+                      <div className="w-12 h-12 mx-auto bg-kheops-gold text-white rounded-full flex items-center justify-center text-xl font-bold mb-4 md:mb-6">
+                        {index + 1}
+                      </div>
+                      <h3 className="text-xl font-semibold mb-3 text-center text-gray-900">{step.title}</h3>
+                      <p className="text-gray-600 text-center">{step.description}</p>
+                    </div>
+                    {index < currentService.process.length - 1 && (
+                      <div className="hidden md:block absolute top-1/2 -right-4 transform -translate-y-1/2 z-10">
+                        <ArrowRight className="text-kheops-gold" size={24} />
+                      </div>
+                    )}
+                  </motion.div>
+                ))}
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section - Redesigned with accordion-style */}
+      <section className="py-16 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">Questions <span className="text-kheops-gold">Fréquentes</span></h2>
+              <div className="w-20 h-1 bg-kheops-gold mx-auto mb-6"></div>
+              <p className="text-gray-600 max-w-3xl mx-auto text-lg">
+                Tout ce que vous devez savoir sur notre service de {currentService.title.toLowerCase()}.
+              </p>
+            </div>
+
+            <motion.div 
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.1 }}
+            >
+              {currentService.faqs.map((faq, index) => (
+                <motion.div 
+                  key={index} 
+                  variants={fadeIn}
+                  className="mb-6"
+                >
+                  <details className="group bg-white rounded-lg shadow-md overflow-hidden">
+                    <summary className="flex items-center justify-between cursor-pointer p-6">
+                      <h3 className="text-xl font-semibold text-gray-900">{faq.question}</h3>
+                      <div className="ml-4 shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-kheops-gold/10 text-kheops-gold group-open:rotate-180 transition-transform duration-300">
+                        <ChevronRight className="transform rotate-90" size={18} />
+                      </div>
+                    </summary>
+                    <div className="p-6 pt-0 border-t border-gray-100">
+                      <p className="text-gray-600">{faq.answer}</p>
+                    </div>
+                  </details>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section - Redesigned with cleaner layout */}
+      <section id="contactez-nous" className="py-16 bg-gradient-to-r from-kheops-gold to-kheops-salmon text-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">Prêt à transformer votre présence digitale ?</h2>
+            <div className="w-20 h-1 bg-white mx-auto mb-6"></div>
+            <p className="text-white opacity-90 mb-10 text-lg leading-relaxed">
+              Contactez-nous dès aujourd'hui pour discuter de votre projet de {currentService.title.toLowerCase()} et découvrir comment nous pouvons vous aider à atteindre vos objectifs commerciaux.
+            </p>
+            <Button 
+              onClick={() => window.location.href = '/contact'}
+              className="bg-white text-kheops-gold hover:bg-gray-100 font-medium px-10 py-6 text-lg rounded-md hover:shadow-lg transition-all duration-300 inline-flex items-center gap-2"
+            >
+              Demander un devis <ChevronRight size={18} />
+            </Button>
           </div>
         </div>
       </section>
