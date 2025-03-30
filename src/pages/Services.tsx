@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Megaphone, Globe, PenTool, BarChart, Users, Search } from 'lucide-react';
 import Navbar from "@/components/layout/Navbar";
@@ -7,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Link } from "react-router-dom";
+import PricingFormDialog from "@/components/services/PricingFormDialog";
 
 // Animation variants
 const fadeIn = {
@@ -29,10 +31,18 @@ const staggerContainer = {
 };
 
 const Services = () => {
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<"Starter" | "Pro" | "Premium">("Starter");
+
   useEffect(() => {
     document.title = "Nos Services | KHEOPS SET DIGITAL";
     window.scrollTo(0, 0);
   }, []);
+
+  const handlePricingButtonClick = (plan: "Starter" | "Pro" | "Premium") => {
+    setSelectedPlan(plan);
+    setIsFormOpen(true);
+  };
 
   const services = [
     {
@@ -162,6 +172,13 @@ const Services = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
+      
+      {/* Form Dialog */}
+      <PricingFormDialog
+        isOpen={isFormOpen}
+        onOpenChange={setIsFormOpen}
+        selectedPlan={selectedPlan}
+      />
       
       {/* Hero Section */}
       <section className="relative bg-kheops-lightGray pt-32 pb-20 overflow-hidden">
@@ -302,6 +319,7 @@ const Services = () => {
                               ? 'bg-kheops-gold hover:bg-kheops-salmon text-white' 
                               : 'bg-white text-kheops-gold hover:bg-kheops-gold hover:text-white border border-kheops-gold'
                           } transition-all duration-300 mt-auto`}
+                          onClick={() => handlePricingButtonClick(plan.name as "Starter" | "Pro" | "Premium")}
                         >
                           {plan.buttonText}
                         </Button>
@@ -315,7 +333,13 @@ const Services = () => {
             <TabsContent value="quarterly" className="mt-0">
               <div className="text-center py-8">
                 <p className="text-gray-600 mb-4">Nos forfaits trimestriels vous permettent d'économiser 10% sur le prix mensuel.</p>
-                <Button className="bg-kheops-gold hover:bg-kheops-salmon text-white transition-all duration-300">
+                <Button 
+                  className="bg-kheops-gold hover:bg-kheops-salmon text-white transition-all duration-300"
+                  onClick={() => {
+                    setSelectedPlan("Pro");
+                    setIsFormOpen(true);
+                  }}
+                >
                   Contacter un conseiller
                 </Button>
               </div>
@@ -324,7 +348,13 @@ const Services = () => {
             <TabsContent value="yearly" className="mt-0">
               <div className="text-center py-8">
                 <p className="text-gray-600 mb-4">Nos forfaits annuels vous permettent d'économiser 15% sur le prix mensuel.</p>
-                <Button className="bg-kheops-gold hover:bg-kheops-salmon text-white transition-all duration-300">
+                <Button 
+                  className="bg-kheops-gold hover:bg-kheops-salmon text-white transition-all duration-300"
+                  onClick={() => {
+                    setSelectedPlan("Pro");
+                    setIsFormOpen(true);
+                  }}
+                >
                   Contacter un conseiller
                 </Button>
               </div>
@@ -398,12 +428,20 @@ const Services = () => {
               Contactez-nous dès aujourd'hui pour discuter de votre projet et découvrir comment nous pouvons vous aider à atteindre vos objectifs.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button className="bg-white text-kheops-gold hover:bg-gray-100 font-medium px-8 py-6 text-lg">
+              <Button 
+                className="bg-white text-kheops-gold hover:bg-gray-100 font-medium px-8 py-6 text-lg"
+                onClick={() => {
+                  setSelectedPlan("Pro");
+                  setIsFormOpen(true);
+                }}
+              >
                 Demander un devis
               </Button>
-              <Button className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-kheops-gold font-medium px-8 py-6 text-lg">
-                Prendre rendez-vous
-              </Button>
+              <Link to="/contact">
+                <Button className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-kheops-gold font-medium px-8 py-6 text-lg">
+                  Prendre rendez-vous
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
