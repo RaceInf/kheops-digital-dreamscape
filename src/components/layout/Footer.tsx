@@ -126,9 +126,15 @@ const Footer = () => {
             © {new Date().getFullYear()} KHEOPS SET DIGITAL. Tous droits réservés.
           </p>
           <div className="mt-4 md:mt-0 text-sm text-gray-600 flex justify-center md:justify-end space-x-4">
-            <a href="#" className="hover:text-kheops-salmon transition-colors">Mentions légales</a>
-            <a href="#" className="hover:text-kheops-salmon transition-colors">Politique de confidentialité</a>
-            <a href="#" className="hover:text-kheops-salmon transition-colors">CGV</a>
+            <Link to="/mentions-legales" className="hover:text-kheops-salmon transition-colors">
+              Mentions légales
+            </Link>
+            <Link to="/politique-de-confidentialite" className="hover:text-kheops-salmon transition-colors">
+              Politique de confidentialité
+            </Link>
+            <Link to="/conditions-generales-de-vente" className="hover:text-kheops-salmon transition-colors">
+              CGV
+            </Link>
           </div>
         </div>
       </div>

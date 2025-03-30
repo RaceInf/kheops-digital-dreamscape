@@ -13,6 +13,9 @@ import Contact from "./pages/Contact";
 import Shop from "./pages/Shop";
 import EbookDetail from "./pages/EbookDetail";
 import NotFound from "./pages/NotFound";
+import LegalNotice from "./pages/LegalNotice";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfSale from "./pages/TermsOfSale";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +35,10 @@ const App = () => {
               <Route path="/contact" element={<Contact />} />
               <Route path="/shop" element={<Shop />} />
               <Route path="/shop/:id" element={<EbookDetail />} />
+              {/* Legal pages */}
+              <Route path="/mentions-legales" element={<LegalNotice />} />
+              <Route path="/politique-de-confidentialite" element={<PrivacyPolicy />} />
+              <Route path="/conditions-generales-de-vente" element={<TermsOfSale />} />
               {/* Catch-all route */}
               <Route path="*" element={<NotFound />} />
             </Routes>
