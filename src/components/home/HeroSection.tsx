@@ -2,6 +2,7 @@
 import { useEffect, useRef } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
 
 const HeroSection = () => {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -46,13 +47,17 @@ const HeroSection = () => {
           Une agence de communication digitale dédiée à propulser votre marque vers de nouveaux sommets
         </p>
         <div className="flex flex-col sm:flex-row justify-center gap-4">
-          <Button className="bg-kheops-gold hover:bg-kheops-salmon text-white px-8 py-6 rounded-md font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg text-lg flex items-center">
-            Découvrez notre expertise
-            <ArrowRight className="ml-2" size={18} />
-          </Button>
-          <Button variant="outline" className="border-2 border-kheops-gold text-kheops-gold hover:bg-kheops-gold hover:text-white px-8 py-6 rounded-md font-medium transition-all duration-300 text-lg">
-            Nos réalisations
-          </Button>
+          <Link to="/services">
+            <Button className="bg-kheops-gold hover:bg-kheops-salmon text-white px-8 py-6 rounded-md font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg text-lg flex items-center">
+              Découvrez notre expertise
+              <ArrowRight className="ml-2" size={18} />
+            </Button>
+          </Link>
+          <Link to="/about">
+            <Button variant="outline" className="border-2 border-kheops-gold text-kheops-gold hover:bg-kheops-gold hover:text-white px-8 py-6 rounded-md font-medium transition-all duration-300 text-lg">
+              À propos de nous
+            </Button>
+          </Link>
         </div>
       </div>
 

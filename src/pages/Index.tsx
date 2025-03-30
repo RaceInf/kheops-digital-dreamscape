@@ -5,7 +5,8 @@ import Footer from "@/components/layout/Footer";
 import HeroSection from "@/components/home/HeroSection";
 import ServicesSection from "@/components/home/ServicesSection";
 import AboutSection from "@/components/home/AboutSection";
-import ContactSection from "@/components/home/ContactSection";
+import ShopSection from "@/components/home/ShopSection";
+import TestimonialsSection from "@/components/home/TestimonialsSection";
 
 const Index = () => {
   useEffect(() => {
@@ -19,7 +20,8 @@ const Index = () => {
       <HeroSection />
       <ServicesSection />
       <AboutSection />
-      <ContactSection />
+      <ShopSection />
+      <TestimonialsSection />
       <Footer />
     </main>
   );
