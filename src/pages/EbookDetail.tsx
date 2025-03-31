@@ -5,6 +5,11 @@ import { motion } from 'framer-motion';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import WhatsAppButton from '@/components/shop/WhatsAppButton';
+import EbookImageGallery from '@/components/shop/EbookImageGallery';
+import EbookTableOfContents from '@/components/shop/EbookTableOfContents';
+import EbookFAQ from '@/components/shop/EbookFAQ';
+import EbookAuthor from '@/components/shop/EbookAuthor';
+import RelatedEbooks from '@/components/shop/RelatedEbooks';
 import { ebooks } from '@/data/ebooks';
 import { Book, Calendar, Languages, File, ChevronLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -64,18 +69,12 @@ const EbookDetail = () => {
               transition={{ duration: 0.5 }}
               className="relative"
             >
-              <div className="sticky top-32 aspect-[3/4] w-full overflow-hidden rounded-lg border-2 border-kheops-gold/20 bg-gray-100 shadow-lg">
-                {ebook.imageUrl ? (
-                  <img 
-                    src={ebook.imageUrl} 
-                    alt={ebook.title} 
-                    className="object-cover w-full h-full"
-                  />
-                ) : (
-                  <div className="flex items-center justify-center h-full bg-kheops-gold/10">
-                    <Book size={100} className="text-kheops-gold/50" />
-                  </div>
-                )}
+              <div className="sticky top-32">
+                <EbookImageGallery 
+                  mainImage={ebook.imageUrl} 
+                  additionalImages={ebook.images} 
+                  title={ebook.title}
+                />
                 <div className="absolute top-4 right-4 bg-kheops-gold text-white px-4 py-2 rounded-full text-lg font-bold">
                   {ebook.price.toLocaleString()} FCFA
                 </div>
@@ -90,6 +89,9 @@ const EbookDetail = () => {
             >
               <h1 className="text-3xl md:text-4xl font-bold mb-2">{ebook.title}</h1>
               <p className="text-xl text-gray-600 mb-6">{ebook.subtitle}</p>
+              
+              {/* Author section if available */}
+              {ebook.author && <EbookAuthor author={ebook.author} />}
               
               <div className="grid grid-cols-2 gap-4 mb-8">
                 <div className="flex items-center gap-2 text-gray-600">
@@ -109,6 +111,11 @@ const EbookDetail = () => {
                   <span>{ebook.format.join(", ")}</span>
                 </div>
               </div>
+              
+              {/* Table of contents if available */}
+              {ebook.tableOfContents && (
+                <EbookTableOfContents items={ebook.tableOfContents} />
+              )}
               
               <div className="mb-8">
                 <h2 className="text-xl font-bold mb-4">Description</h2>
@@ -135,6 +142,9 @@ const EbookDetail = () => {
                 </ul>
               </div>
               
+              {/* FAQ section if available */}
+              {ebook.faq && <EbookFAQ items={ebook.faq} />}
+              
               <div className="mt-10">
                 <WhatsAppButton 
                   productName={ebook.title}
@@ -143,6 +153,13 @@ const EbookDetail = () => {
               </div>
             </motion.div>
           </div>
+          
+          {/* Related ebooks section */}
+          <RelatedEbooks 
+            currentEbookId={ebook.id}
+            currentCategory={ebook.category}
+            ebooks={ebooks}
+          />
         </div>
       </section>
       

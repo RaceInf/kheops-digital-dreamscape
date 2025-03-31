@@ -9,9 +9,18 @@ import { Ebook } from '@/types';
 
 interface EbookCardProps {
   ebook: Ebook;
+  truncateTitle?: boolean;
 }
 
-const EbookCard = ({ ebook }: EbookCardProps) => {
+const EbookCard = ({ ebook, truncateTitle = false }: EbookCardProps) => {
+  // Function to truncate title to specified length
+  const formatTitle = (title: string, maxLength = 30) => {
+    if (truncateTitle && title.length > maxLength) {
+      return `${title.substring(0, maxLength)}...`;
+    }
+    return title;
+  };
+
   return (
     <motion.div
       whileHover={{ y: -5 }}
@@ -36,7 +45,7 @@ const EbookCard = ({ ebook }: EbookCardProps) => {
         </div>
         
         <CardContent className="flex-grow pt-4">
-          <h3 className="text-lg font-bold line-clamp-2">{ebook.title}</h3>
+          <h3 className="text-lg font-bold line-clamp-2">{formatTitle(ebook.title)}</h3>
           <p className="text-sm text-gray-500 mb-2">{ebook.subtitle}</p>
           <p className="text-sm line-clamp-3 text-gray-600">{ebook.description}</p>
         </CardContent>
