@@ -114,7 +114,7 @@ const Shop = () => {
                       <p className="text-gray-600 mb-4">{ebook.description}</p>
                     </div>
                     <div className="mt-auto flex gap-3">
-                      <Link to={`/shop/${ebook.id}`} className="flex-1">
+                      <Link to={`/shop/${ebook.slug}`} className="flex-1">
                         <Button className="w-full bg-kheops-salmon hover:bg-kheops-gold">
                           Voir détails
                         </Button>
