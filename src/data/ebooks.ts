@@ -3,7 +3,7 @@ import { Ebook } from "@/types";
 
 export const ebooks: Ebook[] = [
   {
-    id: "marketing-guide",
+    id: "Guide-du-Marketing-Digital",
     title: "Guide du Marketing Digital",
     subtitle: "Stratégies efficaces pour le marché africain",
     description: "Un guide pratique pour développer votre présence en ligne et exploiter les opportunités du marketing digital en Afrique.",
