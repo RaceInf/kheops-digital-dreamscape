@@ -4,7 +4,6 @@ import { Ebook } from "@/types";
 export const ebooks: Ebook[] = [
   {
     id: "ebook-1",
-    slug: "guide-du-marketing-digital",
     title: "Guide du Marketing Digital",
     subtitle: "Stratégies efficaces pour le marché africain",
     description: "Un guide pratique pour développer votre présence en ligne et exploiter les opportunités du marketing digital en Afrique.",
@@ -21,44 +20,10 @@ export const ebooks: Ebook[] = [
     publishedDate: "2023-09-15",
     pages: 156,
     language: "Français",
-    format: ["PDF", "EPUB"],
-    category: "marketing-digital",
-    author: {
-      name: "Jean Dupont",
-      title: "Expert en Marketing Digital",
-      avatar: "https://i.pravatar.cc/150?img=68"
-    },
-    tableOfContents: [
-      { title: "Introduction au marketing digital", anchor: "introduction" },
-      { title: "Analyse de marché africain", anchor: "analyse-marche" },
-      { title: "Stratégies de contenu efficaces", anchor: "strategies-contenu" },
-      { title: "Les réseaux sociaux en Afrique", anchor: "reseaux-sociaux" },
-      { title: "SEO local et référencement", anchor: "seo-local" },
-      { title: "Email marketing adapté", anchor: "email-marketing" },
-      { title: "Mesure et optimisation", anchor: "mesure-optimisation" }
-    ],
-    faq: [
-      {
-        question: "Ce guide est-il adapté aux débutants ?",
-        answer: "Oui, ce guide est conçu pour être accessible aux débutants tout en offrant des stratégies avancées pour les professionnels."
-      },
-      {
-        question: "Les stratégies fonctionnent-elles dans tous les pays africains ?",
-        answer: "Les principes fondamentaux s'appliquent partout, mais le guide propose des adaptations spécifiques pour différentes régions d'Afrique."
-      },
-      {
-        question: "Recevrai-je des mises à jour gratuites ?",
-        answer: "Oui, toutes les mises à jour mineures sont gratuites pendant 1 an après votre achat."
-      },
-      {
-        question: "Puis-je partager cet ebook avec mon équipe ?",
-        answer: "L'achat inclut une licence pour un utilisateur. Des licences multi-utilisateurs sont disponibles pour les équipes."
-      }
-    ]
+    format: ["PDF", "EPUB"]
   },
   {
     id: "ebook-2",
-    slug: "entrepreneuriat-digital",
     title: "Entrepreneuriat Digital",
     subtitle: "Lancer et développer votre business en ligne",
     description: "Découvrez comment créer et faire croître votre entreprise digitale avec des stratégies adaptées au contexte africain.",
@@ -75,39 +40,6 @@ export const ebooks: Ebook[] = [
     publishedDate: "2023-11-10",
     pages: 210,
     language: "Français",
-    format: ["PDF", "EPUB", "MOBI"],
-    category: "entrepreneuriat",
-    author: {
-      name: "Marie Kouassi",
-      title: "Entrepreneure & Consultante en Innovation",
-      avatar: "https://i.pravatar.cc/150?img=47"
-    },
-    tableOfContents: [
-      { title: "L'écosystème entrepreneurial africain", anchor: "ecosysteme" },
-      { title: "Validation de concept et MVP", anchor: "validation-concept" },
-      { title: "Business model canvas adapté", anchor: "business-model" },
-      { title: "Financement et levée de fonds", anchor: "financement" },
-      { title: "Marketing digital à budget réduit", anchor: "marketing-digital" },
-      { title: "Aspects juridiques et fiscaux", anchor: "aspects-juridiques" },
-      { title: "Stratégies de croissance durable", anchor: "strategies-croissance" }
-    ],
-    faq: [
-      {
-        question: "Ai-je besoin de compétences techniques pour suivre ce guide ?",
-        answer: "Non, le guide est conçu pour être accessible à tous les entrepreneurs, y compris ceux sans background technique."
-      },
-      {
-        question: "Les modèles de documents sont-ils personnalisables ?",
-        answer: "Oui, tous les templates inclus sont fournis en formats modifiables (Word, Excel, et Google Docs)."
-      },
-      {
-        question: "Le guide est-il adapté si j'ai déjà lancé mon entreprise ?",
-        answer: "Absolument, plusieurs chapitres sont dédiés à l'optimisation et à la croissance d'une entreprise existante."
-      },
-      {
-        question: "Combien de temps faut-il pour appliquer les méthodes du guide ?",
-        answer: "Le guide propose un plan d'action sur 90 jours, mais vous pouvez l'adapter à votre propre rythme."
-      }
-    ]
+    format: ["PDF", "EPUB", "MOBI"]
   }
 ];

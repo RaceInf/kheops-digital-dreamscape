@@ -42,7 +42,7 @@ const EbookCard = ({ ebook }: EbookCardProps) => {
         </CardContent>
         
         <CardFooter className="pt-0 pb-4 flex items-center justify-between">
-          <Link to={`/shop/${ebook.slug}`} className="w-full">
+          <Link to={`/shop/${ebook.id}`} className="w-full">
             <Button className="w-full bg-kheops-salmon hover:bg-kheops-gold">
               Voir détails
             </Button>
