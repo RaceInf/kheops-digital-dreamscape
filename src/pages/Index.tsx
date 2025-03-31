@@ -7,6 +7,7 @@ import ServicesSection from "@/components/home/ServicesSection";
 import AboutSection from "@/components/home/AboutSection";
 import ShopSection from "@/components/home/ShopSection";
 import TestimonialsSection from "@/components/home/TestimonialsSection";
+import LatestBlogSection from "@/components/home/LatestBlogSection";
 
 const Index = () => {
   useEffect(() => {
@@ -22,6 +23,7 @@ const Index = () => {
       <AboutSection />
       <ShopSection />
       <TestimonialsSection />
+      <LatestBlogSection />
       <Footer />
     </main>
   );
