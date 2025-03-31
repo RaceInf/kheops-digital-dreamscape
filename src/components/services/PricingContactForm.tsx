@@ -1,9 +1,9 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Loader2, Check } from "lucide-react";
+import { Loader2, Check, Lock } from "lucide-react";
 import { toast } from "sonner";
 
 import {
@@ -17,18 +17,33 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { 
+  Select, 
+  SelectContent, 
+  SelectItem, 
+  SelectTrigger, 
+  SelectValue 
+} from "@/components/ui/select";
+import { 
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { countriesData } from "./countriesData";
 
 // Form validation schema
 const formSchema = z.object({
   firstName: z.string().min(2, "Le prénom doit contenir au moins 2 caractères"),
   lastName: z.string().min(2, "Le nom doit contenir au moins 2 caractères"),
   email: z.string().email("Veuillez saisir une adresse email valide"),
-  phone: z.string().optional(),
+  phone: z.string().optional()
+    .refine(val => !val || /^\d{4,15}$/.test(val), {
+      message: "Le numéro de téléphone doit contenir entre 4 et 15 chiffres"
+    }),
   selectedPlan: z.enum(["Starter", "Pro", "Premium"]),
   message: z.string().optional(),
-  country: z.string().optional(),
+  country: z.string(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -37,6 +52,15 @@ interface PricingContactFormProps {
   initialPlan: "Starter" | "Pro" | "Premium";
   onSuccess?: () => void;
 }
+
+// Map des prix pour chaque forfait
+const planPrices = {
+  "Starter": "490€/mois",
+  "Pro": "890€/mois",
+  "Premium": "1490€/mois"
+};
+
+const LOCAL_STORAGE_KEY = "pricing-form-data";
 
 const PricingContactForm: React.FC<PricingContactFormProps> = ({ 
   initialPlan, 
@@ -56,23 +80,57 @@ const PricingContactForm: React.FC<PricingContactFormProps> = ({
       message: "",
       country: "FR",
     },
+    mode: "onChange" // Active la validation en temps réel
   });
+
+  // Charger les données du formulaire depuis le localStorage au chargement
+  useEffect(() => {
+    const savedData = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (savedData) {
+      try {
+        const parsedData = JSON.parse(savedData);
+        // On garde le plan sélectionné par l'utilisateur, pas celui sauvegardé
+        parsedData.selectedPlan = initialPlan;
+        form.reset(parsedData);
+      } catch (error) {
+        console.error("Erreur lors du chargement des données sauvegardées:", error);
+      }
+    }
+  }, [form, initialPlan]);
+
+  // Sauvegarder les données du formulaire dans le localStorage à chaque changement
+  useEffect(() => {
+    const subscription = form.watch((value) => {
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(value));
+    });
+    return () => subscription.unsubscribe();
+  }, [form]);
 
   const onSubmit = async (data: FormValues) => {
     setIsSubmitting(true);
     
     try {
+      // Préparation des données pour l'envoi
+      const formData = {
+        ...data,
+        // Ajouter l'indicatif téléphonique au numéro
+        phone: data.phone ? `${countriesData.find(c => c.code === data.country)?.dial_code} ${data.phone}` : "",
+        planPrice: planPrices[data.selectedPlan],
+        submittedAt: new Date().toISOString()
+      };
+
       const response = await fetch("https://formspree.io/f/xwplbrgv", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(formData),
       });
 
       if (response.ok) {
         setIsSubmitted(true);
         form.reset();
+        localStorage.removeItem(LOCAL_STORAGE_KEY); // Effacer les données sauvegardées
         if (onSuccess) onSuccess();
         toast.success("Merci ! Nous vous contacterons rapidement.");
       } else {
@@ -86,23 +144,11 @@ const PricingContactForm: React.FC<PricingContactFormProps> = ({
     }
   };
 
-  const countries = [
-    { code: "FR", name: "France", prefix: "+33" },
-    { code: "BE", name: "Belgique", prefix: "+32" },
-    { code: "CH", name: "Suisse", prefix: "+41" },
-    { code: "CA", name: "Canada", prefix: "+1" },
-    { code: "LU", name: "Luxembourg", prefix: "+352" },
-    { code: "MC", name: "Monaco", prefix: "+377" },
-    { code: "MA", name: "Maroc", prefix: "+212" },
-    { code: "DZ", name: "Algérie", prefix: "+213" },
-    { code: "TN", name: "Tunisie", prefix: "+216" },
-    { code: "SN", name: "Sénégal", prefix: "+221" },
-  ];
-
   const selectedCountry = form.watch("country");
-  const countryPrefix = countries.find(c => c.code === selectedCountry)?.prefix || "";
+  const selectedCountryData = countriesData.find(c => c.code === selectedCountry);
+  const countryPrefix = selectedCountryData?.dial_code || "";
 
-  // If already submitted, show success state
+  // Si déjà soumis, afficher l'état de succès
   if (isSubmitted) {
     return (
       <div className="text-center py-10 px-6">
@@ -132,7 +178,9 @@ const PricingContactForm: React.FC<PricingContactFormProps> = ({
             name="firstName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Prénom*</FormLabel>
+                <FormLabel>
+                  Prénom<span className="text-red-500 ml-1">*</span>
+                </FormLabel>
                 <FormControl>
                   <Input placeholder="Entrez votre prénom" {...field} />
                 </FormControl>
@@ -146,7 +194,9 @@ const PricingContactForm: React.FC<PricingContactFormProps> = ({
             name="lastName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Nom*</FormLabel>
+                <FormLabel>
+                  Nom<span className="text-red-500 ml-1">*</span>
+                </FormLabel>
                 <FormControl>
                   <Input placeholder="Entrez votre nom" {...field} />
                 </FormControl>
@@ -161,7 +211,9 @@ const PricingContactForm: React.FC<PricingContactFormProps> = ({
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Adresse email*</FormLabel>
+              <FormLabel>
+                Adresse email<span className="text-red-500 ml-1">*</span>
+              </FormLabel>
               <FormControl>
                 <Input 
                   type="email" 
@@ -190,10 +242,11 @@ const PricingContactForm: React.FC<PricingContactFormProps> = ({
                       <SelectValue placeholder="Pays" />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent>
-                    {countries.map((country) => (
-                      <SelectItem key={country.code} value={country.code}>
-                        {country.name} ({country.prefix})
+                  <SelectContent className="max-h-[300px]">
+                    {countriesData.map((country) => (
+                      <SelectItem key={country.code} value={country.code} className="flex items-center">
+                        <span className="mr-2">{country.emoji}</span>
+                        {country.name} ({country.dial_code})
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -210,13 +263,16 @@ const PricingContactForm: React.FC<PricingContactFormProps> = ({
               <FormItem className="md:col-span-2">
                 <FormLabel>Téléphone (optionnel)</FormLabel>
                 <div className="flex">
-                  <div className="flex items-center bg-gray-100 px-3 rounded-l-md border border-r-0 border-input">
+                  <div className="flex items-center bg-gray-100 px-3 rounded-l-md border border-r-0 border-input min-w-[70px] justify-center">
+                    <span className="mr-1">{selectedCountryData?.emoji}</span>
                     {countryPrefix}
                   </div>
                   <FormControl>
                     <Input 
                       className="rounded-l-none" 
                       type="tel"
+                      pattern="[0-9]*"
+                      inputMode="numeric"
                       placeholder="Numéro de téléphone" 
                       {...field} 
                     />
@@ -233,41 +289,26 @@ const PricingContactForm: React.FC<PricingContactFormProps> = ({
           name="selectedPlan"
           render={({ field }) => (
             <FormItem className="space-y-3">
-              <FormLabel>Forfait choisi*</FormLabel>
+              <FormLabel>
+                Forfait sélectionné<span className="text-red-500 ml-1">*</span>
+              </FormLabel>
               <FormControl>
-                <RadioGroup
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                  className="flex flex-col space-y-1"
-                >
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="Starter" id="starter" />
-                    <label
-                      htmlFor="starter"
-                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                    >
-                      Forfait Starter (490€/mois)
-                    </label>
+                <div className="p-4 border border-kheops-gold rounded-md bg-kheops-lightGray">
+                  <div className="flex items-center">
+                    <Check className="text-kheops-gold mr-2" />
+                    <span className="font-medium">Forfait {field.value} ({planPrices[field.value as keyof typeof planPrices]})</span>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Lock className="text-gray-500 ml-2 h-4 w-4" />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          Forfait verrouillé
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="Pro" id="pro" />
-                    <label
-                      htmlFor="pro"
-                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                    >
-                      Forfait Pro (890€/mois)
-                    </label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="Premium" id="premium" />
-                    <label
-                      htmlFor="premium"
-                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                    >
-                      Forfait Premium (1490€/mois)
-                    </label>
-                  </div>
-                </RadioGroup>
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -296,7 +337,7 @@ const PricingContactForm: React.FC<PricingContactFormProps> = ({
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-kheops-gold hover:bg-kheops-salmon text-white transition-all"
+            className="w-full bg-kheops-gold hover:bg-kheops-salmon text-white transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98]"
           >
             {isSubmitting ? (
               <>
