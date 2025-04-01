@@ -8,15 +8,15 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { 
   ArrowLeft, 
-  Share2, 
-  Clock, 
+  Share2,
   Calendar, 
   User, 
   Tag, 
   MessageSquare, 
   Bookmark, 
   ChevronRight,
-  Eye
+  Eye,
+  Heart
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -36,6 +36,7 @@ const BlogPostPage = () => {
   const [post, setPost] = useState<BlogPost | null>(null);
   const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([]);
   const [estimatedReadingTime, setEstimatedReadingTime] = useState("5 min");
+  const [isLiked, setIsLiked] = useState(false);
   const { toast } = useToast();
   
   useEffect(() => {
@@ -91,6 +92,17 @@ const BlogPostPage = () => {
     });
   };
 
+  const handleLike = () => {
+    setIsLiked(!isLiked);
+    if (!isLiked) {
+      toast({
+        title: "Merci !",
+        description: "Vous avez aimé cet article",
+        duration: 2000,
+      });
+    }
+  };
+
   if (!post) {
     return (
       <main className="min-h-screen w-full">
@@ -109,344 +121,352 @@ const BlogPostPage = () => {
     );
   }
 
+  // Create sections from content for a more structured display
+  const createContentSections = () => {
+    const paragraphs = post.content.split('<p>');
+    
+    // Skip the first empty element
+    paragraphs.shift();
+    
+    const sections = [];
+    let currentSection = { title: 'Introduction', content: [], image: null };
+    
+    // Demo images for sections - in a real app, these would come from the CMS
+    const sectionImages = [
+      'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=800&auto=format',
+      'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&auto=format',
+      'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&auto=format',
+      'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=800&auto=format'
+    ];
+    
+    paragraphs.forEach((p, index) => {
+      // Clean up paragraph
+      const cleanP = p.replace('</p>', '').trim();
+      
+      // Check if this looks like a section title (shorter text that ends with a period)
+      if (cleanP.length < 100 && cleanP.endsWith('.') && index > 0 && index % 3 === 0) {
+        // Save previous section if it has content
+        if (currentSection.content.length > 0) {
+          sections.push({...currentSection});
+        }
+        
+        // Start new section
+        const imageIndex = Math.min(Math.floor(index / 3), sectionImages.length - 1);
+        currentSection = { 
+          title: cleanP, 
+          content: [], 
+          image: sectionImages[imageIndex]
+        };
+      } else {
+        // Add to current section
+        currentSection.content.push(cleanP);
+      }
+    });
+    
+    // Add the last section
+    if (currentSection.content.length > 0) {
+      sections.push(currentSection);
+    }
+    
+    return sections;
+  };
+
+  const contentSections = createContentSections();
+
   return (
-    <main className="min-h-screen w-full">
+    <main className="min-h-screen w-full bg-gradient-to-b from-white to-gray-50">
       <Navbar />
       
       <article className="pt-32 pb-20">
-        <div className="container-custom">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 max-w-[1200px] mx-auto">
-            {/* Main content - 8 columns */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="lg:col-span-8"
+        <div className="container-custom max-w-5xl">
+          <div className="mb-8">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              asChild 
+              className="mb-6 hover:bg-transparent hover:text-kheops-salmon"
             >
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                asChild 
-                className="mb-6 hover:bg-transparent hover:text-kheops-salmon"
-              >
-                <Link to="/blog" className="flex items-center gap-2">
-                  <ArrowLeft size={16} />
-                  Retour au blog
-                </Link>
-              </Button>
-              
-              {/* Article header */}
-              <div className="mb-8">
-                <div className="mb-4 flex flex-wrap gap-2">
-                  <Badge variant="outline" className="bg-kheops-gold/20 text-kheops-gold border-kheops-gold/30 hover:bg-kheops-gold/30">
-                    {post.category}
-                  </Badge>
-                  
-                  {post.tags.slice(0, 3).map((tag, index) => (
-                    <Badge key={index} variant="outline" className="bg-gray-100 hover:bg-gray-200 transition-colors">
-                      #{tag}
-                    </Badge>
-                  ))}
-                </div>
-                
-                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
+              <Link to="/blog" className="flex items-center gap-2">
+                <ArrowLeft size={16} />
+                Retour au blog
+              </Link>
+            </Button>
+          
+            {/* Featured image with overlay */}
+            <div className="relative mb-8 rounded-xl overflow-hidden shadow-xl">
+              <img 
+                src={post.image} 
+                alt={post.title} 
+                className="w-full h-[50vh] object-cover" 
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-8">
+                <Badge variant="outline" className="bg-kheops-gold/80 text-white border-none w-fit mb-4">
+                  {post.category}
+                </Badge>
+                <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white drop-shadow-md">
                   {post.title}
                 </h1>
-                
-                <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-6 mb-6">
-                  <div className="flex items-center gap-3">
-                    <Avatar className="h-10 w-10 border-2 border-kheops-gold/20">
-                      <AvatarImage src={`https://i.pravatar.cc/100?u=${post.author}`} alt={post.author} />
-                      <AvatarFallback className="bg-kheops-gold/20 text-kheops-gold">
-                        {post.author.charAt(0)}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <p className="font-semibold">{post.author}</p>
-                      <p className="text-sm text-gray-500">Expert Kheops</p>
-                    </div>
-                  </div>
-                  
-                  <Separator orientation="vertical" className="hidden md:block h-6" />
-                  
-                  <div className="flex items-center gap-4 text-sm text-gray-500">
-                    <span className="flex items-center gap-1.5">
-                      <Calendar size={14} />
-                      {formatDate(post.date)}
-                    </span>
-                    <span className="flex items-center gap-1.5">
-                      <Clock size={14} />
-                      {estimatedReadingTime} de lecture
-                    </span>
-                    <span className="flex items-center gap-1.5">
-                      <Eye size={14} />
-                      {Math.floor(Math.random() * 900) + 100} vues
-                    </span>
-                  </div>
+              </div>
+            </div>
+          
+            {/* Author and meta info */}
+            <div className="flex flex-wrap items-center gap-6 mb-8">
+              <div className="flex items-center gap-3">
+                <Avatar className="h-12 w-12 border-2 border-kheops-gold/20">
+                  <AvatarImage src={`https://i.pravatar.cc/100?u=${post.author}`} alt={post.author} />
+                  <AvatarFallback className="bg-kheops-gold/20 text-kheops-gold">
+                    {post.author.charAt(0)}
+                  </AvatarFallback>
+                </Avatar>
+                <div>
+                  <p className="font-semibold">{post.author}</p>
+                  <p className="text-sm text-gray-500">Expert Kheops</p>
                 </div>
               </div>
               
-              {/* Featured image */}
-              <div className="mb-12 rounded-lg overflow-hidden shadow-lg">
-                <img 
-                  src={post.image} 
-                  alt={post.title} 
-                  className="w-full h-auto object-cover" 
-                />
+              <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500">
+                <span className="flex items-center gap-1.5">
+                  <Calendar size={14} />
+                  {formatDate(post.date)}
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <Eye size={14} />
+                  {Math.floor(Math.random() * 900) + 100} vues
+                </span>
+                <span className="flex items-center gap-1.5 bg-gray-100 px-3 py-1 rounded-full">
+                  {estimatedReadingTime} de lecture
+                </span>
               </div>
               
-              {/* Article content */}
-              <div className="prose prose-lg max-w-none mb-12">
-                <div dangerouslySetInnerHTML={{ __html: post.content }} />
-              </div>
-              
-              {/* Article footer */}
-              <div className="mb-10">
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {post.tags.map((tag, index) => (
-                    <Badge 
-                      key={index}
-                      variant="outline"
-                      className="bg-gray-100 hover:bg-gray-200 transition-colors cursor-pointer"
-                    >
-                      #{tag}
-                    </Badge>
-                  ))}
-                </div>
+              <div className="flex items-center gap-2 ml-auto">
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button 
+                        variant="outline" 
+                        size="icon" 
+                        onClick={handleLike} 
+                        className={`rounded-full ${isLiked ? 'bg-red-50 text-red-500 border-red-200' : 'bg-white'}`}
+                      >
+                        <Heart size={16} fill={isLiked ? 'currentColor' : 'none'} />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>{isLiked ? 'Vous aimez cet article' : 'Aimer cet article'}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
                 
-                <div className="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
-                  <div className="text-sm text-gray-600">
-                    Partagez cet article avec vos amis
-                  </div>
-                  <div className="flex gap-2">
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Button 
-                            variant="outline" 
-                            size="icon" 
-                            onClick={handleShare} 
-                            className="rounded-full bg-white"
-                          >
-                            <Share2 size={16} />
-                          </Button>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>Partager l'article</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button 
+                        variant="outline" 
+                        size="icon" 
+                        onClick={handleShare} 
+                        className="rounded-full bg-white"
+                      >
+                        <Share2 size={16} />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Partager l'article</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
 
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Button 
-                            variant="outline" 
-                            size="icon" 
-                            onClick={handleBookmark} 
-                            className="rounded-full bg-white"
-                          >
-                            <Bookmark size={16} />
-                          </Button>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>Sauvegarder l'article</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  </div>
-                </div>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button 
+                        variant="outline" 
+                        size="icon" 
+                        onClick={handleBookmark} 
+                        className="rounded-full bg-white"
+                      >
+                        <Bookmark size={16} />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Sauvegarder l'article</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </div>
-              
-              {/* Author box */}
-              <div className="mb-10 p-6 border border-gray-200 rounded-lg bg-gray-50">
-                <div className="flex flex-col md:flex-row gap-4 items-center md:items-start">
-                  <Avatar className="h-20 w-20 border-2 border-kheops-gold/20">
-                    <AvatarImage src={`https://i.pravatar.cc/200?u=${post.author}`} alt={post.author} />
-                    <AvatarFallback className="bg-kheops-gold/20 text-kheops-gold text-xl">
-                      {post.author.charAt(0)}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="flex-1 text-center md:text-left">
-                    <h3 className="text-xl font-bold mb-2">À propos de {post.author}</h3>
-                    <p className="text-gray-600 mb-4">
-                      Expert en marketing digital chez KHEOPS SET DIGITAL avec plus de 10 ans d'expérience dans le domaine. 
-                      Spécialisé dans les stratégies de croissance pour les entreprises africaines.
-                    </p>
-                    <Button variant="outline" size="sm" className="text-kheops-salmon border-kheops-salmon hover:bg-kheops-salmon/10">
-                      Voir tous ses articles
-                    </Button>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Comments section placeholder */}
-              <div className="mb-12">
-                <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
-                  <MessageSquare size={24} />
-                  Commentaires
-                </h3>
+            </div>
+          </div>
+          
+          {/* Excerpt/introduction */}
+          <div className="mb-12 bg-gradient-to-r from-kheops-gold/10 to-kheops-salmon/10 p-6 rounded-xl">
+            <p className="text-lg italic text-gray-700">{post.excerpt}</p>
+          </div>
+          
+          {/* Content sections with images */}
+          <div className="prose prose-lg max-w-none mb-12 space-y-16">
+            {contentSections.map((section, index) => (
+              <motion.div 
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="space-y-6"
+              >
+                <h2 className="text-2xl font-bold text-gray-800 border-b-2 border-kheops-gold/30 pb-2 inline-block">
+                  {section.title}
+                </h2>
                 
-                <div className="p-8 bg-gray-50 rounded-lg text-center">
-                  <p className="text-gray-500 mb-4">Connectez-vous pour laisser un commentaire</p>
-                  <Button>Se connecter</Button>
-                </div>
-              </div>
-              
-              {/* Related articles */}
-              {relatedPosts.length > 0 && (
-                <div className="mt-16">
-                  <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-                    Articles similaires
-                    <Badge className="ml-2 bg-kheops-salmon">{relatedPosts.length}</Badge>
-                  </h2>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {relatedPosts.map((relatedPost) => (
-                      <Card key={relatedPost.id} className="group overflow-hidden border-none shadow-md hover:shadow-lg transition-all duration-300">
-                        <Link to={`/blog/${relatedPost.id}`} className="block">
-                          <div className="relative h-40 overflow-hidden">
-                            <img 
-                              src={relatedPost.image} 
-                              alt={relatedPost.title} 
-                              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                            />
-                            <div className="absolute top-2 left-2">
-                              <Badge variant="outline" className="bg-kheops-gold/80 text-white border-none">
-                                {relatedPost.category}
-                              </Badge>
-                            </div>
-                          </div>
-                          <CardContent className="p-4">
-                            <p className="text-sm text-gray-500 mb-2">
-                              {formatDate(relatedPost.date)}
-                            </p>
-                            <h3 className="font-semibold text-lg mb-2 line-clamp-2 group-hover:text-kheops-salmon transition-colors">
-                              {relatedPost.title}
-                            </h3>
-                            <p className="text-gray-600 text-sm line-clamp-2 mb-3">
-                              {relatedPost.excerpt}
-                            </p>
-                            <div className="flex items-center text-kheops-salmon text-sm font-medium">
-                              Lire la suite
-                              <ChevronRight size={16} className="ml-1" />
-                            </div>
-                          </CardContent>
-                        </Link>
-                      </Card>
+                {/* Alternate image position based on section index */}
+                <div className={`flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} gap-8 items-center`}>
+                  <div className="md:w-2/3 space-y-4">
+                    {section.content.map((paragraph, pIndex) => (
+                      <p key={pIndex} className="text-gray-700">{paragraph}</p>
                     ))}
                   </div>
-                </div>
-              )}
-            </motion.div>
-            
-            {/* Sidebar - 4 columns */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="lg:col-span-4 space-y-8"
-            >
-              {/* Table of contents */}
-              <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm sticky top-32">
-                <h3 className="text-xl font-bold mb-4">Sommaire</h3>
-                <nav className="space-y-2">
-                  {["Introduction", "Pourquoi c'est important", "Les stratégies efficaces", "Études de cas", "Outils recommandés", "Conclusion"].map((section, index) => (
-                    <a 
-                      href={`#section-${index+1}`} 
-                      key={index}
-                      className="block py-2 px-3 text-gray-600 hover:bg-gray-50 hover:text-kheops-salmon rounded-md transition-colors"
-                    >
-                      {section}
-                    </a>
-                  ))}
-                </nav>
-              </div>
-              
-              {/* Popular posts */}
-              <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
-                <h3 className="text-xl font-bold mb-4">Articles populaires</h3>
-                <div className="space-y-4">
-                  {blogPosts.slice(0, 4).map((popularPost) => (
-                    <div key={popularPost.id} className="flex gap-3 group">
-                      <Link to={`/blog/${popularPost.id}`} className="shrink-0 w-20 h-20 overflow-hidden rounded">
-                        <img 
-                          src={popularPost.image} 
-                          alt={popularPost.title}
-                          className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
-                        />
-                      </Link>
-                      <div className="flex flex-col">
-                        <Link 
-                          to={`/blog/${popularPost.id}`}
-                          className="font-medium line-clamp-2 group-hover:text-kheops-salmon transition-colors"
-                        >
-                          {popularPost.title}
-                        </Link>
-                        <span className="text-xs text-gray-500 mt-1">
-                          {formatDate(popularPost.date)}
-                        </span>
-                      </div>
+                  
+                  {section.image && (
+                    <div className="md:w-1/3">
+                      <img 
+                        src={section.image} 
+                        alt={section.title} 
+                        className="rounded-lg shadow-md object-cover w-full h-auto"
+                      />
                     </div>
-                  ))}
+                  )}
                 </div>
+              </motion.div>
+            ))}
+          </div>
+          
+          {/* Tags list */}
+          <div className="mb-12">
+            <h3 className="text-xl font-bold mb-4">Tags</h3>
+            <div className="flex flex-wrap gap-2 mb-6">
+              {post.tags.map((tag, index) => (
+                <Badge 
+                  key={index}
+                  variant="outline"
+                  className="bg-gray-100 hover:bg-gray-200 transition-colors cursor-pointer"
+                >
+                  #{tag}
+                </Badge>
+              ))}
+            </div>
+          </div>
+          
+          {/* Author box with gradient background */}
+          <div className="mb-16 bg-gradient-to-r from-kheops-gold/20 to-kheops-salmon/20 rounded-xl overflow-hidden shadow-md">
+            <div className="flex flex-col md:flex-row p-8">
+              <div className="md:w-1/4 flex justify-center mb-6 md:mb-0">
+                <Avatar className="h-32 w-32 border-4 border-white/50 shadow-xl">
+                  <AvatarImage src={`https://i.pravatar.cc/200?u=${post.author}`} alt={post.author} />
+                  <AvatarFallback className="bg-kheops-gold/70 text-white text-4xl">
+                    {post.author.charAt(0)}
+                  </AvatarFallback>
+                </Avatar>
               </div>
-              
-              {/* Categories */}
-              <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
-                <h3 className="text-xl font-bold mb-4">Catégories</h3>
-                <div className="space-y-2">
-                  {Array.from(new Set(blogPosts.map(post => post.category))).map((category, index) => (
-                    <Link 
-                      key={index}
-                      to={`/blog?category=${category}`}
-                      className="flex justify-between items-center py-2 px-3 hover:bg-gray-50 rounded-md transition-colors"
-                    >
-                      <div className="flex items-center">
-                        <Tag size={16} className="text-kheops-gold mr-2" />
-                        <span>{category}</span>
-                      </div>
-                      <span className="text-sm bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
-                        {blogPosts.filter(post => post.category === category).length}
-                      </span>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-              
-              {/* Tags cloud */}
-              <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
-                <h3 className="text-xl font-bold mb-4">Tags populaires</h3>
-                <div className="flex flex-wrap gap-2">
-                  {Array.from(new Set(blogPosts.flatMap(post => post.tags))).slice(0, 12).map((tag, index) => (
-                    <Badge 
-                      key={index} 
-                      variant="outline"
-                      className="bg-gray-100 hover:bg-kheops-gold/10 hover:text-kheops-gold cursor-pointer transition-colors"
-                    >
-                      #{tag}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-              
-              {/* CTA banner */}
-              <div className="bg-gradient-to-r from-kheops-gold/20 to-kheops-salmon/20 p-6 rounded-lg">
-                <h3 className="text-xl font-bold mb-3">Vous aimez nos articles?</h3>
-                <p className="text-gray-700 mb-4">
-                  Inscrivez-vous à notre newsletter pour recevoir nos derniers articles et conseils.
+              <div className="md:w-3/4">
+                <h3 className="text-2xl font-bold mb-4">À propos de {post.author}</h3>
+                <p className="text-gray-700 mb-6 italic">
+                  "Expert en marketing digital chez KHEOPS SET DIGITAL avec plus de 10 ans d'expérience dans le domaine. 
+                  Spécialisé dans les stratégies de croissance pour les entreprises africaines."
                 </p>
-                <div className="space-y-4">
-                  <input 
-                    type="email" 
-                    placeholder="Votre adresse email" 
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-kheops-gold"
-                  />
-                  <Button className="w-full bg-kheops-salmon hover:bg-kheops-salmon/90">
-                    S'inscrire
-                  </Button>
-                </div>
+                <Button variant="outline" className="bg-white/70 border-kheops-salmon text-kheops-salmon hover:bg-kheops-salmon/10">
+                  Voir tous ses articles
+                </Button>
               </div>
-            </motion.div>
+            </div>
+          </div>
+          
+          {/* Comments section */}
+          <div className="mb-16 bg-white rounded-xl shadow-sm p-8">
+            <h3 className="text-2xl font-bold mb-8 flex items-center gap-2">
+              <MessageSquare size={24} className="text-kheops-gold" />
+              Commentaires
+            </h3>
+            
+            <div className="text-center py-8">
+              <p className="text-gray-500 mb-4">Connectez-vous pour laisser un commentaire</p>
+              <Button className="bg-kheops-salmon hover:bg-kheops-salmon/90">Se connecter</Button>
+            </div>
+          </div>
+          
+          {/* Popular articles */}
+          {relatedPosts.length > 0 && (
+            <div className="mt-16">
+              <h2 className="text-3xl font-bold mb-8 text-center">
+                Articles similaires
+              </h2>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {relatedPosts.map((relatedPost) => (
+                  <motion.div
+                    key={relatedPost.id}
+                    whileHover={{ y: -10 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <Card className="overflow-hidden border-none shadow-lg h-full flex flex-col">
+                      <Link to={`/blog/${relatedPost.id}`} className="block relative h-48 overflow-hidden">
+                        <img 
+                          src={relatedPost.image} 
+                          alt={relatedPost.title} 
+                          className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                        />
+                        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/60 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end">
+                          <span className="text-white p-4 font-medium">Lire l'article</span>
+                        </div>
+                      </Link>
+                      
+                      <CardContent className="p-6 flex-grow flex flex-col">
+                        <Badge variant="outline" className="w-fit mb-2 bg-kheops-gold/10 text-kheops-gold border-kheops-gold/20">
+                          {relatedPost.category}
+                        </Badge>
+                        <h3 className="font-bold text-xl mb-3 hover:text-kheops-salmon transition-colors line-clamp-2">
+                          <Link to={`/blog/${relatedPost.id}`}>
+                            {relatedPost.title}
+                          </Link>
+                        </h3>
+                        <p className="text-gray-600 line-clamp-3 mb-4">
+                          {relatedPost.excerpt}
+                        </p>
+                        <div className="flex items-center mt-auto pt-4 border-t border-gray-100">
+                          <Avatar className="h-8 w-8 mr-2">
+                            <AvatarImage src={`https://i.pravatar.cc/100?u=${relatedPost.author}`} alt={relatedPost.author} />
+                            <AvatarFallback>{relatedPost.author.charAt(0)}</AvatarFallback>
+                          </Avatar>
+                          <span className="text-sm text-gray-600">{relatedPost.author}</span>
+                          <span className="text-xs text-gray-400 ml-auto">{formatDate(relatedPost.date)}</span>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          )}
+          
+          {/* Newsletter signup */}
+          <div className="mt-24 bg-gradient-to-r from-kheops-gold/10 via-white to-kheops-salmon/10 rounded-2xl overflow-hidden shadow-lg relative">
+            <div className="px-8 py-12 text-center">
+              <h3 className="text-3xl font-bold mb-4">Restez informé</h3>
+              <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
+                Inscrivez-vous à notre newsletter pour recevoir nos derniers articles, conseils et actualités directement dans votre boîte mail.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto">
+                <input 
+                  type="email" 
+                  placeholder="Votre adresse email" 
+                  className="flex-grow px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-kheops-gold"
+                />
+                <Button className="bg-kheops-salmon hover:bg-kheops-salmon/90 text-white px-6">
+                  S'inscrire
+                </Button>
+              </div>
+              
+              <p className="text-xs text-gray-500 mt-4">
+                En vous inscrivant, vous acceptez de recevoir nos emails et confirmez avoir lu notre politique de confidentialité.
+              </p>
+            </div>
           </div>
         </div>
       </article>

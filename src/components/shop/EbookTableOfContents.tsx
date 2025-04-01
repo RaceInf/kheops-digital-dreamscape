@@ -37,7 +37,7 @@ const EbookTableOfContents = ({ items }: EbookTableOfContentsProps) => {
             className={`
               p-3 rounded-lg transition-all duration-200 
               ${item.level === 1 
-                ? 'bg-gray-50 hover:bg-kheops-gold/10 hover:border-kheops-gold/20 border border-transparent' 
+                ? 'bg-gradient-to-r from-kheops-gold/5 to-kheops-salmon/5 hover:from-kheops-gold/10 hover:to-kheops-salmon/10 border border-kheops-gold/10' 
                 : 'ml-8 bg-gray-50/50 hover:bg-gray-100 border border-transparent'}
             `}
           >

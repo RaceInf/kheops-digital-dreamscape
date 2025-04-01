@@ -44,7 +44,7 @@ const EbookFAQ = ({ items }: EbookFAQProps) => {
               {item.question}
             </AccordionTrigger>
             <AccordionContent 
-              className="p-4 bg-gray-50 rounded-lg text-gray-600 my-2"
+              className="p-4 bg-gradient-to-r from-kheops-gold/5 to-kheops-salmon/5 rounded-lg text-gray-700 my-2"
             >
               {item.answer}
             </AccordionContent>
