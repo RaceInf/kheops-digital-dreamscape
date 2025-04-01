@@ -3,12 +3,13 @@ import { Ebook } from "@/types";
 
 export const ebooks: Ebook[] = [
   {
-    id: "Guide-du-Marketing-Digital",
-    title: "Guide du Marketing Digital",
-    subtitle: "Stratégies efficaces pour le marché africain",
-    description: "Un guide pratique pour développer votre présence en ligne et exploiter les opportunités du marketing digital en Afrique.",
-    fullDescription: "Ce guide complet vous emmène à travers toutes les étapes nécessaires pour bâtir une stratégie de marketing digital performante adaptée au contexte africain. Découvrez comment utiliser les réseaux sociaux, l'email marketing, le SEO et bien plus encore pour développer votre activité. Vous apprendrez à analyser votre audience, créer du contenu engageant et mesurer vos résultats pour optimiser vos campagnes.\n\nQue vous soyez entrepreneur, responsable marketing ou consultant, cet ebook vous fournit des outils concrets, des études de cas et des méthodes éprouvées pour réussir dans l'univers digital en Afrique.",
-    price: 15000,
+    id: "community-manager-de-choc",
+    title: "Devenir un Community Manager de Choc,
+    subtitle: "Les secrets des pros du marketing digital pour maîtriser les réseaux sociaux",
+    description: "Le guide ultime pour créer, animer et fidéliser une communauté en ligne comme un expert.",
+    fullDescription: "Ce livre complet révèle les stratégies et outils des meilleurs professionnels pour exceller en tant que Community Manager. Apprenez à :\n\n- Maîtriser les réseaux sociaux (Facebook, Instagram, LinkedIn...) et choisir les bons canaux\n- Créer du contenu viral et booster l'engagement\n- Gérer les crises et construire une e-réputation solide\n- Analyser les performances avec les bons KPI\n- Collaborer avec des influenceurs et organiser des événements impactants\n\nAvec des conseils pratiques, des études de cas réels et des checklists actionnables, ce guide s'adresse aux débutants comme aux CM expérimentés souhaitant passer au niveau supérieur. Le must-have pour dominer les réseaux en 2024 !",
+    price: 14900,
+    originalPrice: 19900,
     imageUrl: "/images/ebook-marketing-digital.jpg",
     images: [
       "/images/ebook-marketing-digital.jpg",
