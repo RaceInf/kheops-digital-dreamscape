@@ -1,14 +1,12 @@
 
 import React from 'react';
+import { FAQItem } from '@/types';
 import { 
   Accordion, 
   AccordionContent, 
   AccordionItem, 
   AccordionTrigger 
 } from '@/components/ui/accordion';
-import { FAQItem } from '@/types';
-import { Link } from 'react-router-dom';
-import { HelpCircle, MessageSquare } from 'lucide-react';
 
 interface EbookFAQProps {
   items: FAQItem[];
@@ -20,34 +18,21 @@ const EbookFAQ = ({ items }: EbookFAQProps) => {
   }
 
   return (
-    <div className="mb-8">
-      <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-        <HelpCircle size={20} className="text-kheops-gold" />
-        Questions fréquentes
-      </h2>
+    <div>
+      <p className="text-gray-600 mb-6">Questions fréquemment posées à propos de ce livre</p>
       
-      <Accordion type="single" collapsible className="w-full border rounded-lg overflow-hidden">
+      <Accordion type="single" collapsible className="w-full">
         {items.map((item, index) => (
-          <AccordionItem key={index} value={`item-${index}`} className="border-b last:border-b-0">
-            <AccordionTrigger className="px-4 hover:bg-gray-50 font-medium text-left">
+          <AccordionItem key={index} value={`faq-${index}`} className="border-b border-gray-200 last:border-0">
+            <AccordionTrigger className="text-left hover:text-kheops-gold py-4 font-medium text-base">
               {item.question}
             </AccordionTrigger>
-            <AccordionContent className="px-4 py-3">
+            <AccordionContent className="p-4 bg-gray-50 rounded-lg text-gray-600">
               {item.answer}
             </AccordionContent>
           </AccordionItem>
         ))}
       </Accordion>
-      
-      <div className="mt-4 flex justify-end">
-        <Link 
-          to="/contact" 
-          className="inline-flex items-center text-sm text-kheops-gold hover:text-kheops-salmon transition-colors"
-        >
-          <MessageSquare size={16} className="mr-1" />
-          Poser une autre question
-        </Link>
-      </div>
     </div>
   );
 };

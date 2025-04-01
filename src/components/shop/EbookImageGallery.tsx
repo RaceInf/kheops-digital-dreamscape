@@ -2,37 +2,24 @@
 import React, { useState } from 'react';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { 
-  Carousel, 
-  CarouselContent, 
-  CarouselItem, 
-  CarouselNext, 
-  CarouselPrevious 
-} from '@/components/ui/carousel';
-import { ChevronLeft, ChevronRight, ZoomIn, X } from 'lucide-react';
+import { ZoomIn, X } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 interface EbookImageGalleryProps {
   mainImage: string;
-  additionalImages?: string[];
   title: string;
 }
 
-const EbookImageGallery = ({ mainImage, additionalImages = [], title }: EbookImageGalleryProps) => {
+const EbookImageGallery = ({ mainImage, title }: EbookImageGalleryProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const allImages = [mainImage, ...additionalImages];
   const isMobile = useIsMobile();
   
-  const handleOpenGallery = (index: number = 0) => {
-    setCurrentImageIndex(index);
-    setIsOpen(true);
-  };
-
   return (
     <>
-      <div className="relative aspect-[3/4] w-full overflow-hidden rounded-lg border-2 border-kheops-gold/20 bg-gray-100 cursor-pointer group" 
-           onClick={() => handleOpenGallery(0)}>
+      <div 
+        className="relative aspect-[3/4] w-full overflow-hidden rounded-lg border-2 border-kheops-gold/20 bg-gray-100 cursor-pointer group shadow-lg hover:shadow-xl transition-all duration-300" 
+        onClick={() => setIsOpen(true)}
+      >
         <img 
           src={mainImage} 
           alt={title} 
@@ -47,29 +34,8 @@ const EbookImageGallery = ({ mainImage, additionalImages = [], title }: EbookIma
           APERÇU
         </div>
       </div>
-      
-      {/* Thumbnail gallery for additional images */}
-      {additionalImages && additionalImages.length > 0 && (
-        <div className="flex gap-2 mt-3 overflow-x-auto pb-2">
-          {allImages.map((img, index) => (
-            <div 
-              key={index}
-              className={`flex-shrink-0 w-16 h-16 rounded-md overflow-hidden cursor-pointer border-2 ${
-                index === currentImageIndex && isOpen ? 'border-kheops-gold' : 'border-transparent'
-              }`}
-              onClick={() => handleOpenGallery(index)}
-            >
-              <img 
-                src={img} 
-                alt={`${title} - image ${index + 1}`} 
-                className="w-full h-full object-cover"
-              />
-            </div>
-          ))}
-        </div>
-      )}
 
-      {/* Fullscreen Gallery Dialog */}
+      {/* Fullscreen Image Dialog */}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className="max-w-[95vw] max-h-[95vh] p-0 bg-black/95 border-none">
           <Button 
@@ -81,22 +47,11 @@ const EbookImageGallery = ({ mainImage, additionalImages = [], title }: EbookIma
           </Button>
           
           <div className="relative w-full h-full flex items-center justify-center p-4">
-            <Carousel className="w-full max-w-4xl">
-              <CarouselContent>
-                {allImages.map((image, index) => (
-                  <CarouselItem key={index} className="flex items-center justify-center">
-                    <img 
-                      src={image} 
-                      alt={`${title} - image ${index + 1}`} 
-                      className="max-w-full max-h-[80vh] object-contain"
-                    />
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              
-              <CarouselPrevious className={`${isMobile ? "-left-2" : "-left-12"} bg-white/10 hover:bg-white/20 text-white`} />
-              <CarouselNext className={`${isMobile ? "-right-2" : "-right-12"} bg-white/10 hover:bg-white/20 text-white`} />
-            </Carousel>
+            <img 
+              src={mainImage} 
+              alt={title} 
+              className="max-w-full max-h-[80vh] object-contain"
+            />
           </div>
         </DialogContent>
       </Dialog>

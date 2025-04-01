@@ -1,56 +1,50 @@
 
-import React, { useState } from 'react';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import React from 'react';
 import { TableOfContentsItem } from '@/types';
-import { ChevronDown, ChevronRight, Book } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 
 interface EbookTableOfContentsProps {
   items: TableOfContentsItem[];
 }
 
 const EbookTableOfContents = ({ items }: EbookTableOfContentsProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-
   if (!items || items.length === 0) {
     return null;
   }
 
   return (
-    <Collapsible
-      open={isOpen}
-      onOpenChange={setIsOpen}
-      className="w-full border rounded-lg overflow-hidden mb-6"
-    >
-      <CollapsibleTrigger className="flex w-full items-center justify-between p-4 bg-gray-50 hover:bg-gray-100 transition-colors">
-        <div className="flex items-center gap-2 font-medium">
-          <Book size={18} className="text-kheops-gold" />
-          <span>Table des matières ({items.length} chapitres)</span>
-        </div>
-        {isOpen ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
-      </CollapsibleTrigger>
-      <CollapsibleContent className="p-4">
-        <ol className="list-decimal list-inside space-y-2">
-          {items.map((item) => (
-            <li 
-              key={item.id} 
-              className={`${
-                item.level === 1 ? 'font-semibold' : 'ml-6 text-sm'
-              }`}
-              style={{
-                marginLeft: `${(item.level - 1) * 1.5}rem`
-              }}
-            >
+    <div className="w-full">
+      <div className="mb-4">
+        <p className="text-gray-600">Ce livre contient <span className="font-semibold">{items.length} chapitres</span></p>
+      </div>
+      
+      <div className="space-y-4">
+        {items.map((item) => (
+          <div 
+            key={item.id}
+            className={`
+              p-4 rounded-lg transition-all duration-200 hover:bg-kheops-gold/10
+              ${item.level === 1 ? 'bg-gray-50' : 'ml-8 bg-gray-50/50'}
+            `}
+          >
+            <div className="flex items-center">
+              {item.level === 1 && (
+                <ChevronRight className="h-5 w-5 text-kheops-gold mr-2 shrink-0" />
+              )}
               <a 
                 href={`#${item.id}`} 
-                className="hover:text-kheops-gold transition-colors"
+                className={`
+                  hover:text-kheops-gold transition-colors
+                  ${item.level === 1 ? 'font-semibold text-lg' : 'text-md'}
+                `}
               >
                 {item.title}
               </a>
-            </li>
-          ))}
-        </ol>
-      </CollapsibleContent>
-    </Collapsible>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
 
