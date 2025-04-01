@@ -18,6 +18,7 @@ import NotFound from "./pages/NotFound";
 import LegalNotice from "./pages/LegalNotice";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfSale from "./pages/TermsOfSale";
+import BackToTop from "./components/ui/back-to-top";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,7 @@ const App = () => {
           <TooltipProvider>
             <Toaster />
             <Sonner />
+            <BackToTop />
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/services" element={<Services />} />
