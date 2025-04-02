@@ -7,6 +7,8 @@ import ServicesSection from "@/components/home/ServicesSection";
 import AboutSection from "@/components/home/AboutSection";
 import ShopSection from "@/components/home/ShopSection";
 import TestimonialsSection from "@/components/home/TestimonialsSection";
+import BlogSection from "@/components/home/BlogSection";
+import AnimatedBackground from "@/components/ui/animated-background";
 
 const Index = () => {
   useEffect(() => {
@@ -15,14 +17,18 @@ const Index = () => {
   }, []);
 
   return (
-    <main className="min-h-screen w-full">
-      <Navbar />
-      <HeroSection />
-      <ServicesSection />
-      <AboutSection />
-      <ShopSection />
-      <TestimonialsSection />
-      <Footer />
+    <main className="min-h-screen w-full relative overflow-hidden">
+      <AnimatedBackground />
+      <div className="relative z-10">
+        <Navbar />
+        <HeroSection />
+        <ServicesSection />
+        <AboutSection />
+        <ShopSection />
+        <BlogSection />
+        <TestimonialsSection />
+        <Footer />
+      </div>
     </main>
   );
 };
