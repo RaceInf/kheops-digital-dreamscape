@@ -3,61 +3,40 @@ import { Ebook } from "@/types";
 
 export const ebooks: Ebook[] = [
   {
-    id: "community-manager-de-choc",
-  title: "Devenir un CM de Choc",
-  subtitle: "Les secrets des pros du marketing digital pour maîtriser les réseaux sociaux",
-  description: "Le guide ultime pour créer, animer et fidéliser une communauté en ligne comme un expert.",  
-  fullDescription: "Ce livre complet révèle les stratégies et outils des meilleurs professionnels pour exceller en tant que Community Manager. Apprenez à :\n\n- Maîtriser les réseaux sociaux (Facebook, Instagram, LinkedIn...) et choisir les bons canaux\n- Créer du contenu viral et booster l'engagement\n- Gérer les crises et construire une e-réputation solide\n- Analyser les performances avec les bons KPI\n- Collaborer avec des influenceurs et organiser des événements impactants\n\nAvec des conseils pratiques, des études de cas réels et des checklists actionnables, ce guide s'adresse aux débutants comme aux CM expérimentés souhaitant passer au niveau supérieur. Le must-have pour dominer les réseaux en 2024 !",
-  price: 9900,
-  imageUrl: "/images/ebook-community-manager.jpg",
-  images: [
-    "/images/ebook-community-manager.jpg",
-    "/images/ebook-cm-preview1.jpg",
-    "/images/ebook-cm-preview2.jpg"
-  ],
-  features: [
-    "Débloquez les Compétences FONDAMENTALES", 
-    "Maîtrisez l'Arsenal du CM de Choc",
-    "Déployez des Stratégies Sociales GAGNANTES",
-    "Interagissez comme un Pro, Gérez les Crises sans Frayeur",
-    "Surfez sur les Tendances, Adoptez les Bonnes Pratiques"
-    "Boostez Votre Carrière MAINTENANT"
+    id: "marketing-guide",
+    title: "Guide du Marketing Digital",
+    subtitle: "Stratégies efficaces pour le marché africain",
+    description: "Un guide pratique pour développer votre présence en ligne et exploiter les opportunités du marketing digital en Afrique.",
+    fullDescription: "Ce guide complet vous emmène à travers toutes les étapes nécessaires pour bâtir une stratégie de marketing digital performante adaptée au contexte africain. Découvrez comment utiliser les réseaux sociaux, l'email marketing, le SEO et bien plus encore pour développer votre activité. Vous apprendrez à analyser votre audience, créer du contenu engageant et mesurer vos résultats pour optimiser vos campagnes.\n\nQue vous soyez entrepreneur, responsable marketing ou consultant, cet ebook vous fournit des outils concrets, des études de cas et des méthodes éprouvées pour réussir dans l'univers digital en Afrique.",
+    price: 15000,
+    imageUrl: "/images/ebook-marketing-digital.jpg",
+    images: [
+      "/images/ebook-marketing-digital.jpg",
+      "/placeholder.svg",
+      "/placeholder.svg"
     ],
-    publishedDate: "2024-09-15",
-    pages: 70,
+    features: [
+      "10 stratégies pour développer votre audience",
+      "Guide étape par étape pour le SEO local",
+      "Templates de campagnes email",
+      "Études de cas de réussites africaines",
+      "Outils d'analyse et de mesure adaptés"
+    ],
+    publishedDate: "2023-09-15",
+    pages: 156,
     language: "Français",
-    format: ["PDF"],
-    category: "Marketing Digital",
+    format: ["PDF", "EPUB"],
+    category: "marketing",
     tableOfContents: [
-      { id: "intro", title: "Introduction", "level": 1 },
-      { id: "chap1", title: "LES BASES DU COMMUNITY MANAGEMENT", level: 1 },
-      { id: "chap1-1", title: "Qu'est ce qu'un Community Manager ?", level: 2 },
-      { id: "chap1-2", title: "Les compétences nécessaires", level: 2 },
-      { id: "chap1-3", title: "Les outils du Community Manager", level: 2 },
-      { id: "chap1-4", title: "Les différentes missions du Community Manager", level: 2 },
-      { id: "chap2", title: "LA GESTION DES RÉSEAUX SOCIAUX", level: 1 },
-      { id: "chap2-1", title: "Choisir les bons réseaux sociaux", level: 2 },
-      { id: "chap2-2", title: "Créer et animer une communauté en ligne", level: 2 },
-      { id: "chap2-3", title: "Planifier et publier du contenu", level: 2 },
-      { id: "chap2-4", title: "Analyser les performances et mesurer l'engagement", level: 2 },
-      { id: "chap3", title: "LA RELATION AVEC LES UTILISATEURS", level: 1 },
-      { id: "chap3-1", title: "Gérer les commentaires et les messages", level: 2 },
-      { id: "chap3-2", title: "Répondre aux questions et aux plaintes", level: 2 },
-      { id: "chap3-3", title: "Créer des interactions et favoriser l'engagement", level: 2 },
-      { id: "chap3-4", title: "Gérer les crises et les situations délicates", level: 2 },
-      { id: "chap3-5", title: "Collaborer avec les influenceurs et les ambassadeurs", level: 2 },
-      { id: "chap3-6", title: "Organiser des événements et des concours", level: 2 },
-      { id: "chap4", title: "LA VEILLE ET L'E-RÉPUTATION", level: 1 },
-      { id: "chap4-1", title: "Effectuer une veille stratégique", level: 2 },
-      { id: "chap4-2", title: "Surveiller et gérer l'e-réputation", level: 2 },
-      { id: "chap4-3", title: "Réagir aux avis et aux commentaires négatifs", level: 2 },
-      { id: "chap4-4", title: "Utiliser les outils de monitoring et d'analyse", level: 2 },
-      { id: "chap5", title: "LES BONNES PRATIQUES ET LES TENDANCES", level: 1 }
-      { id: "chap5-1", title: "Respecter les règles et les bonnes pratiques", level: 2 },
-      { id: "chap5-2", title: "Adapter sa stratégie aux tendances du moment", level: 2 },
-      { id: "chap5-3", title: "Utiliser les nouvelles fonctionnalités des réseaux sociaux", level: 2 },
-      { id: "chap5-4", title: "Se former et se tenir informé des évolutions du métier", level: 2 },
-      { id: "conclusion", title: "Conclusion", "level": 1 }
+      { id: "chap1", title: "Introduction au marketing digital en Afrique", level: 1 },
+      { id: "chap1-1", title: "Les spécificités du marché africain", level: 2 },
+      { id: "chap1-2", title: "Opportunités et défis", level: 2 },
+      { id: "chap2", title: "Stratégies de référencement (SEO)", level: 1 },
+      { id: "chap2-1", title: "Optimisation on-page", level: 2 },
+      { id: "chap2-2", title: "Optimisation off-page", level: 2 },
+      { id: "chap3", title: "Marketing sur les réseaux sociaux", level: 1 },
+      { id: "chap4", title: "Email marketing", level: 1 },
+      { id: "chap5", title: "Analyse et mesure de performance", level: 1 }
     ],
     faq: [
       { 
@@ -66,7 +45,7 @@ export const ebooks: Ebook[] = [
       },
       { 
         question: "Quels formats sont disponibles pour cet ebook ?", 
-        answer: "L'ebook est disponible en formats PDF, ce qui vous permet de le lire sur tous vos appareils."
+        answer: "L'ebook est disponible en formats PDF et EPUB, ce qui vous permet de le lire sur tous vos appareils."
       },
       { 
         question: "Comment recevoir ma copie après l'achat ?", 
@@ -78,8 +57,8 @@ export const ebooks: Ebook[] = [
       }
     ],
     author: {
-      name: "Opportun Aby",
-      role: "Expert en Stratégies Digitales",
+      name: "Dr. Amina Konaté",
+      role: "Experte en Stratégies Digitales",
       imageUrl: "/placeholder.svg"
     }
   },
