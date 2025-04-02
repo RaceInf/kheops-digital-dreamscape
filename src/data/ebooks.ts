@@ -9,6 +9,8 @@ export const ebooks: Ebook[] = [
     description: "Le guide ULTIME pour maîtriser le Community Management.",  
     fullDescription: "Le rôle de Community Manager est devenu CRUCIAL pour toute entreprise voulant briller en ligne. Mais face à un domaine en constante évolution, comment devenir un véritable professionnel aguerri et faire la différence ? Cet ouvrage exclusif, issu de la série 'Les Secrets des Pros du Marketing Digital', vous livre TOUS les secrets et conseils des meilleurs experts pour exceller dans ce métier passionnant.\n\nCe guide complet vous accompagne étape par étape : des fondations du métier (définir votre rôle unique, maîtriser les compétences clés indispensables, choisir l'arsenal d'outils qui décuplent votre efficacité) à la gestion stratégique des réseaux sociaux (sélectionner les plateformes gagnantes, créer du contenu qui captive VRAIMENT votre audience, mesurer vos succès pour mieux les répliquer). Vous apprendrez à tisser des liens forts et authentiques avec vos utilisateurs : répondre avec brio aux messages et commentaires, désamorcer les crises comme un pro, collaborer intelligemment avec les influenceurs et organiser des événements qui marquent les esprits. Devenez un expert de la veille stratégique et de la gestion de l'e-réputation, en surveillant votre environnement digital et en protégeant activement l'image de votre marque. Enfin, adoptez les bonnes pratiques qui fonctionnent et anticipez les tendances pour toujours avoir une longueur d'avance.\n\nQue vous soyez un débutant aspirant à lancer votre carrière ou un professionnel expérimenté cherchant à perfectionner vos méthodes, ce livre regorge de conseils pratiques, d'exemples concrets et de stratégies immédiatement applicables. Ne soyez plus un simple gestionnaire de page, transformez-vous en un Community Manager de Choc, bâtissez des communautés vibrantes et faites exploser votre visibilité (et celle de vos clients) sur les réseaux !",
     price: 9900,
+    originalPrice: 14900,
+    isOnSale: true,
     imageUrl: "/images/ebook-community-manager.jpg",
     images: [
       "/images/ebook-community-manager.jpg",
@@ -90,6 +92,8 @@ export const ebooks: Ebook[] = [
     description: "Découvrez comment créer et faire croître votre entreprise digitale avec des stratégies adaptées au contexte africain.",
     fullDescription: "Cet ebook complet est votre ressource essentielle pour naviguer dans le monde de l'entrepreneuriat digital en Afrique. De l'idéation à la mise en œuvre, en passant par le financement et la croissance, chaque chapitre aborde un aspect crucial de la création d'entreprise en ligne.\n\nVous y trouverez des conseils pratiques sur la validation de votre idée, l'élaboration d'un business plan solide, l'acquisition de vos premiers clients et la mise en place de systèmes efficaces. Les exemples et témoignages d'entrepreneurs africains qui ont réussi vous inspireront et vous montreront les stratégies gagnantes dans notre contexte local.",
     price: 20000,
+    originalPrice: 20000,
+    isOnSale: false,
     imageUrl: "/images/ebook-entrepreneuriat.jpg",
     images: [
       "/images/ebook-entrepreneuriat.jpg",
@@ -150,6 +154,8 @@ export const ebooks: Ebook[] = [
     description: "Apprenez à communiquer efficacement en ligne pour atteindre vos objectifs commerciaux et construire une marque forte.",
     fullDescription: "La communication digitale est au cœur de toute stratégie de marque réussie aujourd'hui. Cet ebook vous guide à travers les meilleures pratiques pour créer une communication percutante qui résonne avec votre audience cible.\n\nVous découvrirez comment élaborer une stratégie de contenu cohérente, rédiger des messages qui convertissent et utiliser le storytelling pour créer une connexion émotionnelle avec vos clients. Des techniques de copywriting aux stratégies visuelles, cet ouvrage couvre tous les aspects essentiels de la communication digitale moderne.",
     price: 18000,
+    originalPrice: 25000,
+    isOnSale: true,
     imageUrl: "/placeholder.svg",
     features: [
       "Frameworks de storytelling pour marques",

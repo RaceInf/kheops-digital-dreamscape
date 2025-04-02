@@ -6,6 +6,7 @@ import { Book } from 'lucide-react';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Ebook } from '@/types';
+import PriceDisplay from './PriceDisplay';
 
 interface EbookCardProps {
   ebook: Ebook;
@@ -24,6 +25,8 @@ const EbookCard = ({ ebook, truncateTitle = false }: EbookCardProps) => {
   return (
     <motion.div
       whileHover={{ y: -5 }}
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
     >
       <Card className="h-full flex flex-col overflow-hidden border-2 hover:border-kheops-gold transition-colors">
@@ -39,9 +42,23 @@ const EbookCard = ({ ebook, truncateTitle = false }: EbookCardProps) => {
               <Book size={64} className="text-kheops-gold/50" />
             </div>
           )}
-          <div className="absolute top-2 right-2 bg-kheops-gold text-white px-3 py-1 rounded-full text-sm font-bold">
-            {ebook.price.toLocaleString()} FCFA
+          
+          {/* Price Tag */}
+          <div className="absolute top-2 right-2 bg-kheops-gold/90 text-white px-3 py-1 rounded-full text-sm font-bold shadow-md">
+            <PriceDisplay 
+              price={ebook.price} 
+              originalPrice={ebook.originalPrice} 
+              isOnSale={ebook.isOnSale}
+              size="sm"
+            />
           </div>
+          
+          {/* Promo Badge */}
+          {ebook.isOnSale && ebook.originalPrice && (
+            <div className="absolute top-2 left-2 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-md transform rotate-[-5deg]">
+              PROMO
+            </div>
+          )}
         </div>
         
         <CardContent className="flex-grow pt-4">
@@ -52,7 +69,7 @@ const EbookCard = ({ ebook, truncateTitle = false }: EbookCardProps) => {
         
         <CardFooter className="pt-0 pb-4 flex items-center justify-between">
           <Link to={`/shop/${ebook.id}`} className="w-full">
-            <Button className="w-full bg-kheops-salmon hover:bg-kheops-gold">
+            <Button className="w-full bg-kheops-salmon hover:bg-kheops-gold transition-colors">
               Voir détails
             </Button>
           </Link>

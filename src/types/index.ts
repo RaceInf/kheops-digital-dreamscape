@@ -6,6 +6,8 @@ export interface Ebook {
   description: string;
   fullDescription: string;
   price: number;
+  originalPrice?: number; // Prix original en cas de promotion
+  isOnSale?: boolean; // Indique si le produit est en promotion
   imageUrl: string;
   features: string[];
   publishedDate: string;
