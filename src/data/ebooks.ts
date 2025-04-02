@@ -57,7 +57,7 @@ export const ebooks: Ebook[] = [
       { id: "chap5-2", title: "Adapter sa stratégie aux tendances du moment", level: 2 },
       { id: "chap5-3", title: "Utiliser les nouvelles fonctionnalités des réseaux sociaux", level: 2 },
       { id: "chap5-4", title: "Se former et se tenir informé des évolutions du métier", level: 2 },
-      { id: conclusion, title: "Conclusion", "level": 1 }
+      { id: "conclusion", title: "Conclusion", "level": 1 }
     ],
     faq: [
       { 
