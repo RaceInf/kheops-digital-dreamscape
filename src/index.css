@@ -73,24 +73,57 @@
   * {
     @apply border-border;
   }
+  
+  html {
+    @apply scroll-smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
+    overflow-x: hidden;
+    touch-action: manipulation;
   }
+  
   h1 {
-    @apply text-4xl md:text-5xl lg:text-6xl font-bold;
+    @apply text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold;
   }
+  
   h2 {
-    @apply text-3xl md:text-4xl font-bold;
+    @apply text-2xl sm:text-3xl md:text-4xl font-bold;
   }
+  
   h3 {
-    @apply text-2xl font-bold;
+    @apply text-xl sm:text-2xl font-bold;
   }
+  
   .section-padding {
-    @apply py-16 md:py-24;
+    @apply py-12 sm:py-16 md:py-20 lg:py-24;
   }
+  
   .container-custom {
-    @apply container mx-auto px-4 max-w-7xl;
+    @apply container mx-auto px-4 sm:px-6 max-w-7xl;
+  }
+  
+  /* Improve tap targets for mobile */
+  button, a, input[type="button"], input[type="submit"] {
+    @apply min-h-10 min-w-10;
+  }
+  
+  /* Fix for iOS 100vh issue */
+  .min-h-screen {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+  }
+  
+  /* Dark mode text selection */
+  .dark ::selection {
+    @apply bg-kheops-gold/30 text-white;
+  }
+  
+  ::selection {
+    @apply bg-kheops-gold/30 text-gray-900;
   }
 }
 
@@ -98,42 +131,82 @@
   .text-kheops-gold {
     color: #EDC070;
   }
+  .dark .text-kheops-gold {
+    color: #FFD686;
+  }
   .text-kheops-salmon {
     color: #EB7E78;
+  }
+  .dark .text-kheops-salmon {
+    color: #FF9490;
   }
   .bg-kheops-gold {
     background-color: #EDC070;
   }
+  .dark .bg-kheops-gold {
+    background-color: #FFD686;
+  }
   .bg-kheops-salmon {
     background-color: #EB7E78;
+  }
+  .dark .bg-kheops-salmon {
+    background-color: #FF9490;
   }
   .bg-kheops-lightGray {
     background-color: #F5F5F5;
   }
+  .dark .bg-kheops-lightGray {
+    background-color: #1E1E1E;
+  }
   .border-kheops-gold {
     border-color: #EDC070;
   }
+  .dark .border-kheops-gold {
+    border-color: #FFD686;
+  }
   .border-kheops-salmon {
     border-color: #EB7E78;
+  }
+  .dark .border-kheops-salmon {
+    border-color: #FF9490;
   }
   .from-kheops-gold {
     --tw-gradient-from: #EDC070;
     --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(237, 192, 112, 0));
   }
+  .dark .from-kheops-gold {
+    --tw-gradient-from: #FFD686;
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(255, 214, 134, 0));
+  }
   .to-kheops-salmon {
     --tw-gradient-to: #EB7E78;
+  }
+  .dark .to-kheops-salmon {
+    --tw-gradient-to: #FF9490;
   }
   .hover\:bg-kheops-gold:hover {
     background-color: #EDC070;
   }
+  .dark .hover\:bg-kheops-gold:hover {
+    background-color: #FFD686;
+  }
   .hover\:bg-kheops-salmon:hover {
     background-color: #EB7E78;
+  }
+  .dark .hover\:bg-kheops-salmon:hover {
+    background-color: #FF9490;
   }
   .hover\:text-kheops-gold:hover {
     color: #EDC070;
   }
+  .dark .hover\:text-kheops-gold:hover {
+    color: #FFD686;
+  }
   .hover\:text-kheops-salmon:hover {
     color: #EB7E78;
+  }
+  .dark .hover\:text-kheops-salmon:hover {
+    color: #FF9490;
   }
   
   /* New gradient utilities */
@@ -167,6 +240,11 @@
     @apply shadow-lg transform -translate-y-1;
   }
   
+  /* Mobile touch effect */
+  .touch-scale {
+    @apply active:scale-95 transition-transform;
+  }
+  
   /* Text animations */
   .text-shimmer {
     background: linear-gradient(
@@ -175,6 +253,22 @@
       #EB7E78 30%,
       #f5a073 70%,
       #EDC070 80%
+    );
+    background-size: 200% auto;
+    background-clip: text;
+    text-fill-color: transparent;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 3s linear infinite;
+  }
+  
+  .dark .text-shimmer {
+    background: linear-gradient(
+      to right,
+      #FFD686 20%,
+      #FF9490 30%,
+      #FFA98A 70%,
+      #FFD686 80%
     );
     background-size: 200% auto;
     background-clip: text;
@@ -203,6 +297,28 @@
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+  
+  /* Mobile optimizations */
+  .touch-button {
+    @apply active:scale-95 transition-transform duration-200;
+  }
+  
+  .better-tap-target {
+    @apply p-2.5;
+  }
+  
+  /* Fix for mobile horizontal scroll */
+  .no-horizontal-scroll {
+    @apply overflow-x-hidden;
+  }
+  
+  /* Safe area insets for modern mobile devices */
+  .safe-paddings {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
   }
 }
 

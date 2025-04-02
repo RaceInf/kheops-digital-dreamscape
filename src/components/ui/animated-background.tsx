@@ -1,8 +1,10 @@
 
 import React, { useEffect, useRef } from 'react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const AnimatedBackground: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const isMobile = useIsMobile();
   
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -14,7 +16,12 @@ const AnimatedBackground: React.FC = () => {
     let width = window.innerWidth;
     let height = window.innerHeight;
     let particles: Particle[] = [];
-    const particleCount = Math.min(Math.floor(width * height * 0.00008), 100); // Limit number of particles based on screen size
+    
+    // Reduce particle count on mobile for better performance
+    const particleCount = isMobile 
+      ? Math.min(Math.floor(width * height * 0.00004), 30) 
+      : Math.min(Math.floor(width * height * 0.00008), 100);
+    
     const colors = ['#EDC07015', '#EB7E7815', '#F5F5F515']; // Using KHEOPS colors with transparency
     
     // Particle class
@@ -29,10 +36,10 @@ const AnimatedBackground: React.FC = () => {
       constructor() {
         this.x = Math.random() * width;
         this.y = Math.random() * height;
-        this.radius = Math.random() * 3 + 1;
+        this.radius = Math.random() * (isMobile ? 2 : 3) + 1; // Smaller particles on mobile
         this.color = colors[Math.floor(Math.random() * colors.length)];
-        this.speedX = Math.random() * 0.5 - 0.25;
-        this.speedY = Math.random() * 0.5 - 0.25;
+        this.speedX = Math.random() * 0.4 - 0.2; // Slightly slower on mobile
+        this.speedY = Math.random() * 0.4 - 0.2;
       }
       
       update() {
@@ -77,20 +84,25 @@ const AnimatedBackground: React.FC = () => {
       });
       
       // Connect particles with lines if they're close enough
-      connectParticles();
+      // Reduce connection distance on mobile for better performance
+      if (!isMobile || particles.length < 40) {
+        connectParticles();
+      }
     };
     
     // Connect particles with lines if they're close
     const connectParticles = () => {
+      const maxDistance = isMobile ? 80 : 100;
+      
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x;
           const dy = particles[i].y - particles[j].y;
           const distance = Math.sqrt(dx * dx + dy * dy);
           
-          if (distance < 100) {
+          if (distance < maxDistance) {
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(237, 192, 112, ${0.1 - distance/1000})`;
+            ctx.strokeStyle = `rgba(237, 192, 112, ${0.1 - distance/(isMobile ? 800 : 1000)})`;
             ctx.lineWidth = 0.5;
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
@@ -114,7 +126,7 @@ const AnimatedBackground: React.FC = () => {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  }, [isMobile]);
   
   return (
     <canvas 
