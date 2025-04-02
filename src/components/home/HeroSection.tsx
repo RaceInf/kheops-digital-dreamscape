@@ -1,9 +1,8 @@
 
 import { useEffect, useRef } from 'react';
-import { ArrowRight, ChevronDown } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
 
 const HeroSection = () => {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -25,19 +24,6 @@ const HeroSection = () => {
     return () => window.removeEventListener('scroll', handleParallax);
   }, []);
 
-  const slideInVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: {
-        delay: i * 0.2,
-        duration: 0.6,
-        ease: "easeOut"
-      }
-    })
-  };
-
   return (
     <div 
       ref={heroRef}
@@ -53,34 +39,14 @@ const HeroSection = () => {
       </div>
 
       {/* Content */}
-      <div className="container-custom z-10 text-center">
-        <motion.h1 
-          className="mb-6 font-bold leading-tight"
-          initial="hidden"
-          animate="visible"
-          variants={slideInVariants}
-          custom={0}
-        >
-          <span className="bg-gradient-to-r from-kheops-gold to-kheops-salmon bg-clip-text text-transparent">Transformez</span> votre présence digitale
-        </motion.h1>
-        
-        <motion.p 
-          className="text-xl md:text-2xl text-gray-700 max-w-3xl mx-auto mb-10"
-          initial="hidden"
-          animate="visible"
-          variants={slideInVariants}
-          custom={1}
-        >
+      <div className="container-custom z-10 text-center animate-fade-in">
+        <h1 className="mb-6 font-bold leading-tight">
+          <span className="gradient-text">Transformez</span> votre présence digitale
+        </h1>
+        <p className="text-xl md:text-2xl text-gray-700 max-w-3xl mx-auto mb-10">
           Une agence de communication digitale dédiée à propulser votre marque vers de nouveaux sommets
-        </motion.p>
-        
-        <motion.div 
-          className="flex flex-col sm:flex-row justify-center gap-4"
-          initial="hidden"
-          animate="visible"
-          variants={slideInVariants}
-          custom={2}
-        >
+        </p>
+        <div className="flex flex-col sm:flex-row justify-center gap-4">
           <Link to="/services">
             <Button className="bg-kheops-gold hover:bg-kheops-salmon text-white px-8 py-6 rounded-md font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg text-lg flex items-center">
               Découvrez notre expertise
@@ -92,26 +58,16 @@ const HeroSection = () => {
               À propos de nous
             </Button>
           </Link>
-        </motion.div>
+        </div>
       </div>
 
       {/* Scroll Indicator */}
-      <motion.div 
-        className="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center"
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ 
-          delay: 1.2,
-          duration: 0.6,
-          repeat: Infinity,
-          repeatType: "reverse"
-        }}
-      >
+      <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center animate-bounce">
         <span className="text-sm text-gray-500 mb-2">Découvrir</span>
-        <div className="w-6 h-10 border-2 border-gray-400 rounded-full flex justify-center items-start">
-          <ChevronDown size={18} className="text-gray-400 animate-bounce mt-1" />
+        <div className="w-6 h-10 border-2 border-gray-400 rounded-full flex justify-center">
+          <div className="w-1.5 h-3 bg-gray-400 rounded-full mt-1 animate-slide-down"></div>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 };
