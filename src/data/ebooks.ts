@@ -4,11 +4,12 @@ import { Ebook } from "@/types";
 export const ebooks: Ebook[] = [
   {
     id: "community-manager-de-choc",
-  title: "Devenir un Community Manager de Choc",
+  title: "Devenir un CM de Choc",
   subtitle: "Les secrets des pros du marketing digital pour maîtriser les réseaux sociaux",
   description: "Le guide ultime pour créer, animer et fidéliser une communauté en ligne comme un expert.",  
   fullDescription: "Ce livre complet révèle les stratégies et outils des meilleurs professionnels pour exceller en tant que Community Manager. Apprenez à :\n\n- Maîtriser les réseaux sociaux (Facebook, Instagram, LinkedIn...) et choisir les bons canaux\n- Créer du contenu viral et booster l'engagement\n- Gérer les crises et construire une e-réputation solide\n- Analyser les performances avec les bons KPI\n- Collaborer avec des influenceurs et organiser des événements impactants\n\nAvec des conseils pratiques, des études de cas réels et des checklists actionnables, ce guide s'adresse aux débutants comme aux CM expérimentés souhaitant passer au niveau supérieur. Le must-have pour dominer les réseaux en 2024 !",
-  price: 14900, // Prix en FCFA
+  price: 14900,
+  originalPrice: 19900,
   imageUrl: "/images/ebook-community-manager.jpg",
   images: [
     "/images/ebook-community-manager.jpg",
