@@ -4,24 +4,24 @@ import { Ebook } from "@/types";
 export const ebooks: Ebook[] = [
   {
     id: "community-manager-de-choc",
-  title: "Devenir un CM de Choc",
-  subtitle: "Les secrets des pros du marketing digital pour maîtriser les réseaux sociaux",
-  description: "Le guide ultime pour créer, animer et fidéliser une communauté en ligne comme un expert.",  
-  fullDescription: "Ce livre complet révèle les stratégies et outils des meilleurs professionnels pour exceller en tant que Community Manager. Apprenez à :\n\n- Maîtriser les réseaux sociaux (Facebook, Instagram, LinkedIn...) et choisir les bons canaux\n- Créer du contenu viral et booster l'engagement\n- Gérer les crises et construire une e-réputation solide\n- Analyser les performances avec les bons KPI\n- Collaborer avec des influenceurs et organiser des événements impactants\n\nAvec des conseils pratiques, des études de cas réels et des checklists actionnables, ce guide s'adresse aux débutants comme aux CM expérimentés souhaitant passer au niveau supérieur. Le must-have pour dominer les réseaux en 2024 !",
-  price: 9900,
-  imageUrl: "/images/ebook-community-manager.jpg",
-  images: [
-    "/images/ebook-community-manager.jpg",
-    "/images/ebook-cm-preview1.jpg",
-    "/images/ebook-cm-preview2.jpg"
-  ],
-  features: [
-    "Débloquez les Compétences FONDAMENTALES", 
-    "Maîtrisez l'Arsenal du CM de Choc",
-    "Déployez des Stratégies Sociales GAGNANTES",
-    "Interagissez comme un Pro, Gérez les Crises sans Frayeur",
-    "Surfez sur les Tendances, Adoptez les Bonnes Pratiques"
-    "Boostez Votre Carrière MAINTENANT"
+    title: "Devenir un CM de Choc",
+    subtitle: "Les secrets des pros du marketing digital pour maîtriser les réseaux sociaux",
+    description: "Le guide ultime pour créer, animer et fidéliser une communauté en ligne comme un expert.",  
+    fullDescription: "Ce livre complet révèle les stratégies et outils des meilleurs professionnels pour exceller en tant que Community Manager. Apprenez à :\n\n- Maîtriser les réseaux sociaux (Facebook, Instagram, LinkedIn...) et choisir les bons canaux\n- Créer du contenu viral et booster l'engagement\n- Gérer les crises et construire une e-réputation solide\n- Analyser les performances avec les bons KPI\n- Collaborer avec des influenceurs et organiser des événements impactants\n\nAvec des conseils pratiques, des études de cas réels et des checklists actionnables, ce guide s'adresse aux débutants comme aux CM expérimentés souhaitant passer au niveau supérieur. Le must-have pour dominer les réseaux en 2024 !",
+    price: 9900,
+    imageUrl: "/images/ebook-community-manager.jpg",
+    images: [
+      "/images/ebook-community-manager.jpg",
+      "/images/ebook-cm-preview1.jpg",
+      "/images/ebook-cm-preview2.jpg"
+    ],
+    features: [
+      "Débloquez les Compétences FONDAMENTALES", 
+      "Maîtrisez l'Arsenal du CM de Choc",
+      "Déployez des Stratégies Sociales GAGNANTES",
+      "Interagissez comme un Pro, Gérez les Crises sans Frayeur",
+      "Surfez sur les Tendances, Adoptez les Bonnes Pratiques",
+      "Boostez Votre Carrière MAINTENANT"
     ],
     publishedDate: "2024-09-15",
     pages: 70,
@@ -52,7 +52,7 @@ export const ebooks: Ebook[] = [
       { id: "chap4-2", title: "Surveiller et gérer l'e-réputation", level: 2 },
       { id: "chap4-3", title: "Réagir aux avis et aux commentaires négatifs", level: 2 },
       { id: "chap4-4", title: "Utiliser les outils de monitoring et d'analyse", level: 2 },
-      { id: "chap5", title: "LES BONNES PRATIQUES ET LES TENDANCES", level: 1 }
+      { id: "chap5", title: "LES BONNES PRATIQUES ET LES TENDANCES", level: 1 },
       { id: "chap5-1", title: "Respecter les règles et les bonnes pratiques", level: 2 },
       { id: "chap5-2", title: "Adapter sa stratégie aux tendances du moment", level: 2 },
       { id: "chap5-3", title: "Utiliser les nouvelles fonctionnalités des réseaux sociaux", level: 2 },
