@@ -10,7 +10,7 @@ import { blogPosts } from '@/data/blogPosts';
 const BlogSection = () => {
   // Get the 3 most recent blog posts
   const latestPosts = [...blogPosts]
-    .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .slice(0, 3);
 
   return (
@@ -48,9 +48,9 @@ const BlogSection = () => {
             >
               <Card className="h-full flex flex-col overflow-hidden transition-all duration-300 hover:shadow-lg group">
                 <div className="aspect-video relative overflow-hidden bg-gray-100">
-                  {post.coverImage ? (
+                  {post.image ? (
                     <img 
-                      src={post.coverImage} 
+                      src={post.image} 
                       alt={post.title} 
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
                     />
@@ -62,7 +62,7 @@ const BlogSection = () => {
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4 text-white">
                     <div className="flex items-center text-sm">
                       <Calendar size={14} className="mr-1" />
-                      {formatDate(post.publishedAt)}
+                      {formatDate(post.date)}
                     </div>
                   </div>
                 </div>
