@@ -6,7 +6,6 @@ import { Book } from 'lucide-react';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Ebook } from '@/types';
-import { formatPrice } from '@/lib/currency';
 
 interface EbookCardProps {
   ebook: Ebook;
@@ -41,7 +40,7 @@ const EbookCard = ({ ebook, truncateTitle = false }: EbookCardProps) => {
             </div>
           )}
           <div className="absolute top-2 right-2 bg-kheops-gold text-white px-3 py-1 rounded-full text-sm font-bold">
-            {formatPrice(ebook.price)}
+            {ebook.price.toLocaleString()} FCFA
           </div>
         </div>
         
