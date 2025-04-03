@@ -135,4 +135,30 @@
   .hover\:text-kheops-salmon:hover {
     color: #EB7E78;
   }
+  
+  /* New animation utilities */
+  @keyframes gradient-position {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  
+  .animate-gradient-animation {
+    background-size: 200% 200%;
+    animation: gradient-position 15s ease infinite;
+  }
+  
+  /* Add a pulse effect for interactive elements */
+  @keyframes soft-pulse {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.03);
+    }
+  }
+  
+  .animate-soft-pulse {
+    animation: soft-pulse 3s ease-in-out infinite;
+  }
 }

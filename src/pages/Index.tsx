@@ -7,6 +7,7 @@ import ServicesSection from "@/components/home/ServicesSection";
 import AboutSection from "@/components/home/AboutSection";
 import ShopSection from "@/components/home/ShopSection";
 import TestimonialsSection from "@/components/home/TestimonialsSection";
+import { motion } from "framer-motion";
 
 const Index = () => {
   useEffect(() => {
@@ -15,7 +16,12 @@ const Index = () => {
   }, []);
 
   return (
-    <main className="min-h-screen w-full">
+    <motion.main 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="min-h-screen w-full overflow-x-hidden"
+    >
       <Navbar />
       <HeroSection />
       <ServicesSection />
@@ -23,7 +29,7 @@ const Index = () => {
       <ShopSection />
       <TestimonialsSection />
       <Footer />
-    </main>
+    </motion.main>
   );
 };
 
