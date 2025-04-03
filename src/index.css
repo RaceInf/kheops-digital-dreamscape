@@ -136,7 +136,7 @@
     color: #EB7E78;
   }
   
-  /* New animation utilities */
+  /* Animation utilities */
   @keyframes gradient-position {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
@@ -148,7 +148,7 @@
     animation: gradient-position 15s ease infinite;
   }
   
-  /* Add a pulse effect for interactive elements */
+  /* Pulse effect for interactive elements */
   @keyframes soft-pulse {
     0%, 100% {
       transform: scale(1);
@@ -160,5 +160,62 @@
   
   .animate-soft-pulse {
     animation: soft-pulse 3s ease-in-out infinite;
+  }
+  
+  /* Card hover effects */
+  @keyframes card-shine {
+    0% {
+      background-position: 0% 0%;
+    }
+    100% {
+      background-position: 200% 0%;
+    }
+  }
+  
+  .card-hover-effect {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .card-hover-effect::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.5) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    transform: translateX(-100%);
+    transition: transform 0.8s ease;
+  }
+  
+  .card-hover-effect:hover::after {
+    transform: translateX(100%);
+  }
+  
+  /* Skeleton loading animation */
+  @keyframes skeleton-loading {
+    0% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  
+  .skeleton-pulse {
+    background: linear-gradient(
+      90deg,
+      rgba(237, 242, 247, 0.8) 25%,
+      rgba(237, 242, 247, 0.6) 37%,
+      rgba(237, 242, 247, 0.8) 63%
+    );
+    background-size: 400% 100%;
+    animation: skeleton-loading 1.4s ease infinite;
   }
 }
