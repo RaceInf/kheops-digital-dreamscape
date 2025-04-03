@@ -51,16 +51,6 @@ const EbookCard = ({ ebook, truncateTitle = false }: EbookCardProps) => {
             )}
           </motion.div>
           
-          {/* Price Tag */}
-          <div className="absolute top-3 right-3 bg-gradient-to-r from-kheops-gold to-kheops-salmon text-white px-3 py-1 rounded-full text-sm font-bold shadow-md">
-            <PriceDisplay 
-              price={ebook.price} 
-              originalPrice={ebook.originalPrice} 
-              isOnSale={ebook.isOnSale}
-              size="sm"
-            />
-          </div>
-          
           {/* Category badge */}
           <div className="absolute top-3 left-3">
             <Badge className="bg-white/90 text-kheops-gold border-none shadow-sm">
@@ -70,7 +60,7 @@ const EbookCard = ({ ebook, truncateTitle = false }: EbookCardProps) => {
           
           {/* Promo Badge */}
           {ebook.isOnSale && ebook.originalPrice && (
-            <div className="absolute bottom-3 left-3 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-md transform rotate-[-5deg]">
+            <div className="absolute top-3 right-3 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-md transform rotate-[-5deg]">
               PROMO
             </div>
           )}
@@ -100,6 +90,17 @@ const EbookCard = ({ ebook, truncateTitle = false }: EbookCardProps) => {
           </div>
           
           <p className="text-sm line-clamp-3 text-gray-600 mb-2">{ebook.description}</p>
+          
+          {/* Price moved here */}
+          <div className="mt-2 mb-3">
+            <PriceDisplay 
+              price={ebook.price} 
+              originalPrice={ebook.originalPrice} 
+              isOnSale={ebook.isOnSale}
+              size="sm"
+              className="justify-center"
+            />
+          </div>
         </CardContent>
         
         <CardFooter className="pt-0 pb-4">

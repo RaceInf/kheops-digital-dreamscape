@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { motion } from 'framer-motion';
 import { ebooks } from '@/data/ebooks';
+import PriceDisplay from '../shop/PriceDisplay';
 
 const ShopSection = () => {
   // Afficher uniquement les 3 premiers ebooks pour prévisualisation
@@ -37,13 +38,26 @@ const ShopSection = () => {
                       <Book size={48} className="text-kheops-gold/50" />
                     </div>
                   )}
-                  <div className="absolute top-2 right-2 bg-kheops-gold text-white px-3 py-1 rounded-full text-sm font-bold">
-                    {ebook.price.toLocaleString()} FCFA
-                  </div>
+                  {ebook.isOnSale && (
+                    <div className="absolute top-2 right-2 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold">
+                      PROMO
+                    </div>
+                  )}
                 </div>
                 <CardContent className="flex-1 flex flex-col p-6">
                   <h3 className="text-xl font-bold mb-2">{ebook.title}</h3>
                   <p className="text-gray-600 mb-4 flex-1">{ebook.subtitle}</p>
+                  
+                  {/* Price display moved below */}
+                  <div className="mb-4">
+                    <PriceDisplay 
+                      price={ebook.price} 
+                      originalPrice={ebook.originalPrice} 
+                      isOnSale={ebook.isOnSale}
+                      className="justify-center"
+                    />
+                  </div>
+                  
                   <Link to={`/shop/${ebook.id}`} className="w-full">
                     <Button className="w-full bg-kheops-salmon hover:bg-kheops-gold">
                       Voir détails
