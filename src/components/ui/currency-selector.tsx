@@ -7,7 +7,6 @@ import {
   Command,
   CommandEmpty,
   CommandGroup,
-  CommandInput,
   CommandItem,
 } from "@/components/ui/command";
 import {
@@ -55,14 +54,13 @@ export function CurrencySelector() {
       </PopoverTrigger>
       <PopoverContent className="w-[120px] p-0">
         <Command>
-          <CommandInput placeholder="Rechercher..." />
           <CommandEmpty>Aucune devise trouvée.</CommandEmpty>
           <CommandGroup>
             {currencyOptions.map((currency) => (
               <CommandItem
                 key={currency.value}
                 value={currency.value}
-                onSelect={handleSelect}
+                onSelect={() => handleSelect(currency.value)}
               >
                 <Check
                   className={cn(
