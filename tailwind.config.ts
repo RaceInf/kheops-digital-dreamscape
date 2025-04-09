@@ -18,6 +18,15 @@ export default {
 				'2xl': '1400px'
 			}
 		},
+		screens: {
+      // Breakpoints personnalisés
+      'xs': '320px',    // Mobile small
+      'sm': '481px',    // Mobile large / Tablet small
+      'md': '769px',    // Tablet large / Desktop small
+      'lg': '1025px',   // Desktop medium
+      'xl': '1281px',   // Desktop large
+      '2xl': '1537px',  // Desktop extra large
+    },
 		extend: {
 			colors: {
 				border: 'hsl(var(--border))',
@@ -63,12 +72,14 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				// KHEOPS custom colors
+				// Palette de couleurs KHEOPS
 				kheops: {
-					gold: '#EDC070',
-					salmon: '#EB7E78',
-					lightGray: '#F5F5F5',
-					gray: '#EAEAEA'
+					gold: '#EDC070',    // Primaire - Or/Jaune
+					salmon: '#EB7E78',  // Secondaire - Saumon/Rose
+					teal: '#2A9D8F',    // Accent 1 - Turquoise
+					blue: '#264653',     // Accent 2 - Bleu foncé
+					lightGray: '#F5F5F5', // Fond clair
+					gray: '#EAEAEA'       // Fond alternatif
 				}
 			},
 			fontFamily: {
@@ -79,6 +90,14 @@ export default {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)'
+			},
+			aspectRatio: {
+				'4/3': '4 / 3',
+				'16/9': '16 / 9',
+				'3/2': '3 / 2',
+				'1/1': '1 / 1',
+				'2/3': '2 / 3',
+				'9/16': '9 / 16',
 			},
 			keyframes: {
 				'accordion-down': {
@@ -101,11 +120,27 @@ export default {
 					'0%': { transform: 'translateY(-100%)' },
 					'100%': { transform: 'translateY(0)' }
 				},
+				'slide-up': {
+					'0%': { transform: 'translateY(100%)' },
+					'100%': { transform: 'translateY(0)' }
+				},
+				'slide-in-right': {
+					'0%': { transform: 'translateX(100%)' },
+					'100%': { transform: 'translateX(0)' }
+				},
+				'zoom-in': {
+					'0%': { transform: 'scale(0.95)', opacity: '0' },
+					'100%': { transform: 'scale(1)', opacity: '1' }
+				},
 				'gradient-animation': {
 					'0%': { backgroundPosition: '0% 50%' },
 					'50%': { backgroundPosition: '100% 50%' },
 					'100%': { backgroundPosition: '0% 50%' }
-				}
+				},
+				ripple: {
+          '0%': { transform: 'scale(0)', opacity: '1' },
+          '100%': { transform: 'scale(4)', opacity: '0' }
+        }
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
@@ -113,9 +148,24 @@ export default {
 				'fade-in': 'fade-in 0.6s ease-out',
 				'slide-in': 'slide-in 0.5s ease-out',
 				'slide-down': 'slide-down 0.5s ease-out',
-				'gradient-animation': 'gradient-animation 6s ease infinite'
+				'slide-up': 'slide-up 0.5s ease-out',
+				'slide-in-right': 'slide-in-right 0.5s ease-out',
+				'zoom-in': 'zoom-in 0.3s ease-out',
+				'gradient-animation': 'gradient-animation 6s ease infinite',
+				'ripple': 'ripple 1s linear'
 			}
 		}
 	},
-	plugins: [require("tailwindcss-animate")],
+	plugins: [
+	  require("tailwindcss-animate"),
+	  // Ajouter plugin pour les aspects ratio
+	  function({ addComponents }) {
+      addComponents({
+        '.aspect-w-1': { paddingBottom: '100%' },
+        '.aspect-w-16': { paddingBottom: 'calc(9 / 16 * 100%)' },
+        '.aspect-w-3': { paddingBottom: 'calc(2 / 3 * 100%)' },
+        '.aspect-w-4': { paddingBottom: 'calc(3 / 4 * 100%)' },
+      })
+    }
+	],
 } satisfies Config;
