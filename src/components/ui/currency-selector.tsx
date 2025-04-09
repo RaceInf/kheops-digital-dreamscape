@@ -1,23 +1,15 @@
 
 import React, { useState, useEffect } from 'react';
-import { Check, ChevronsUpDown } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandItem,
-} from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { getCurrentCurrency, setCurrentCurrency, currencies } from '@/lib/currencyUtils';
 
 export function CurrencySelector() {
-  const [open, setOpen] = useState(false);
   const [value, setValue] = useState(getCurrentCurrency());
 
   useEffect(() => {
@@ -25,56 +17,26 @@ export function CurrencySelector() {
     setValue(getCurrentCurrency());
   }, []);
 
-  const currencyOptions = Object.keys(currencies).map(code => ({
-    value: code,
-    label: `${code} (${currencies[code].symbol})`,
-  }));
-
-  const handleSelect = (currentValue: string) => {
-    setValue(currentValue);
-    setCurrentCurrency(currentValue);
-    setOpen(false);
+  const handleValueChange = (newValue: string) => {
+    setValue(newValue);
+    setCurrentCurrency(newValue);
     
     // Force refresh components that depend on currency
     window.dispatchEvent(new Event('currency-changed'));
   };
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          className="w-[120px] justify-between"
-        >
-          <span className="truncate">{value || "EUR"}</span>
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-[120px] p-0">
-        <Command className="bg-white">
-          <CommandEmpty>Aucune devise trouvée.</CommandEmpty>
-          <CommandGroup>
-            {currencyOptions.map((currency) => (
-              <CommandItem
-                key={currency.value}
-                value={currency.value}
-                onSelect={() => handleSelect(currency.value)}
-                className="cursor-pointer"
-              >
-                <Check
-                  className={cn(
-                    "mr-2 h-4 w-4",
-                    value === currency.value ? "opacity-100" : "opacity-0"
-                  )}
-                />
-                {currency.label}
-              </CommandItem>
-            ))}
-          </CommandGroup>
-        </Command>
-      </PopoverContent>
-    </Popover>
+    <Select value={value} onValueChange={handleValueChange}>
+      <SelectTrigger className="w-[100px] bg-white">
+        <SelectValue placeholder="Devise" />
+      </SelectTrigger>
+      <SelectContent>
+        {Object.keys(currencies).map((code) => (
+          <SelectItem key={code} value={code}>
+            {code} ({currencies[code].symbol})
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
   );
 }
