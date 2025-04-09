@@ -13,9 +13,6 @@ const Index = () => {
   useEffect(() => {
     // Set page title
     document.title = "KHEOPS SET DIGITAL - Agence de Communication Digitale";
-    
-    // Scroll to top on page load
-    window.scrollTo(0, 0);
   }, []);
 
   return (
