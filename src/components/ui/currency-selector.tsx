@@ -53,7 +53,7 @@ export function CurrencySelector() {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[120px] p-0">
-        <Command>
+        <Command className="bg-white">
           <CommandEmpty>Aucune devise trouvée.</CommandEmpty>
           <CommandGroup>
             {currencyOptions.map((currency) => (
@@ -61,6 +61,7 @@ export function CurrencySelector() {
                 key={currency.value}
                 value={currency.value}
                 onSelect={() => handleSelect(currency.value)}
+                className="cursor-pointer"
               >
                 <Check
                   className={cn(
