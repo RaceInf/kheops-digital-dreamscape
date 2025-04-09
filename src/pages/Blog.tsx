@@ -1,345 +1,437 @@
 
-import { useState, useEffect, useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
-import { Search, Calendar, Clock, Filter } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import Navbar from '@/components/layout/Navbar';
-import Footer from '@/components/layout/Footer';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { blogPosts } from '@/data/blogPosts';
-import { formatDate } from '@/lib/utils';
-import { Helmet } from 'react-helmet';
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { formatDate } from "@/lib/utils";
+import { blogPosts } from "@/data/blogPosts";
+import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Search, Mail, ChevronRight, Clock, Tag } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { useToast } from "@/components/ui/use-toast";
+
+const POSTS_PER_PAGE = 6; // Reduced for better readability
+
+// Form schema for newsletter
+const newsletterSchema = z.object({
+  email: z.string().email({ message: "Veuillez entrer une adresse email valide." }),
+});
 
 const Blog = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filteredPosts, setFilteredPosts] = useState(blogPosts);
-  const [activeCategory, setActiveCategory] = useState('Tous');
-  const [isSearchFocused, setIsSearchFocused] = useState(false);
-  const heroRef = useRef(null);
-  const isHeroInView = useInView(heroRef, { once: true });
-
-  // Extract unique categories
-  const categories = ['Tous', ...Array.from(new Set(blogPosts.map(post => post.category)))];
-
-  useEffect(() => {
-    // Filter posts based on search term and active category
-    const result = blogPosts.filter(post => {
-      const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                           post.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesCategory = activeCategory === 'Tous' || post.category === activeCategory;
-      
-      return matchesSearch && matchesCategory;
+  const [currentPage, setCurrentPage] = useState(1);
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const { toast } = useToast();
+  
+  // Get unique categories
+  const categories = Array.from(new Set(blogPosts.map(post => post.category)));
+  
+  // Filter posts by category if needed
+  const filteredPosts = activeCategory 
+    ? blogPosts.filter(post => post.category === activeCategory)
+    : blogPosts;
+    
+  const totalPages = Math.ceil(filteredPosts.length / POSTS_PER_PAGE);
+  
+  // Get current posts
+  const indexOfLastPost = currentPage * POSTS_PER_PAGE;
+  const indexOfFirstPost = indexOfLastPost - POSTS_PER_PAGE;
+  const currentPosts = filteredPosts.slice(indexOfFirstPost, indexOfLastPost);
+  
+  // Get popular posts (using most recent for demo)
+  const popularPosts = [...blogPosts]
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .slice(0, 3);
+  
+  // Newsletter form
+  const form = useForm<z.infer<typeof newsletterSchema>>({
+    resolver: zodResolver(newsletterSchema),
+    defaultValues: {
+      email: "",
+    },
+  });
+  
+  const onSubmitNewsletter = (values: z.infer<typeof newsletterSchema>) => {
+    console.log("Newsletter subscription:", values.email);
+    // In a real application, you would send this to your backend
+    
+    toast({
+      title: "Inscription réussie!",
+      description: `Vous êtes inscrit à notre newsletter avec l'email: ${values.email}`,
+      duration: 5000,
     });
     
-    setFilteredPosts(result);
-    
-    // Set page title and scroll to top
-    document.title = "Blog - Actualités sur la communication digitale | KHEOPS SET DIGITAL";
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [searchTerm, activeCategory]);
-
-  // Animation variants
-  const fadeIn = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6 }
-    }
+    form.reset();
   };
   
-  const staggerContainer = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.3
-      }
+  useEffect(() => {
+    // Set page title
+    document.title = "Blog | KHEOPS SET DIGITAL";
+    // Scroll to top on page load
+    window.scrollTo(0, 0);
+  }, []);
+  
+  useEffect(() => {
+    // Scroll to top when page changes
+    window.scrollTo(0, 0);
+    // Reset to page 1 when category changes
+    if (activeCategory) {
+      setCurrentPage(1);
     }
-  };
+  }, [currentPage, activeCategory]);
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Search is already handled by the useEffect
+  // Change page
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+  
+  // Generate page numbers for pagination
+  const getPageNumbers = () => {
+    let pages = [];
+    
+    if (totalPages <= 5) {
+      // If total pages is less than or equal to 5, show all pages
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      // Always show first page
+      pages.push(1);
+      
+      // Calculate start and end of page range around current page
+      let startPage = Math.max(2, currentPage - 1);
+      let endPage = Math.min(totalPages - 1, currentPage + 1);
+      
+      // Add ellipsis if there's a gap after page 1
+      if (startPage > 2) {
+        pages.push("ellipsis1");
+      }
+      
+      // Add pages in range
+      for (let i = startPage; i <= endPage; i++) {
+        pages.push(i);
+      }
+      
+      // Add ellipsis if there's a gap before last page
+      if (endPage < totalPages - 1) {
+        pages.push("ellipsis2");
+      }
+      
+      // Always show last page
+      pages.push(totalPages);
+    }
+    
+    return pages;
   };
 
   return (
-    <>
-      <Helmet>
-        <title>Blog - Actualités et conseils en communication digitale | KHEOPS SET DIGITAL</title>
-        <meta name="description" content="Découvrez les dernières actualités et conseils en communication digitale, marketing et technologie sur le blog de KHEOPS SET DIGITAL." />
-        <meta name="keywords" content="blog, marketing digital, communication digitale, SEO, conseils digitaux, réseaux sociaux, Cameroun" />
-        <meta property="og:title" content="Blog - Actualités et conseils en communication digitale" />
-        <meta property="og:description" content="Découvrez les dernières actualités et conseils en communication digitale, marketing et technologie sur le blog de KHEOPS SET DIGITAL." />
-        <meta property="og:type" content="article" />
-        <meta property="og:url" content="https://kheops-set.com/blog" />
-        <meta property="og:image" content="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&q=80&w=1200" />
-      </Helmet>
+    <main className="min-h-screen w-full bg-white">
+      <Navbar />
       
-      <div className="min-h-screen flex flex-col">
-        <Navbar />
-        
-        {/* Hero Section */}
-        <section 
-          ref={heroRef}
-          className="pt-32 pb-16 md:pt-40 md:pb-24 bg-gradient-to-b from-kheops-lightGray to-white relative overflow-hidden"
+      <div className="pt-32 pb-20">
+        {/* Hero section */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          className="bg-gradient-to-r from-kheops-gold/10 to-kheops-salmon/10 py-16 mb-12"
         >
-          <div className="absolute inset-0 overflow-hidden z-0">
-            <div className="absolute top-0 -left-20 right-0 h-96 bg-kheops-gold/5 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-0 right-0 left-1/2 h-64 bg-kheops-salmon/5 rounded-full blur-3xl"></div>
+          <div className="container-custom">
+            <div className="text-center max-w-3xl mx-auto">
+              <h1 className="text-4xl md:text-5xl font-bold mb-4">
+                Notre <span className="text-kheops-salmon">Blog</span>
+              </h1>
+              <p className="text-gray-600 text-lg">
+                Découvrez nos dernières actualités, conseils et analyses sur le marketing digital, 
+                l'innovation technologique et les tendances du marché.
+              </p>
+              
+              <div className="mt-8 relative max-w-lg mx-auto">
+                <Input 
+                  type="text" 
+                  placeholder="Rechercher un article..." 
+                  className="pr-10 h-12 rounded-full bg-white shadow-sm" 
+                />
+                <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+              </div>
+            </div>
           </div>
-          
-          <div className="container mx-auto px-4 relative z-10">
-            <motion.div
-              initial="hidden"
-              animate={isHeroInView ? "visible" : "hidden"}
-              variants={fadeIn}
-              className="max-w-4xl mx-auto text-center"
-            >
-              <motion.h1 
-                className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight"
-                variants={fadeIn}
-              >
-                Notre <span className="text-gradient">Blog</span>
-              </motion.h1>
-              
-              <motion.div
-                variants={fadeIn}
-                className="w-24 h-1 bg-gradient-to-r from-kheops-gold to-kheops-salmon mx-auto rounded-full mb-6"
-              ></motion.div>
-              
-              <motion.p 
-                className="text-xl text-gray-600 mb-10"
-                variants={fadeIn}
-              >
-                Actualités, conseils et tendances en communication digitale<br className="hidden md:block" /> au Cameroun et en Afrique
-              </motion.p>
-              
-              {/* Search Form */}
-              <motion.form 
-                onSubmit={handleSearch}
-                className="relative max-w-xl mx-auto"
-                variants={fadeIn}
-              >
-                <div className={`relative transition-all duration-300 ${isSearchFocused ? 'transform scale-105' : ''}`}>
-                  <Input
-                    type="text"
-                    placeholder="Rechercher un article..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    onFocus={() => setIsSearchFocused(true)}
-                    onBlur={() => setIsSearchFocused(false)}
-                    className={`pl-12 pr-4 py-7 rounded-full bg-white border-0 focus:ring-kheops-gold focus:border-kheops-gold shadow-lg transition-all ${isSearchFocused ? 'shadow-xl' : ''}`}
-                  />
-                  <div className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-kheops-gold to-kheops-salmon rounded-full p-2">
-                    <Search className="text-white" size={18} />
-                  </div>
-                </div>
-              </motion.form>
-            </motion.div>
-          </div>
-        </section>
+        </motion.div>
         
-        {/* Blog Content */}
-        <section className="py-16 md:py-24 flex-grow">
-          <div className="container mx-auto px-4">
-            {/* Categories Filter */}
-            <motion.div 
-              className="mb-10 overflow-x-auto scrollbar-hide"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-            >
-              <div className="flex space-x-2 pb-2">
-                {categories.map((category, index) => (
+        <div className="container-custom">
+          <div className="flex flex-col lg:flex-row gap-8">
+            {/* Main content */}
+            <div className="w-full lg:w-2/3">
+              {/* Category filters - horizontal scrollable on mobile */}
+              <div className="flex flex-nowrap overflow-x-auto lg:flex-wrap pb-4 mb-8 gap-2 scrollbar-none">
+                <Button 
+                  variant={activeCategory === null ? "default" : "outline"}
+                  className={`rounded-full whitespace-nowrap ${activeCategory === null ? 'bg-kheops-salmon text-white hover:bg-kheops-salmon/90' : ''}`}
+                  onClick={() => setActiveCategory(null)}
+                >
+                  Tous les articles
+                </Button>
+                
+                {categories.map((category) => (
                   <Button
-                    key={index}
+                    key={category}
                     variant={activeCategory === category ? "default" : "outline"}
+                    className={`rounded-full whitespace-nowrap ${activeCategory === category ? 'bg-kheops-salmon text-white hover:bg-kheops-salmon/90' : ''}`}
                     onClick={() => setActiveCategory(category)}
-                    className={`whitespace-nowrap ${
-                      activeCategory === category
-                        ? "bg-kheops-gold hover:bg-kheops-salmon"
-                        : "hover:text-kheops-gold hover:border-kheops-gold"
-                    }`}
                   >
                     {category}
                   </Button>
                 ))}
               </div>
-            </motion.div>
-
-            {/* Results info */}
-            <div className="flex flex-wrap justify-between items-center mb-8">
-              <motion.div 
-                className="text-gray-600" 
-                initial={{ opacity: 0 }} 
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.4 }}
-              >
-                <span className="font-medium">{filteredPosts.length}</span> articles trouvés
-              </motion.div>
-              <motion.div 
-                className="flex items-center flex-wrap gap-2 mt-2 sm:mt-0" 
-                initial={{ opacity: 0 }} 
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.4 }}
-              >
-                <Filter size={16} className="text-gray-500" />
-                <span className="text-gray-600 text-sm">Filtres:</span>
-                <Badge variant="outline" className="bg-white">
-                  {activeCategory}
-                </Badge>
-                {searchTerm && (
-                  <Badge variant="outline" className="bg-white">
-                    "{searchTerm}"
-                  </Badge>
-                )}
-              </motion.div>
-            </div>
-
-            {/* Blog Posts Grid */}
-            {filteredPosts.length > 0 ? (
-              <motion.div 
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
-                variants={staggerContainer}
-                initial="hidden"
-                animate="visible"
-              >
-                {filteredPosts.map((post) => (
-                  <motion.article 
-                    key={post.id} 
-                    className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col h-full border border-gray-100"
-                    variants={fadeIn}
-                    whileHover={{ y: -5, transition: { duration: 0.2 } }}
+              
+              {/* Blog posts grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                {currentPosts.map((post) => (
+                  <motion.div
+                    key={post.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                    whileHover={{ y: -5 }}
+                    className="h-full"
                   >
-                    <Link to={`/blog/${post.id}`} className="block overflow-hidden">
-                      <div className="aspect-[16/9] overflow-hidden">
+                    <Card className="h-full flex flex-col overflow-hidden hover:shadow-lg transition-all duration-300 border-none shadow">
+                      <Link to={`/blog/${post.id}`} className="block relative h-48 w-full overflow-hidden">
                         <img 
                           src={post.image} 
-                          alt={post.title} 
-                          className="w-full h-full object-cover transition-transform duration-500 hover:scale-105" 
-                          loading="lazy"
+                          alt={post.title}
+                          className="object-cover w-full h-full transition-transform duration-500 hover:scale-105"
                         />
-                      </div>
-                    </Link>
-                    <div className="p-6 flex flex-col flex-grow">
-                      <div className="flex justify-between items-center mb-3">
-                        <span className="inline-block px-3 py-1 text-xs font-semibold bg-kheops-gold/10 text-kheops-gold rounded-full">
+                        <div className="absolute top-3 left-3 bg-kheops-gold/90 text-white text-xs px-3 py-1 rounded-full">
                           {post.category}
-                        </span>
-                        <div className="text-gray-500 text-sm flex items-center">
-                          <Calendar size={14} className="mr-1" /> 
-                          {formatDate(post.date)}
                         </div>
-                      </div>
-                      <Link to={`/blog/${post.id}`} className="group block mb-3">
-                        <h3 className="text-xl font-bold leading-tight group-hover:text-kheops-gold transition-colors line-clamp-2">
-                          {post.title}
-                        </h3>
                       </Link>
-                      <p className="text-gray-600 mb-4 line-clamp-3 flex-grow">
-                        {post.excerpt}
-                      </p>
-                      <div className="flex justify-between items-center mt-auto pt-4 border-t border-gray-100">
-                        <div className="flex items-center">
-                          <span className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-semibold mr-2">
-                            {typeof post.author === 'string' 
-                              ? post.author.charAt(0).toUpperCase() 
-                              : 'A'
-                            }
-                          </span>
-                          <span className="text-sm font-medium">{typeof post.author === 'string' ? post.author : 'Auteur'}</span>
+                      
+                      <CardHeader className="pb-2">
+                        <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
+                          <Clock size={14} />
+                          <span>{formatDate(post.date)}</span>
                         </div>
-                        <div className="flex items-center text-gray-500 text-sm">
-                          <Clock size={14} className="mr-1" />
-                          <span>5 min</span>
+                        <CardTitle className="text-xl mb-2 line-clamp-2 hover:text-kheops-salmon transition-colors">
+                          <Link to={`/blog/${post.id}`}>
+                            {post.title}
+                          </Link>
+                        </CardTitle>
+                        <CardDescription className="line-clamp-3">
+                          {post.excerpt}
+                        </CardDescription>
+                      </CardHeader>
+                      
+                      <CardFooter className="pt-2 mt-auto flex justify-between items-center">
+                        <div className="text-sm text-gray-600 italic">
+                          Par <span className="font-medium">{post.author}</span>
                         </div>
-                      </div>
-                    </div>
-                  </motion.article>
+                        <Link
+                          to={`/blog/${post.id}`}
+                          className="text-sm font-medium text-kheops-salmon hover:underline flex items-center"
+                        >
+                          Lire la suite
+                          <ChevronRight size={16} className="ml-1" />
+                        </Link>
+                      </CardFooter>
+                    </Card>
+                  </motion.div>
                 ))}
-              </motion.div>
-            ) : (
-              <motion.div 
-                className="text-center py-16"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5 }}
-              >
-                <div className="text-6xl mb-6">🔍</div>
-                <h3 className="text-2xl font-bold mb-2">Aucun article trouvé</h3>
-                <p className="text-gray-600 mb-8">Essayez de modifier vos critères de recherche ou de revenir à tous les articles.</p>
-                <Button
-                  onClick={() => {setSearchTerm(''); setActiveCategory('Tous');}}
-                  className="bg-kheops-gold hover:bg-kheops-salmon"
-                >
-                  Voir tous les articles
-                </Button>
-              </motion.div>
-            )}
-
-            {/* Pagination placeholder for future implementation */}
-            {filteredPosts.length > 9 && (
-              <div className="flex justify-center mt-12">
-                <div className="flex space-x-2">
-                  <Button variant="outline" size="sm" disabled>Précédent</Button>
-                  <Button variant="default" size="sm" className="bg-kheops-gold hover:bg-kheops-salmon">1</Button>
-                  <Button variant="outline" size="sm">2</Button>
-                  <Button variant="outline" size="sm">3</Button>
-                  <Button variant="outline" size="sm">Suivant</Button>
+              </div>
+              
+              {/* Empty state when no posts */}
+              {currentPosts.length === 0 && (
+                <div className="text-center py-12 bg-gray-50 rounded-lg">
+                  <h3 className="text-xl font-medium text-gray-600">Aucun article trouvé</h3>
+                  <p className="text-gray-500 mt-2">
+                    Aucun article n'a été trouvé pour cette catégorie.
+                  </p>
+                  <Button 
+                    variant="outline" 
+                    className="mt-4"
+                    onClick={() => setActiveCategory(null)}
+                  >
+                    Voir tous les articles
+                  </Button>
+                </div>
+              )}
+              
+              {/* Pagination */}
+              {totalPages > 1 && (
+                <Pagination className="mt-8">
+                  <PaginationContent>
+                    {currentPage > 1 && (
+                      <PaginationItem>
+                        <PaginationPrevious 
+                          onClick={() => paginate(currentPage - 1)}
+                          className="cursor-pointer"
+                        />
+                      </PaginationItem>
+                    )}
+                    
+                    {getPageNumbers().map((page, index) => (
+                      typeof page === "number" ? (
+                        <PaginationItem key={index}>
+                          <PaginationLink
+                            isActive={page === currentPage}
+                            onClick={() => paginate(page)}
+                            className={`cursor-pointer ${page === currentPage ? 'bg-kheops-salmon text-white hover:bg-kheops-salmon/90' : ''}`}
+                          >
+                            {page}
+                          </PaginationLink>
+                        </PaginationItem>
+                      ) : (
+                        <PaginationItem key={page}>
+                          <PaginationEllipsis />
+                        </PaginationItem>
+                      )
+                    ))}
+                    
+                    {currentPage < totalPages && (
+                      <PaginationItem>
+                        <PaginationNext 
+                          onClick={() => paginate(currentPage + 1)}
+                          className="cursor-pointer"
+                        />
+                      </PaginationItem>
+                    )}
+                  </PaginationContent>
+                </Pagination>
+              )}
+            </div>
+            
+            {/* Sidebar */}
+            <div className="w-full lg:w-1/3 space-y-8">
+              {/* About section */}
+              <div className="bg-gray-50 p-6 rounded-lg">
+                <h3 className="text-xl font-bold mb-3">À propos</h3>
+                <p className="text-gray-600 mb-4">
+                  Bienvenue sur le blog de KHEOPS SET DIGITAL, votre source d'informations 
+                  sur le marketing digital, l'innovation et les tendances du marché.
+                </p>
+                <Link to="/about" className="text-kheops-salmon hover:underline flex items-center">
+                  En savoir plus
+                  <ChevronRight size={16} className="ml-1" />
+                </Link>
+              </div>
+              
+              {/* Categories section */}
+              <div className="bg-white p-6 rounded-lg border border-gray-100 shadow-sm">
+                <h3 className="text-xl font-bold mb-4">Catégories</h3>
+                <div className="space-y-2">
+                  {categories.map((category) => (
+                    <div 
+                      key={category}
+                      className="flex justify-between items-center py-2 hover:bg-gray-50 px-2 rounded cursor-pointer transition-colors"
+                      onClick={() => setActiveCategory(category)}
+                    >
+                      <div className="flex items-center">
+                        <Tag size={16} className="text-kheops-gold mr-2" />
+                        <span className={activeCategory === category ? "font-medium text-kheops-salmon" : ""}>{category}</span>
+                      </div>
+                      <span className="text-sm bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
+                        {blogPosts.filter(post => post.category === category).length}
+                      </span>
+                    </div>
+                  ))}
                 </div>
               </div>
-            )}
-          </div>
-        </section>
-
-        {/* Newsletter */}
-        <section className="py-16 bg-kheops-lightGray">
-          <motion.div 
-            className="container mx-auto px-4"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true, amount: 0.3 }}
-          >
-            <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12 max-w-4xl mx-auto">
-              <div className="grid md:grid-cols-2 gap-8 items-center">
-                <div>
-                  <h3 className="text-2xl md:text-3xl font-bold mb-4">Restez informé</h3>
-                  <p className="text-gray-600 mb-6">
-                    Inscrivez-vous à notre newsletter pour recevoir nos derniers articles et conseils en communication digitale.
-                  </p>
-                  <form className="flex flex-col sm:flex-row gap-3">
-                    <Input
-                      type="email"
-                      placeholder="Votre email"
-                      className="flex-grow"
-                      required
+              
+              {/* Popular posts */}
+              <div className="bg-white p-6 rounded-lg border border-gray-100 shadow-sm">
+                <h3 className="text-xl font-bold mb-4">Articles populaires</h3>
+                <div className="space-y-4">
+                  {popularPosts.map((post) => (
+                    <div key={post.id} className="flex gap-4 group">
+                      <Link to={`/blog/${post.id}`} className="shrink-0 w-20 h-20 overflow-hidden rounded">
+                        <img 
+                          src={post.image} 
+                          alt={post.title}
+                          className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
+                        />
+                      </Link>
+                      <div className="flex flex-col">
+                        <Link 
+                          to={`/blog/${post.id}`}
+                          className="font-medium line-clamp-2 group-hover:text-kheops-salmon transition-colors"
+                        >
+                          {post.title}
+                        </Link>
+                        <span className="text-xs text-gray-500 mt-1">{formatDate(post.date)}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              
+              {/* Newsletter signup */}
+              <div className="bg-gradient-to-r from-kheops-gold/20 to-kheops-salmon/20 p-6 rounded-lg">
+                <div className="flex items-center gap-3 mb-4">
+                  <Mail size={24} className="text-kheops-salmon" />
+                  <h3 className="text-xl font-bold">Newsletter</h3>
+                </div>
+                <p className="text-gray-700 mb-4">
+                  Recevez nos derniers articles et conseils directement dans votre boîte mail.
+                </p>
+                
+                <Form {...form}>
+                  <form onSubmit={form.handleSubmit(onSubmitNewsletter)} className="space-y-4">
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input
+                              placeholder="Votre adresse email"
+                              className="bg-white"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
-                    <Button className="bg-kheops-gold hover:bg-kheops-salmon whitespace-nowrap">
+                    <Button 
+                      type="submit" 
+                      className="w-full bg-kheops-salmon hover:bg-kheops-salmon/90 text-white"
+                    >
                       S'inscrire
                     </Button>
                   </form>
-                </div>
-                <div className="hidden md:block text-center">
-                  <img 
-                    src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&q=80&w=400" 
-                    alt="Newsletter" 
-                    className="mx-auto w-full max-w-xs rounded-lg shadow-md" 
-                    loading="lazy"
-                  />
+                </Form>
+                <p className="text-xs text-gray-500 mt-3">
+                  En vous inscrivant, vous acceptez notre politique de confidentialité.
+                </p>
+              </div>
+              
+              {/* Tags cloud */}
+              <div className="bg-white p-6 rounded-lg border border-gray-100 shadow-sm">
+                <h3 className="text-xl font-bold mb-4">Tags populaires</h3>
+                <div className="flex flex-wrap gap-2">
+                  {["Marketing", "SEO", "Digital", "E-commerce", "Réseaux sociaux", "Stratégie", 
+                    "Innovation", "Web", "Design", "UX", "Tendances"].map((tag) => (
+                    <span 
+                      key={tag} 
+                      className="bg-gray-100 hover:bg-kheops-gold/10 hover:text-kheops-gold px-3 py-1 rounded-full text-sm cursor-pointer transition-colors"
+                    >
+                      {tag}
+                    </span>
+                  ))}
                 </div>
               </div>
             </div>
-          </motion.div>
-        </section>
-        
-        <Footer />
+          </div>
+        </div>
       </div>
-    </>
+      
+      <Footer />
+    </main>
   );
 };
 

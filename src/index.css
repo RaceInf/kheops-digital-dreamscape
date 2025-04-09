@@ -68,20 +68,14 @@
     --ring: 217.2 32.6% 17.5%;
   }
 }
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap');
  
 @layer base {
   * {
-    @apply border-border scroll-smooth;
+    @apply border-border;
   }
   body {
-    @apply bg-background text-foreground font-['Open_Sans'] antialiased;
+    @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
-  }
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-poppins;
   }
   h1 {
     @apply text-4xl md:text-5xl lg:text-6xl font-bold;
@@ -93,20 +87,14 @@
     @apply text-2xl font-bold;
   }
   .section-padding {
-    @apply py-16 md:py-24 lg:py-32;
+    @apply py-16 md:py-24;
   }
   .container-custom {
-    @apply container mx-auto px-4 md:px-6 max-w-7xl;
-  }
-
-  /* Background pattern for design elements */
-  .bg-pattern {
-    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.2'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    @apply container mx-auto px-4 max-w-7xl;
   }
 }
 
 @layer utilities {
-  /* Custom colors */
   .text-kheops-gold {
     color: #EDC070;
   }
@@ -146,11 +134,6 @@
   }
   .hover\:text-kheops-salmon:hover {
     color: #EB7E78;
-  }
-  
-  /* Glass effect */
-  .glass {
-    @apply bg-white/80 backdrop-blur-sm border border-white/20 shadow-sm;
   }
   
   /* Animation utilities */
@@ -234,20 +217,5 @@
     );
     background-size: 400% 100%;
     animation: skeleton-loading 1.4s ease infinite;
-  }
-  
-  /* Hide scrollbar but allow scrolling */
-  .scrollbar-hide {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-  }
-  
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera */
-  }
-  
-  /* Text gradient */
-  .text-gradient {
-    @apply bg-gradient-to-r from-kheops-gold to-kheops-salmon bg-clip-text text-transparent;
   }
 }
