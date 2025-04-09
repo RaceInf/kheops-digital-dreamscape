@@ -201,7 +201,7 @@ const Blog = () => {
                     <Link to={`/blog/${post.id}`} className="block overflow-hidden">
                       <div className="aspect-[16/9] overflow-hidden">
                         <img 
-                          src={post.image} 
+                          src={post.coverImage} 
                           alt={post.title} 
                           className="w-full h-full object-cover transition-transform duration-300 hover:scale-105" 
                         />
@@ -228,15 +228,15 @@ const Blog = () => {
                       <div className="flex justify-between items-center mt-auto pt-4 border-t border-gray-100">
                         <div className="flex items-center">
                           <img 
-                            src="https://images.unsplash.com/photo-1645378999013-95abebf5f3c1?auto=format&fit=crop&q=80&w=100" 
-                            alt={post.author} 
+                            src={post.author.avatar || "https://images.unsplash.com/photo-1645378999013-95abebf5f3c1?auto=format&fit=crop&q=80&w=100"} 
+                            alt={post.author.name} 
                             className="w-8 h-8 rounded-full object-cover mr-2" 
                           />
-                          <span className="text-sm font-medium">{post.author}</span>
+                          <span className="text-sm font-medium">{post.author.name}</span>
                         </div>
                         <div className="flex items-center text-gray-500 text-sm">
                           <Clock size={14} className="mr-1" />
-                          <span>5 min</span>
+                          <span>{post.readingTime}</span>
                         </div>
                       </div>
                     </div>
