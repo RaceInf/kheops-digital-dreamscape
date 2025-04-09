@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { CurrencySelector } from '@/components/ui/currency-selector';
+import { motion } from 'framer-motion';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -35,10 +37,13 @@ const Navbar = () => {
   ];
 
   return (
-    <nav 
+    <motion.nav 
       className={`fixed w-full z-50 transition-all duration-300 ${
-        scrolled ? 'bg-white shadow-md py-3' : 'bg-transparent py-5'
+        scrolled ? 'bg-white/95 backdrop-blur-sm shadow-md py-3' : 'bg-transparent py-5'
       }`}
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
     >
       <div className="container-custom flex justify-between items-center">
         {/* Logo */}
@@ -51,7 +56,7 @@ const Navbar = () => {
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center space-x-8">
+        <div className="hidden md:flex items-center space-x-6">
           {navLinks.map((link, index) => (
             <Link
               key={index}
@@ -61,15 +66,24 @@ const Navbar = () => {
               {link.name}
             </Link>
           ))}
-          <Button className="bg-kheops-gold hover:bg-kheops-salmon text-white transition-colors duration-300">
+          
+          {/* Currency Selector */}
+          <div className="mx-2">
+            <CurrencySelector />
+          </div>
+          
+          <Button className="bg-gradient-to-r from-kheops-gold to-kheops-salmon hover:from-kheops-salmon hover:to-kheops-gold text-white shadow-md hover:shadow-lg transition-all duration-300">
             Demander un devis
           </Button>
         </div>
 
         {/* Mobile Navigation Toggle */}
-        <button className="md:hidden" onClick={toggleMenu}>
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        <div className="flex items-center space-x-4 md:hidden">
+          <CurrencySelector />
+          <button className="p-2" onClick={toggleMenu}>
+            {isOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
 
         {/* Mobile Navigation Menu */}
         <div 
@@ -98,14 +112,14 @@ const Navbar = () => {
                   {link.name}
                 </Link>
               ))}
-              <Button className="mt-4 bg-kheops-gold hover:bg-kheops-salmon text-white transition-colors duration-300">
+              <Button className="mt-4 bg-gradient-to-r from-kheops-gold to-kheops-salmon hover:from-kheops-salmon hover:to-kheops-gold text-white transition-colors duration-300">
                 Demander un devis
               </Button>
             </div>
           </div>
         </div>
       </div>
-    </nav>
+    </motion.nav>
   );
 };
 

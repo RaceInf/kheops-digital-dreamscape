@@ -51,7 +51,7 @@ const HeroSection = () => {
       style={{ paddingTop: '80px' }}
     >
       {/* Background Animation */}
-      <div className="absolute inset-0 z-0 bg-gradient-to-br from-white to-gray-100 animate-gradient-animation">
+      <div className="absolute inset-0 z-0 bg-gradient-to-br from-white via-gray-50 to-white animate-gradient-animation">
         <div className="absolute top-1/4 left-1/5 w-64 h-64 rounded-full bg-kheops-gold opacity-10 parallax" data-speed="-0.2"></div>
         <div className="absolute bottom-1/3 right-1/4 w-80 h-80 rounded-full bg-kheops-salmon opacity-10 parallax" data-speed="0.3"></div>
         <div className="absolute top-1/2 right-1/3 w-40 h-40 rounded-full bg-kheops-gold opacity-5 parallax" data-speed="-0.1"></div>
@@ -76,7 +76,7 @@ const HeroSection = () => {
           className="text-xl md:text-2xl text-gray-700 max-w-3xl mx-auto mb-10"
           variants={fadeIn}
         >
-          Une agence de communication digitale dédiée à propulser votre marque vers de nouveaux sommets
+          Une agence de communication digitale dédiée à propulser votre marque vers de nouveaux sommets au Cameroun et dans le monde
         </motion.p>
         
         <motion.div 
