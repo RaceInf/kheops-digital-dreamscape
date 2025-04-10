@@ -13,8 +13,6 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Shop from "./pages/Shop";
 import EbookDetail from "./pages/EbookDetail";
-import Blog from "./pages/Blog";
-import BlogPost from "./pages/BlogPost";
 import NotFound from "./pages/NotFound";
 import LegalNotice from "./pages/LegalNotice";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
@@ -51,9 +49,6 @@ const App = () => {
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/shop" element={<Shop />} />
                 <Route path="/shop/:id" element={<EbookDetail />} />
-                {/* Blog routes */}
-                <Route path="/blog" element={<Blog />} />
-                <Route path="/blog/:id" element={<BlogPost />} />
                 {/* Legal pages */}
                 <Route path="/mentions-legales" element={<LegalNotice />} />
                 <Route path="/politique-de-confidentialite" element={<PrivacyPolicy />} />

@@ -8,20 +8,26 @@ import { ebooks } from '@/data/ebooks';
 import PriceDisplay from '../shop/PriceDisplay';
 
 const ShopSection = () => {
-  // Afficher uniquement les 3 premiers ebooks pour prévisualisation
-  const featuredEbooks = ebooks.slice(0, 3);
+  // Display only the 2 first ebooks as featured
+  const featuredEbooks = ebooks.slice(0, 2);
 
   return (
     <section className="section-padding bg-kheops-lightGray" id="shop">
       <div className="container-custom">
         <div className="text-center mb-16">
-          <h2 className="mb-4">Notre <span className="text-kheops-gold">Boutique</span></h2>
-          <p className="text-gray-600 max-w-3xl mx-auto text-lg">
-            Découvrez notre sélection d'ebooks et de ressources pour développer vos compétences digitales.
-          </p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <h2 className="mb-4">Notre <span className="text-kheops-gold">Boutique</span></h2>
+            <p className="text-gray-600 max-w-3xl mx-auto text-lg">
+              Découvrez notre sélection d'ebooks et de ressources pour développer vos compétences digitales.
+            </p>
+          </motion.div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {featuredEbooks.map((ebook, index) => (
             <motion.div
               key={ebook.id}
@@ -48,7 +54,6 @@ const ShopSection = () => {
                   <h3 className="text-xl font-bold mb-2">{ebook.title}</h3>
                   <p className="text-gray-600 mb-4 flex-1">{ebook.subtitle}</p>
                   
-                  {/* Price display moved below */}
                   <div className="mb-4">
                     <PriceDisplay 
                       price={ebook.price} 
@@ -72,7 +77,7 @@ const ShopSection = () => {
         <div className="text-center mt-12">
           <Link to="/shop">
             <Button className="bg-kheops-gold hover:bg-kheops-salmon text-white px-8 py-6 rounded-md font-medium transition-all duration-300 text-lg flex items-center">
-              Voir tous nos ebooks
+              Explorer notre boutique
               <ArrowRight className="ml-2" size={18} />
             </Button>
           </Link>
