@@ -10,7 +10,7 @@ import ShopSection from "@/components/home/ShopSection";
 import TestimonialsSection from "@/components/home/TestimonialsSection";
 import NewsletterSection from "@/components/home/NewsletterSection";
 import PortfolioSection from "@/components/home/PortfolioSection";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 const Index = () => {
   return (
