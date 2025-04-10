@@ -17,7 +17,7 @@ const PriceDisplay = ({
   originalPrice, 
   isOnSale = false, 
   showCurrency = true,
-  size = 'md',
+  size = 'lg', // Changed default size to 'lg'
   className = '' 
 }: PriceDisplayProps) => {
   const hasDiscount = isOnSale && originalPrice && originalPrice > price;
@@ -25,12 +25,12 @@ const PriceDisplay = ({
   
   const sizeClasses = {
     sm: 'text-lg',
-    md: 'text-xl',
-    lg: 'text-2xl'
+    md: 'text-2xl', // Increased size
+    lg: 'text-3xl font-bold' // Even larger size with bold
   };
   
   return (
-    <div className={`flex flex-wrap items-center gap-2 ${className}`}>
+    <div className={`flex flex-wrap items-center gap-2 justify-center ${className}`}>
       {hasDiscount ? (
         <>
           <motion.div 
@@ -43,7 +43,7 @@ const PriceDisplay = ({
           </motion.div>
           
           <motion.div 
-            className="text-gray-500 line-through text-sm"
+            className="text-gray-500 line-through text-xl"
             initial={{ opacity: 0, x: -5 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3, delay: 0.1 }}
@@ -52,7 +52,7 @@ const PriceDisplay = ({
           </motion.div>
           
           <motion.div
-            className="ml-2 bg-red-100 text-red-600 px-2 py-0.5 rounded-md text-xs font-medium"
+            className="ml-2 bg-red-100 text-red-600 px-2 py-0.5 rounded-md text-sm font-medium"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3, delay: 0.2 }}

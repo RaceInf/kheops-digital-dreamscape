@@ -1,4 +1,3 @@
-
 import { Link } from 'react-router-dom';
 import { ArrowRight, Book } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -74,7 +73,7 @@ const ShopSection = () => {
           ))}
         </div>
 
-        <div className="text-center mt-12">
+        <div className="text-center mt-12 flex justify-center">
           <Link to="/shop">
             <Button className="bg-kheops-gold hover:bg-kheops-salmon text-white px-8 py-6 rounded-md font-medium transition-all duration-300 text-lg flex items-center">
               Explorer notre boutique
