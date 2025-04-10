@@ -1,12 +1,13 @@
+
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { 
-  Users,        // Community Management
-  Globe,        // Création de Sites Web
-  Palette,      // Identité Visuelle 
-  TrendingUp,   // Stratégie Digitale
-  MessageCircle, // Social Media Marketing
-  Search        // Référencement SEO
+  MessageSquare,   // Community Management
+  Layout,          // Création de Sites Web
+  PenTool,         // Identité Visuelle 
+  Target,          // Stratégie Digitale
+  Share2,          // Social Media Marketing
+  Search           // Référencement SEO
 } from 'lucide-react';
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -52,7 +53,7 @@ const Services = () => {
 
   const services = [
     {
-      icon: <Users size={28} />, // Community Management
+      icon: <MessageSquare size={28} />, // Community Management
       title: "Community Management",
       description: "Stratégies ciblées pour renforcer votre présence sur les réseaux sociaux et engager votre audience de manière authentique.",
       features: [
@@ -64,7 +65,7 @@ const Services = () => {
       id: "community-management"
     },
     {
-      icon: <Globe size={28} />, // Création de Sites Web
+      icon: <Layout size={28} />, // Création de Sites Web
       title: "Création de Sites Web",
       description: "Sites vitrines et e-commerce modernes, responsives et optimisés pour convertir les visiteurs en clients.",
       features: [
@@ -76,7 +77,7 @@ const Services = () => {
       id: "creation-sites-web"
     },
     {
-      icon: <Palette size={28} />, // Identité Visuelle
+      icon: <PenTool size={28} />, // Identité Visuelle
       title: "Identité Visuelle",
       description: "Logos, chartes graphiques et supports visuels qui reflètent l'unicité de votre marque et marquent les esprits.",
       features: [
@@ -88,7 +89,7 @@ const Services = () => {
       id: "identite-visuelle"
     },
     {
-      icon: <TrendingUp size={28} />, // Stratégie Digitale
+      icon: <Target size={28} />, // Stratégie Digitale
       title: "Stratégie Digitale",
       description: "Élaboration de feuilles de route digitales complètes pour atteindre vos objectifs commerciaux.",
       features: [
@@ -100,7 +101,7 @@ const Services = () => {
       id: "strategie-digitale"
     },
     {
-      icon: <MessageCircle size={28} />, // Social Media Marketing
+      icon: <Share2 size={28} />, // Social Media Marketing
       title: "Social Media Marketing",
       description: "Campagnes publicitaires ciblées sur les réseaux sociaux pour augmenter votre visibilité et vos conversions.",
       features: [
