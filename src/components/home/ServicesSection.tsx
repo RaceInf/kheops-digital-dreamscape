@@ -24,20 +24,37 @@ const ServiceCard = ({ id, icon, title, description, expanded, onClick }: Servic
       onClick={onClick}
     >
       <CardHeader className="pb-2">
-        <div 
-          className={`w-16 h-16 flex items-center justify-center rounded-full mb-4 transition-colors duration-300 relative ${
-            expanded ? 'bg-kheops-gold text-white' : 'bg-white text-kheops-gold'
+        <motion.div 
+          className={`w-16 h-16 flex items-center justify-center rounded-full mb-4 relative group ${
+            expanded ? 'scale-110' : ''
           }`}
+          whileHover={{ scale: 1.05 }}
+          transition={{ type: "spring", stiffness: 400, damping: 10 }}
         >
-          {/* Add subtle gradient overlay when expanded */}
-          {expanded && (
-            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-kheops-gold to-kheops-salmon opacity-100"></div>
-          )}
-          {/* Icon with proper z-index to display above gradient */}
-          <div className="relative z-10">
+          {/* Background with gradient */}
+          <div className={`absolute inset-0 rounded-full transition-colors duration-300 ${
+            expanded 
+              ? 'bg-gradient-to-br from-kheops-gold to-kheops-salmon' 
+              : 'bg-kheops-gold bg-opacity-10'
+          }`}></div>
+          
+          {/* Icon with proper z-index */}
+          <div className={`relative z-10 transition-colors duration-300 ${
+            expanded ? 'text-white' : 'text-kheops-gold'
+          }`}>
             {icon}
           </div>
-        </div>
+          
+          {/* Subtle glow effect when expanded */}
+          {expanded && (
+            <div className="absolute inset-0 rounded-full bg-kheops-gold opacity-20 blur-md"></div>
+          )}
+          
+          {/* Ripple effect on hover */}
+          <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100">
+            <span className="absolute inset-0 rounded-full bg-kheops-gold/20 animate-ripple"></span>
+          </div>
+        </motion.div>
         <CardTitle className="text-xl font-bold">{title}</CardTitle>
       </CardHeader>
       <CardContent>

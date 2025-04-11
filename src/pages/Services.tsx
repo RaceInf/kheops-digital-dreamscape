@@ -251,8 +251,13 @@ const Services = () => {
                         {service.icon}
                       </div>
                       
-                      {/* Animated glow effect */}
+                      {/* Animated glow effect on hover */}
                       <div className="absolute inset-0 rounded-full bg-kheops-gold opacity-0 group-hover:opacity-20 blur-md transition-opacity duration-700"></div>
+                      
+                      {/* Ripple effect on hover */}
+                      <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100">
+                        <span className="absolute inset-0 rounded-full bg-kheops-gold/20 animate-ripple"></span>
+                      </div>
                     </motion.div>
                     
                     <CardTitle className="text-xl font-bold">{service.title}</CardTitle>
