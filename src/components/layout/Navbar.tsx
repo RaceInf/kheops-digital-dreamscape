@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ChevronRight } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -10,9 +10,10 @@ import {
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Separator } from "@/components/ui/separator";
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
 
@@ -29,15 +30,6 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  useEffect(() => {
-    // Close mobile menu when route changes
-    setIsOpen(false);
-  }, [location]);
-
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
-
   const navLinks = [
     { name: 'Accueil', href: '/' },
     { name: 'Services', href: '/services' },
@@ -45,12 +37,6 @@ const Navbar = () => {
     { name: 'À propos', href: '/about' },
     { name: 'Contact', href: '/contact' },
   ];
-
-  // Animation variants
-  const mobileMenuVariants = {
-    closed: { x: "100%", opacity: 0 },
-    open: { x: 0, opacity: 1, transition: { type: "tween", ease: "easeOut" } }
-  };
 
   return (
     <nav 
@@ -101,82 +87,72 @@ const Navbar = () => {
           </NavigationMenu>
         </div>
 
-        {/* Mobile Menu Toggle */}
-        <button 
-          className="lg:hidden p-2 rounded-md"
-          onClick={toggleMenu}
-          aria-expanded={isOpen}
-          aria-controls="mobile-menu"
-          aria-label={isOpen ? "Fermer le menu" : "Ouvrir le menu"}
-        >
-          <motion.div
-            initial="rest"
-            animate={isOpen ? "open" : "rest"}
-            className="relative w-6 h-6"
-          >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
-          </motion.div>
-        </button>
-
-        {/* Mobile Navigation Menu */}
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div 
-              variants={mobileMenuVariants}
-              initial="closed"
-              animate="open"
-              exit="closed"
-              className="fixed top-0 right-0 h-full w-4/5 bg-white shadow-xl z-50 lg:hidden"
-              id="mobile-menu"
-            >
-              <div className="flex flex-col h-full p-8">
-                <div className="flex justify-between items-center mb-8">
-                  <span className="font-bold text-xl">
+        {/* Mobile Menu - Using Sheet from shadcn UI */}
+        <div className="lg:hidden">
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" aria-label="Menu">
+                <Menu className="h-5 w-5" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-[300px] sm:w-[400px] p-0">
+              <div className="flex flex-col h-full">
+                {/* Header with logo and close button */}
+                <div className="p-6 bg-gradient-to-r from-kheops-gold/10 to-kheops-salmon/10">
+                  <span className="font-bold text-2xl">
                     <span className="text-kheops-gold">KHEOPS</span> 
-                    <span className="text-kheops-salmon">SET</span>
+                    <span className="text-kheops-salmon">SET</span> 
+                    <span>DIGITAL</span>
                   </span>
-                  <button 
-                    onClick={toggleMenu}
-                    aria-label="Fermer le menu"
-                    className="p-2"
-                  >
-                    <X size={24} />
-                  </button>
                 </div>
-                <div className="flex flex-col space-y-4">
-                  {navLinks.map((link, index) => (
-                    <div key={index} className="border-b border-gray-100 pb-2">
-                      <Link
-                        to={link.href}
-                        className={cn(
-                          "block py-2 text-gray-800 hover:text-kheops-salmon transition-colors duration-300 font-medium text-lg",
-                          location.pathname === link.href && "text-kheops-salmon"
-                        )}
+                
+                <Separator />
+                
+                {/* Navigation Links */}
+                <nav className="flex-grow p-6">
+                  <ul className="space-y-4">
+                    {navLinks.map((link, index) => (
+                      <motion.li 
+                        key={link.name}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                        className="overflow-hidden"
                       >
-                        {link.name}
-                      </Link>
-                    </div>
-                  ))}
-                  <Button className="mt-6 bg-kheops-gold hover:bg-kheops-salmon text-white transition-colors duration-300">
-                    <Link to="/contact">Demander un devis</Link>
+                        <Link
+                          to={link.href}
+                          className={cn(
+                            "flex items-center justify-between py-2 px-2 rounded-lg font-medium text-lg transition-all duration-300",
+                            location.pathname === link.href 
+                              ? "bg-kheops-salmon/10 text-kheops-salmon" 
+                              : "text-gray-800 hover:bg-gray-100"
+                          )}
+                        >
+                          {link.name}
+                          <ChevronRight 
+                            className={cn(
+                              "h-5 w-5 transition-all",
+                              location.pathname === link.href ? "text-kheops-salmon" : "text-gray-400"
+                            )} 
+                          />
+                        </Link>
+                      </motion.li>
+                    ))}
+                  </ul>
+                </nav>
+                
+                {/* CTA Button */}
+                <div className="p-6 bg-gradient-to-r from-kheops-gold/10 to-kheops-salmon/10">
+                  <Button className="w-full bg-kheops-gold hover:bg-kheops-salmon text-white transition-colors duration-300">
+                    <Link to="/contact" className="w-full flex items-center justify-center">
+                      Demander un devis
+                    </Link>
                   </Button>
                 </div>
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Overlay for mobile menu */}
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.5 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black lg:hidden"
-            onClick={toggleMenu}
-            style={{ zIndex: 40 }}
-          />
-        )}
+            </SheetContent>
+          </Sheet>
+        </div>
       </div>
     </nav>
   );
