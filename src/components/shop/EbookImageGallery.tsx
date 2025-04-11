@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { ZoomIn, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -106,9 +106,6 @@ const EbookImageGallery = ({
       {/* Fullscreen Image Dialog */}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className="max-w-[95vw] max-h-[95vh] p-0 bg-black/95 border-none">
-          {/* Adding DialogTitle but visually hidden for accessibility */}
-          <DialogTitle className="sr-only">{title}</DialogTitle>
-          
           <Button 
             variant="ghost" 
             className="absolute top-2 right-2 text-white z-50 rounded-full p-2 h-auto" 
@@ -122,7 +119,7 @@ const EbookImageGallery = ({
               <motion.img 
                 key={allImages[lightboxIndex]}
                 src={allImages[lightboxIndex]} 
-                alt={`${title} - image ${lightboxIndex + 1}`}
+                alt={title} 
                 className="max-w-full max-h-[80vh] object-contain"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
