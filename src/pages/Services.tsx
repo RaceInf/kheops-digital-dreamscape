@@ -232,11 +232,29 @@ const Services = () => {
           >
             {services.map((service, index) => (
               <motion.div key={index} variants={fadeIn}>
-                <Card className="h-full transition-all duration-300 hover:shadow-lg border border-gray-100">
-                  <CardHeader className="pb-2">
-                    <div className="w-16 h-16 flex items-center justify-center rounded-full mb-4 bg-kheops-gold bg-opacity-10 text-kheops-gold">
-                      {service.icon}
-                    </div>
+                <Card className="h-full transition-all duration-300 hover:shadow-lg border border-gray-100 relative group overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-kheops-gold/5 to-kheops-salmon/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <CardHeader className="pb-2 relative">
+                    <motion.div 
+                      className="w-20 h-20 flex items-center justify-center rounded-full mb-5 relative"
+                      whileHover={{ scale: 1.05 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                    >
+                      {/* Outer gradient ring */}
+                      <div className="absolute inset-0 rounded-full bg-gradient-to-br from-kheops-gold to-kheops-salmon opacity-20"></div>
+                      
+                      {/* Inner solid background */}
+                      <div className="absolute inset-1 rounded-full bg-white"></div>
+                      
+                      {/* Icon centered */}
+                      <div className="relative z-10 text-kheops-gold">
+                        {service.icon}
+                      </div>
+                      
+                      {/* Animated glow effect */}
+                      <div className="absolute inset-0 rounded-full bg-kheops-gold opacity-0 group-hover:opacity-20 blur-md transition-opacity duration-700"></div>
+                    </motion.div>
+                    
                     <CardTitle className="text-xl font-bold">{service.title}</CardTitle>
                   </CardHeader>
                   <CardContent>
@@ -246,13 +264,13 @@ const Services = () => {
                     <ul className="space-y-2">
                       {service.features.map((feature, i) => (
                         <li key={i} className="flex items-start">
-                          <span className="text-kheops-gold mr-2">✓</span>
+                          <span className="text-kheops-gold mr-2 flex-shrink-0">✓</span>
                           <span>{feature}</span>
                         </li>
                       ))}
                     </ul>
                     <Link to={`/services/${service.id}`}>
-                      <Button className="mt-6 bg-white text-kheops-gold hover:bg-kheops-gold hover:text-white border border-kheops-gold transition-all duration-300">
+                      <Button className="mt-6 bg-white text-kheops-gold hover:bg-kheops-gold hover:text-white border border-kheops-gold transition-all duration-300 w-full sm:w-auto">
                         En savoir plus
                       </Button>
                     </Link>

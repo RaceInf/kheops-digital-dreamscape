@@ -25,11 +25,18 @@ const ServiceCard = ({ id, icon, title, description, expanded, onClick }: Servic
     >
       <CardHeader className="pb-2">
         <div 
-          className={`w-16 h-16 flex items-center justify-center rounded-full mb-4 transition-colors duration-300 ${
+          className={`w-16 h-16 flex items-center justify-center rounded-full mb-4 transition-colors duration-300 relative ${
             expanded ? 'bg-kheops-gold text-white' : 'bg-white text-kheops-gold'
           }`}
         >
-          {icon}
+          {/* Add subtle gradient overlay when expanded */}
+          {expanded && (
+            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-kheops-gold to-kheops-salmon opacity-100"></div>
+          )}
+          {/* Icon with proper z-index to display above gradient */}
+          <div className="relative z-10">
+            {icon}
+          </div>
         </div>
         <CardTitle className="text-xl font-bold">{title}</CardTitle>
       </CardHeader>
