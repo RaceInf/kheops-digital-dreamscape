@@ -2,7 +2,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { MessageCircle } from 'lucide-react';
+import { MessageCircle, WhatsappIcon } from 'lucide-react';
 
 interface WhatsAppButtonProps {
   productName?: string;
@@ -21,17 +21,24 @@ const WhatsAppButton = ({ productName, className = "", variant = "default" }: Wh
   
   return (
     <motion.div
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
+      whileHover={{ scale: 1.03 }}
+      whileTap={{ scale: 0.98 }}
+      className="relative overflow-hidden"
     >
       <Button 
         variant={variant}
         className={`gap-2 ${className}`}
         onClick={() => window.open(whatsappLink, '_blank')}
       >
-        <MessageCircle size={20} className="text-white" />
+        <MessageCircle size={20} />
         Commander par WhatsApp
       </Button>
+      <motion.div 
+        className="absolute inset-0 bg-white/20 rounded-md"
+        initial={{ scale: 0, opacity: 0.8 }}
+        whileTap={{ scale: 4, opacity: 0 }}
+        transition={{ duration: 0.8 }}
+      />
     </motion.div>
   );
 };

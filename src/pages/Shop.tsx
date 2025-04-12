@@ -1,219 +1,224 @@
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { Book, Check, ChevronDown, FileText, MessageCircle } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
-import EbookCard from '@/components/shop/EbookCard';
-import WhatsAppButton from '@/components/shop/WhatsAppButton';
-import { ebooks } from '@/data/ebooks';
-import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
-import { Book } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
+import { ebooks } from '@/data/ebooks';
+import WhatsAppButton from '@/components/shop/WhatsAppButton';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { Badge } from '@/components/ui/badge';
+
+const faqs = [
+  {
+    question: "Comment puis-je accéder à mes e-books après l'achat ?",
+    answer: "Dès que votre paiement est confirmé, vous recevrez un email avec un lien de téléchargement sécurisé. Vos e-books seront disponibles en quelques clics, prêts à être dévorés !"
+  },
+  {
+    question: "Dans quels formats sont disponibles les e-books ?",
+    answer: "Nos e-books sont disponibles en PDF et certains en format EPUB pour une lecture optimale sur tous vos appareils."
+  },
+  {
+    question: "Les e-books sont-ils compatibles avec tous les appareils ?",
+    answer: "Absolument ! Nos e-books sont au format PDF, compatible avec les smartphones, tablettes, ordinateurs et liseuses. Vous pouvez les consulter où et quand vous voulez."
+  },
+  {
+    question: "Puis-je partager mes e-books avec d'autres personnes ?",
+    answer: "Nos e-books sont destinés à un usage personnel. Si vous souhaitez les partager, nous vous invitons à encourager vos proches à se les procurer directement. Cela nous aide à continuer à créer du contenu de qualité !"
+  },
+  {
+    question: "Comment puis-vous garantir la qualité de vos e-books ?",
+    answer: "Nos e-books sont rédigés par des experts passionnés, relus et optimisés pour vous offrir une valeur exceptionnelle. Ils sont conçus pour être pratiques, inspirants et faciles à appliquer. La qualité, c'est notre signature."
+  },
+  {
+    question: "Que faire si je n'arrive pas à télécharger mes e-books ?",
+    answer: "Aucun souci ! Contactez-nous via WhatsApp ou par email, et nous vous enverrons rapidement une solution pour accéder à vos e-books. Votre confort est notre priorité."
+  }
+];
 
 const Shop = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
-  
-  // Calculate indices for pagination
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentEbooks = ebooks.slice(indexOfFirstItem, indexOfLastItem);
-  
-  // Calculate the number of pages
-  const totalPages = Math.ceil(ebooks.length / itemsPerPage);
-  
-  // Generate page numbers
-  const pageNumbers = [];
-  for (let i = 1; i <= totalPages; i++) {
-    pageNumbers.push(i);
-  }
-  
-  // Get featured ebooks - just take the first 2 for now
-  const featuredEbooks = ebooks.slice(0, 2);
-  
-  useEffect(() => {
-    // Set page title for SEO
-    document.title = "Boutique d'Ebooks - KHEOPS SET DIGITAL";
-    
-    // Scroll to top on page load
+  React.useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   return (
     <>
       <Helmet>
-        <title>Boutique d'Ebooks - KHEOPS SET DIGITAL</title>
-        <meta name="description" content="Découvrez notre sélection d'ebooks pour développer vos compétences digitales et faire croître votre business en ligne." />
-        <meta name="keywords" content="ebook, marketing digital, communication digitale, stratégie digitale, formation" />
-        <link rel="canonical" href="https://kheops-set-digital.com/shop" />
+        <title>E-books & Ressources - KHEOPS SET DIGITAL</title>
+        <meta name="description" content="Développez vos compétences avec nos guides et ressources premium - KHEOPS SET DIGITAL" />
       </Helmet>
       
-      <main className="min-h-screen w-full bg-gradient-to-b from-white via-kheops-gold/5 to-white">
+      <main className="min-h-screen bg-gradient-to-b from-gray-900 via-black to-gray-900 pb-12">
         <Navbar />
         
-        <section className="pt-32 pb-12">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="text-center max-w-4xl mx-auto"
-            >
-              <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-kheops-gold to-kheops-salmon bg-clip-text text-transparent">
-                Notre Boutique d'Ebooks
-              </h1>
-              <p className="text-gray-600 text-lg mb-8">
-                Découvrez notre sélection d'ebooks pour développer vos compétences digitales et faire croître votre business en ligne.
-              </p>
-              <div className="flex justify-center mb-12">
-                <WhatsAppButton className="bg-green-600 hover:bg-green-700 animate-soft-pulse" />
-              </div>
-            </motion.div>
+        {/* Hero Section */}
+        <section className="relative py-24 md:py-32 border-b border-gray-800">
+          <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
+          <div className="container mx-auto px-4 relative">
+            <div className="max-w-4xl mx-auto text-center">
+              <motion.h1 
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7 }}
+                className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6"
+              >
+                E-books & <span className="text-gradient">Ressources</span>
+              </motion.h1>
+              
+              <motion.p 
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.2 }}
+                className="text-lg md:text-xl text-gray-400 mb-8 max-w-2xl mx-auto"
+              >
+                Développez vos compétences avec nos guides et ressources premium
+                pour maîtriser les stratégies digitales qui transforment votre business
+              </motion.p>
+              
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+              >
+                <WhatsAppButton 
+                  className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-full" 
+                  variant="default"
+                />
+              </motion.div>
+            </div>
           </div>
         </section>
         
-        {/* Featured Ebooks Section */}
-        <section className="pb-16">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-            <div className="mb-12">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="text-center mb-10"
-              >
-                <h2 className="text-3xl md:text-4xl font-bold mb-3">Ebooks à la Une</h2>
-                <div className="w-24 h-1 bg-gradient-to-r from-kheops-gold to-kheops-salmon mx-auto rounded-full mb-6"></div>
-                <p className="text-gray-600 max-w-2xl mx-auto">Découvrez nos ebooks les plus populaires, soigneusement sélectionnés pour enrichir vos connaissances en marketing digital</p>
-              </motion.div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {featuredEbooks.map((ebook, index) => (
-                  <motion.div
-                    key={`featured-${ebook.id}`}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: index * 0.2 }}
-                    className="flex"
-                  >
-                    <EbookCard ebook={ebook} truncateTitle={false} />
-                  </motion.div>
-                ))}
-              </div>
-            </div>
+        {/* Ebooks Section */}
+        <section className="py-16">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl font-bold text-white mb-12 text-center">
+              Nos <span className="text-gradient">Publications</span>
+            </h2>
             
-            <div className="bg-white rounded-xl shadow-md overflow-hidden mb-16">
-              <div className="p-6 md:p-8">
-                <h2 className="text-2xl md:text-3xl font-bold mb-8 text-center">Tous Nos Ebooks</h2>
-                
-                <motion.div 
-                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
-                  initial="hidden"
-                  animate="visible"
-                  variants={{
-                    hidden: { opacity: 0 },
-                    visible: {
-                      opacity: 1,
-                      transition: {
-                        staggerChildren: 0.1
-                      }
-                    }
-                  }}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {ebooks.map((ebook) => (
+                <motion.div
+                  key={ebook.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                  whileHover={{ y: -5 }}
+                  className="bg-white/5 backdrop-blur-lg rounded-xl overflow-hidden group hover:shadow-2xl hover:shadow-kheops-gold/10 transition-all duration-300"
                 >
-                  {currentEbooks.length > 0 ? (
-                    currentEbooks.map((ebook, index) => (
-                      <motion.div
-                        key={ebook.id}
-                        variants={{
-                          hidden: { opacity: 0, y: 20 },
-                          visible: { opacity: 1, y: 0 }
-                        }}
-                        transition={{ duration: 0.4 }}
-                      >
-                        <EbookCard 
-                          ebook={ebook} 
-                          truncateTitle={true}
-                        />
-                      </motion.div>
-                    ))
-                  ) : (
-                    <motion.div 
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      className="col-span-3 p-12 text-center"
-                    >
-                      <Book size={48} className="mx-auto text-gray-300 mb-4" />
-                      <h3 className="text-xl font-semibold mb-2">Aucun ebook trouvé</h3>
-                      <p className="text-gray-500">Revenez bientôt pour découvrir nos nouveaux ebooks</p>
-                    </motion.div>
-                  )}
-                </motion.div>
-                
-                {/* Pagination */}
-                {totalPages > 1 && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.2 }}
-                    className="mt-12"
-                  >
-                    <Pagination>
-                      <PaginationContent>
-                        {currentPage > 1 && (
-                          <PaginationItem>
-                            <PaginationPrevious 
-                              className="cursor-pointer hover:bg-kheops-gold/10 hover:text-kheops-gold transition-colors"
-                              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} 
-                            />
-                          </PaginationItem>
-                        )}
-                        
-                        {pageNumbers.map(number => (
-                          <PaginationItem key={number}>
-                            <PaginationLink 
-                              isActive={currentPage === number}
-                              className="cursor-pointer"
-                              onClick={() => setCurrentPage(number)}
-                            >
-                              {number}
-                            </PaginationLink>
-                          </PaginationItem>
+                  <div className="relative">
+                    <img 
+                      src={ebook.imageUrl || '/placeholder.svg'} 
+                      alt={ebook.title}
+                      className="w-full h-48 object-cover"
+                    />
+                    <div className="absolute top-4 right-4">
+                      <Badge className="bg-white/90 text-gray-900 border-none">
+                        {ebook.format ? ebook.format[0] : 'PDF'}
+                      </Badge>
+                    </div>
+                  </div>
+                  
+                  <div className="p-6">
+                    <h3 className="text-xl font-semibold text-white mb-2">{ebook.title}</h3>
+                    <p className="text-gray-400 mb-4 line-clamp-2">{ebook.description}</p>
+                    
+                    <div className="space-y-4 mb-6">
+                      <div className="flex items-center gap-2">
+                        <FileText className="w-5 h-5 text-kheops-gold" />
+                        <span className="text-gray-300">{ebook.pages} pages</span>
+                      </div>
+                      
+                      <ul className="space-y-2">
+                        {(ebook.features || []).slice(0, 3).map((feature, idx) => (
+                          <li key={idx} className="flex items-center gap-2 text-gray-300 text-sm">
+                            <Check className="w-4 h-4 text-kheops-gold flex-shrink-0" />
+                            <span className="line-clamp-1">{feature}</span>
+                          </li>
                         ))}
-                        
-                        {currentPage < totalPages && (
-                          <PaginationItem>
-                            <PaginationNext 
-                              className="cursor-pointer hover:bg-kheops-gold/10 hover:text-kheops-gold transition-colors"
-                              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} 
-                            />
-                          </PaginationItem>
-                        )}
-                      </PaginationContent>
-                    </Pagination>
-                  </motion.div>
-                )}
-              </div>
+                      </ul>
+                    </div>
+                    
+                    <div className="flex items-end justify-between mb-6">
+                      <div>
+                        {ebook.isOnSale && ebook.originalPrice ? (
+                          <span className="text-gray-400 line-through">{(ebook.originalPrice / 100).toFixed(2)}€</span>
+                        ) : null}
+                        <span className="text-2xl font-bold text-kheops-gold ml-2">{(ebook.price / 100).toFixed(2)}€</span>
+                      </div>
+                      <div className="text-sm text-gray-400">
+                        Prix HT
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-3">
+                      <Link 
+                        to={`/shop/${ebook.id}`}
+                        className="block text-center bg-kheops-gold hover:bg-kheops-salmon text-gray-900 font-medium py-3 rounded-lg transition-colors"
+                      >
+                        En savoir plus
+                      </Link>
+                      
+                      <WhatsAppButton 
+                        productName={ebook.title} 
+                        className="w-full bg-transparent border border-green-500 text-green-500 hover:bg-green-500 hover:text-white" 
+                        variant="outline"
+                      />
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
             </div>
+          </div>
+        </section>
+        
+        {/* FAQ Section */}
+        <section className="py-16 border-t border-gray-800">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl font-bold text-white mb-12 text-center">Questions Fréquentes</h2>
             
-            {/* Call to action section */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="bg-gradient-to-r from-kheops-salmon to-kheops-gold rounded-xl shadow-lg p-8 md:p-12 text-white text-center"
-            >
-              <h2 className="text-2xl md:text-3xl font-bold mb-4">Vous cherchez une expertise sur mesure?</h2>
-              <p className="mb-6 max-w-2xl mx-auto">Notre équipe de professionnels est prête à vous accompagner dans vos projets de communication digitale</p>
-              <Link to="/contact" className="inline-block bg-white text-kheops-salmon hover:bg-gray-100 font-medium px-6 py-3 rounded-lg transition-colors duration-300">
-                Contactez-nous
-              </Link>
-            </motion.div>
+            <div className="max-w-3xl mx-auto space-y-6">
+              {faqs.map((faq, index) => (
+                <Collapsible key={index} className="bg-white/5 backdrop-blur-lg rounded-xl overflow-hidden">
+                  <CollapsibleTrigger className="flex items-center justify-between p-6 w-full text-left">
+                    <h3 className="text-lg font-medium text-white">{faq.question}</h3>
+                    <ChevronDown className="w-5 h-5 text-kheops-gold transition-transform ui-open:rotate-180" />
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="px-6 pb-6">
+                    <p className="text-gray-300">{faq.answer}</p>
+                  </CollapsibleContent>
+                </Collapsible>
+              ))}
+            </div>
           </div>
         </section>
         
         <Footer />
       </main>
+      
+      <style jsx>{`
+        .text-gradient {
+          @apply bg-clip-text text-transparent bg-gradient-to-r from-kheops-gold to-kheops-salmon;
+        }
+        
+        .bg-grid-pattern {
+          background-image: radial-gradient(circle at 1px 1px, rgb(255 255 255 / 0.1) 1px, transparent 0);
+          background-size: 40px 40px;
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+          .transform {
+            transform: none !important;
+          }
+          .transition-all,
+          .transition-transform,
+          .transition-colors {
+            transition: none !important;
+          }
+        }
+      `}</style>
     </>
   );
 };
