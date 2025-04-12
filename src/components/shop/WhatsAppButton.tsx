@@ -21,23 +21,17 @@ const WhatsAppButton = ({ productName, className = "", variant = "default" }: Wh
   
   return (
     <motion.div
-      whileHover={{ scale: 1.03 }}
-      whileTap={{ scale: 0.97 }}
-      className="relative overflow-hidden rounded-lg"
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
     >
       <Button 
         variant={variant}
-        className={`gap-2 w-full font-medium ${className}`}
+        className={`gap-2 ${className}`}
         onClick={() => window.open(whatsappLink, '_blank')}
       >
-        <MessageCircle size={18} className="text-white" />
-        Commander
+        <MessageCircle size={20} className="text-white" />
+        Commander par WhatsApp
       </Button>
-      
-      {/* Ripple effect overlay */}
-      <span className="absolute inset-0 pointer-events-none overflow-hidden rounded-lg">
-        <span className="ripple-effect"></span>
-      </span>
     </motion.div>
   );
 };

@@ -2,11 +2,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Book } from 'lucide-react';
-import { Card } from '@/components/ui/card';
+import { Book, Star } from 'lucide-react';
+import { Card, CardContent, CardFooter } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { Ebook } from '@/types';
 import PriceDisplay from './PriceDisplay';
-import WhatsAppButton from './WhatsAppButton';
 
 interface EbookCardProps {
   ebook: Ebook;
@@ -22,84 +23,95 @@ const EbookCard = ({ ebook, truncateTitle = false }: EbookCardProps) => {
     return title;
   };
 
-  const truncateDescription = (text: string, lines = 3) => {
-    return text;
-  };
-
   return (
-    <Card className="w-full bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col md:flex-row h-full">
-      {/* Book Cover */}
-      <div className="relative w-full md:w-2/5 aspect-[3/4] bg-gray-100">
-        <motion.div
-          whileHover={{ scale: 1.03 }}
-          transition={{ duration: 0.3 }}
-          className="h-full"
-        >
-          {ebook.imageUrl ? (
-            <img 
-              src={ebook.imageUrl} 
-              alt={ebook.title} 
-              className="object-cover w-full h-full"
-            />
-          ) : (
-            <div className="flex items-center justify-center h-full bg-gray-200">
-              <Book size={64} className="text-gray-400" />
+    <motion.div
+      whileHover={{ y: -5 }}
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      className="card-hover-effect"
+    >
+      <Card className="h-full flex flex-col overflow-hidden border border-gray-100 hover:border-kheops-gold hover:shadow-lg transition-all duration-300">
+        <div className="relative aspect-[3/4] w-full overflow-hidden bg-gray-50">
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.3 }}
+            className="h-full"
+          >
+            {ebook.imageUrl ? (
+              <img 
+                src={ebook.imageUrl} 
+                alt={ebook.title} 
+                className="object-cover w-full h-full transition-transform duration-300"
+              />
+            ) : (
+              <div className="flex items-center justify-center h-full bg-kheops-gold/10">
+                <Book size={64} className="text-kheops-gold/50" />
+              </div>
+            )}
+          </motion.div>
+          
+          {/* Category badge */}
+          <div className="absolute top-3 left-3">
+            <Badge className="bg-white/90 text-kheops-gold border-none shadow-sm">
+              {ebook.category}
+            </Badge>
+          </div>
+          
+          {/* Promo Badge */}
+          {ebook.isOnSale && ebook.originalPrice && (
+            <div className="absolute top-3 right-3 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-md transform rotate-[-5deg]">
+              PROMO
             </div>
           )}
-        </motion.div>
-        
-        {/* Promo Badge */}
-        {ebook.isOnSale && ebook.originalPrice && (
-          <div className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-md">
-            PROMO
-          </div>
-        )}
-      </div>
-      
-      {/* Content */}
-      <div className="flex flex-col justify-between w-full md:w-3/5 p-6">
-        <div>
-          <h3 className="text-xl md:text-2xl font-semibold mb-2 text-gray-900 line-clamp-2">
-            {formatTitle(ebook.title)}
-          </h3>
-          
-          <p className="text-sm text-kheops-salmon font-medium mb-4">{ebook.subtitle}</p>
-          
-          <p className="text-gray-600 mb-6 line-clamp-3">
-            {ebook.description}
-          </p>
         </div>
         
-        <div>
-          {/* Price */}
-          <div className="mb-6">
+        <CardContent className="flex-grow pt-4">
+          <div className="flex items-start justify-between mb-1">
+            <h3 className="text-lg font-bold line-clamp-2 group-hover:text-kheops-gold transition-colors duration-300">
+              {formatTitle(ebook.title)}
+            </h3>
+            
+            {/* Small rating indicator */}
+            <div className="flex items-center gap-0.5">
+              <Star size={14} className="fill-kheops-gold text-kheops-gold" />
+              <span className="text-xs text-gray-500">4.8</span>
+            </div>
+          </div>
+          <p className="text-sm text-gray-500 mb-2">{ebook.subtitle}</p>
+          
+          <div className="flex items-center gap-2 mb-2">
+            <Badge variant="outline" className="bg-gray-50 text-gray-600 border-none">
+              {ebook.pages} pages
+            </Badge>
+            <Badge variant="outline" className="bg-gray-50 text-gray-600 border-none">
+              {ebook.language}
+            </Badge>
+          </div>
+          
+          <p className="text-sm line-clamp-3 text-gray-600 mb-2">{ebook.description}</p>
+          
+          {/* Price moved here */}
+          <div className="mt-2 mb-3">
             <PriceDisplay 
               price={ebook.price} 
               originalPrice={ebook.originalPrice} 
               isOnSale={ebook.isOnSale}
-              size="md"
-              className="justify-start"
+              size="sm"
+              className="justify-center"
             />
           </div>
-          
-          {/* Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4">
-            <Link to={`/shop/${ebook.id}`} className="flex-1">
-              <button className="w-full py-3 px-6 border border-kheops-gold text-kheops-gold rounded-lg font-semibold hover:bg-kheops-gold hover:text-white transition-colors duration-300">
-                Voir détails
-              </button>
-            </Link>
-            
-            <div className="flex-1">
-              <WhatsAppButton 
-                productName={ebook.title}
-                className="w-full bg-green-600 hover:bg-green-700"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    </Card>
+        </CardContent>
+        
+        <CardFooter className="pt-0 pb-4">
+          <Link to={`/shop/${ebook.id}`} className="w-full">
+            <Button className="w-full bg-gradient-to-r from-kheops-salmon to-kheops-gold hover:from-kheops-gold hover:to-kheops-salmon text-white transition-all duration-300 shadow-sm hover:shadow-md">
+              Voir détails
+            </Button>
+          </Link>
+        </CardFooter>
+      </Card>
+    </motion.div>
   );
 };
 
