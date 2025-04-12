@@ -25,7 +25,7 @@ const EbookImageGallery = ({
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const isMobile = useIsMobile();
   
-  const allImages = [mainImage, ...additionalImages].filter(Boolean);
+  const allImages = [mainImage, ...(additionalImages || [])].filter(Boolean);
   const currentImage = allImages[activeIndex] || mainImage;
   
   const handleThumbnailClick = (index: number) => {

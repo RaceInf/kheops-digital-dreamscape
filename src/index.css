@@ -1,399 +1,122 @@
 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Open+Sans:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
+
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
- 
+    --foreground: 222.2 47.4% 11.2%;
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
- 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
- 
+    --popover-foreground: 222.2 47.4% 11.2%;
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
- 
+    --card-foreground: 222.2 47.4% 11.2%;
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
- 
     --primary: 222.2 47.4% 11.2%;
     --primary-foreground: 210 40% 98%;
- 
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
- 
     --accent: 210 40% 96.1%;
     --accent-foreground: 222.2 47.4% 11.2%;
- 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 100% 50%;
     --destructive-foreground: 210 40% 98%;
- 
     --ring: 215 20.2% 65.1%;
- 
     --radius: 0.5rem;
+
+    /* Sidebar */
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 222.2 84% 4.9%;
+    --sidebar-muted: 210 40% 96.1%;
+    --sidebar-muted-foreground: 215.4 16.3% 46.9%;
+    --sidebar-accent: 210 40% 96.1%;
+    --sidebar-accent-foreground: 222.2 47.4% 11.2%;
+    --sidebar-primary: 222.2 47.4% 11.2%;
+    --sidebar-primary-foreground: 210 40% 98%;
+    --sidebar-border: 214.3 31.8% 91.4%;
+    --sidebar-ring: 215 20.2% 65.1%;
   }
- 
+
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
- 
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
- 
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
- 
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
- 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
- 
     --primary: 210 40% 98%;
     --primary-foreground: 222.2 47.4% 11.2%;
- 
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
- 
     --accent: 217.2 32.6% 17.5%;
     --accent-foreground: 210 40% 98%;
- 
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 85.7% 97.3%;
- 
+    --destructive-foreground: 210 40% 98%;
     --ring: 217.2 32.6% 17.5%;
+
+    /* Sidebar */
+    --sidebar-background: 222.2 84% 4.9%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-muted: 217.2 32.6% 17.5%;
+    --sidebar-muted-foreground: 215 20.2% 65.1%;
+    --sidebar-accent: 217.2 32.6% 17.5%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-primary: 210 40% 98%;
+    --sidebar-primary-foreground: 222.2 47.4% 11.2%;
+    --sidebar-border: 217.2 32.6% 17.5%;
+    --sidebar-ring: 217.2 32.6% 17.5%;
   }
 }
- 
+
 @layer base {
   * {
     @apply border-border;
   }
-  
-  html {
-    @apply scroll-smooth;
-  }
-  
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
-  
-  h1 {
-    @apply text-4xl md:text-5xl lg:text-6xl font-bold leading-tight;
-  }
-  
-  h2 {
-    @apply text-3xl md:text-4xl font-bold;
-  }
-  
-  h3 {
-    @apply text-2xl font-bold;
-  }
-  
-  /* Images responsives par défaut */
-  img {
-    @apply max-w-full h-auto;
-  }
-  
-  /* Accessibilité des éléments focus */
-  a:focus, button:focus, input:focus, textarea:focus, select:focus {
-    @apply outline-none ring-2 ring-kheops-gold ring-offset-2;
-  }
-  
-  /* Classes sémantiques pour les sections */
+}
+
+/* Classes personnalisées */
+@layer utilities {
   .section-padding {
     @apply py-16 md:py-24;
   }
   
   .container-custom {
-    @apply container mx-auto px-4 max-w-7xl;
+    @apply container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
   }
   
-  /* Breakpoints personnalisés */
-  .mobile-only {
-    @apply block sm:hidden; /* Visible uniquement sur mobile (320px - 480px) */
+  .ripple-effect {
+    position: absolute;
+    border-radius: 50%;
+    transform: scale(0);
+    animation: ripple 0.6s linear;
+    background-color: rgba(255, 255, 255, 0.3);
   }
-  
-  .tablet-only {
-    @apply hidden sm:block md:hidden; /* Visible uniquement sur tablette (481px - 768px) */
-  }
-  
-  .desktop-only {
-    @apply hidden md:block lg:hidden; /* Visible uniquement sur desktop (769px - 1024px) */
-  }
-  
-  .large-desktop-only {
-    @apply hidden lg:block; /* Visible uniquement sur large desktop (1025px+) */
-  }
-  
-  .mobile-tablet {
-    @apply block md:hidden; /* Visible sur mobile et tablette */
-  }
-  
-  .tablet-desktop {
-    @apply hidden sm:block lg:hidden; /* Visible sur tablette et desktop */
-  }
-  
-  .desktop-large {
-    @apply hidden md:block; /* Visible sur desktop et large desktop */
+
+  @keyframes ripple {
+    to {
+      transform: scale(2);
+      opacity: 0;
+    }
   }
 }
 
-@layer components {
-  /* Composants réutilisables */
-  .btn-primary {
-    @apply bg-kheops-gold hover:bg-kheops-salmon text-white px-6 py-3 rounded-md font-medium transition-colors duration-300;
-  }
-  
-  .btn-outline {
-    @apply border-2 border-kheops-gold text-kheops-gold hover:bg-kheops-gold hover:text-white px-6 py-3 rounded-md font-medium transition-colors duration-300;
-  }
-  
-  .card-hover {
-    @apply transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg;
-  }
-  
-  .section-title {
-    @apply text-3xl md:text-4xl font-bold mb-6;
-  }
-  
-  .section-subtitle {
-    @apply text-xl text-gray-600 max-w-3xl mx-auto mb-12;
-  }
-  
-  /* Formulaires stylisés */
-  .form-input {
-    @apply w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-kheops-gold focus:border-transparent;
-  }
-  
-  .form-label {
-    @apply block text-sm font-medium text-gray-700 mb-1;
-  }
-  
-  .form-group {
-    @apply mb-4;
-  }
-}
-
-@layer utilities {
-  /* Couleurs de marque */
-  .text-kheops-gold {
-    color: #EDC070;
-  }
-  .text-kheops-salmon {
-    color: #EB7E78;
-  }
-  .text-kheops-teal {
-    color: #2A9D8F;
-  }
-  .text-kheops-blue {
-    color: #264653;
-  }
-  
-  .bg-kheops-gold {
-    background-color: #EDC070;
-  }
-  .bg-kheops-salmon {
-    background-color: #EB7E78;
-  }
-  .bg-kheops-teal {
-    background-color: #2A9D8F;
-  }
-  .bg-kheops-blue {
-    background-color: #264653;
-  }
-  .bg-kheops-lightGray {
-    background-color: #F5F5F5;
-  }
-  
-  .border-kheops-gold {
-    border-color: #EDC070;
-  }
-  .border-kheops-salmon {
-    border-color: #EB7E78;
-  }
-  .border-kheops-teal {
-    border-color: #2A9D8F;
-  }
-  .border-kheops-blue {
-    border-color: #264653;
-  }
-  
-  /* Dégradés de couleurs */
-  .from-kheops-gold {
-    --tw-gradient-from: #EDC070;
-    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(237, 192, 112, 0));
-  }
-  .to-kheops-salmon {
-    --tw-gradient-to: #EB7E78;
-  }
-  .from-kheops-teal {
-    --tw-gradient-from: #2A9D8F;
-    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(42, 157, 143, 0));
-  }
-  .to-kheops-blue {
-    --tw-gradient-to: #264653;
-  }
-  
-  .hover\:bg-kheops-gold:hover {
-    background-color: #EDC070;
-  }
-  .hover\:bg-kheops-salmon:hover {
-    background-color: #EB7E78;
-  }
-  .hover\:bg-kheops-teal:hover {
-    background-color: #2A9D8F;
-  }
-  .hover\:bg-kheops-blue:hover {
-    background-color: #264653;
-  }
-  
-  .hover\:text-kheops-gold:hover {
-    color: #EDC070;
-  }
-  .hover\:text-kheops-salmon:hover {
-    color: #EB7E78;
-  }
-  .hover\:text-kheops-teal:hover {
-    color: #2A9D8F;
-  }
-  .hover\:text-kheops-blue:hover {
-    color: #264653;
-  }
-  
-  /* Animation utilities */
-  @keyframes gradient-position {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-  
-  .animate-gradient-animation {
-    background-size: 200% 200%;
-    animation: gradient-position 15s ease infinite;
-  }
-  
-  /* Hover effect pour les cartes */
-  .card-hover-effect {
-    @apply relative overflow-hidden;
-  }
-  
-  .card-hover-effect::after {
-    content: "";
-    @apply absolute top-0 left-0 w-[200%] h-full bg-gradient-to-r from-transparent via-white/30 to-transparent transform -translate-x-full;
-    transition: transform 0.8s ease;
-  }
-  
-  .card-hover-effect:hover::after {
-    @apply transform translate-x-full;
-  }
-  
-  /* Effet de focus pour les input */
-  .input-focus-effect {
-    @apply transition-all duration-300 border-b-2 border-gray-300 focus:border-kheops-gold outline-none;
-  }
-  
-  /* Animations micro-interactions */
-  .pulse-on-hover {
-    @apply transition-transform duration-300 hover:scale-105;
-  }
-  
-  .rotate-on-hover {
-    @apply transition-transform duration-300 hover:rotate-3;
-  }
-  
-  .shake-on-hover:hover {
-    animation: shake 0.5s;
-  }
-  
-  @keyframes shake {
-    0% { transform: translateX(0); }
-    25% { transform: translateX(-2px); }
-    50% { transform: translateX(2px); }
-    75% { transform: translateX(-2px); }
-    100% { transform: translateX(0); }
-  }
-  
-  /* Effet de type machine à écrire */
-  .typewriter {
-    overflow: hidden;
-    border-right: 2px solid #EDC070;
-    white-space: nowrap;
-    animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
-  }
-  
-  @keyframes typing {
-    from { width: 0 }
-    to { width: 100% }
-  }
-  
-  @keyframes blink-caret {
-    from, to { border-color: transparent }
-    50% { border-color: #EDC070 }
-  }
-  
-  /* Skeleton loading animation */
-  @keyframes skeleton-loading {
-    0% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-  
-  .skeleton-pulse {
-    background: linear-gradient(
-      90deg,
-      rgba(237, 242, 247, 0.8) 25%,
-      rgba(237, 242, 247, 0.6) 37%,
-      rgba(237, 242, 247, 0.8) 63%
-    );
-    background-size: 400% 100%;
-    animation: skeleton-loading 1.4s ease infinite;
-  }
-  
-  /* Accessibilité */
-  .sr-only {
-    @apply absolute w-px h-px p-0 -m-px overflow-hidden whitespace-nowrap border-0;
-  }
-  
-  .sr-only-focusable:focus,
-  .sr-only-focusable:active {
-    @apply not-sr-only w-auto h-auto overflow-visible whitespace-normal;
-  }
-  
-  /* Aspect ratio utility */
-  .aspect-ratio-box {
-    @apply relative;
-  }
-  
-  .aspect-ratio-content {
-    @apply absolute top-0 left-0 w-full h-full object-cover;
-  }
-  
-  /* Image hover effects */
-  .img-zoom-hover {
-    @apply transition-transform duration-500 hover:scale-110;
-  }
-  
-  /* Text overflow handling */
-  .text-truncate-1 {
-    @apply overflow-hidden text-ellipsis whitespace-nowrap;
-  }
-  
-  .text-truncate-2 {
-    @apply overflow-hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-  }
-  
-  .text-truncate-3 {
-    @apply overflow-hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-  }
+/* Pour ajouter l'effet de ripple sur clic */
+.relative .ripple-effect {
+  width: 100px;
+  height: 100px;
+  left: calc(50% - 50px);
+  top: calc(50% - 50px);
+  pointer-events: none;
 }
