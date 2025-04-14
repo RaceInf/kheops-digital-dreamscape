@@ -33,8 +33,8 @@ const Navbar = () => {
   const navLinks = [
     { name: 'Accueil', href: '/' },
     { name: 'Services', href: '/services' },
-    { name: 'Shop', href: '/shop' },
-    { name: 'À propos', href: '/about' },
+    { name: 'Boutique', href: '/Boutique' },
+    { name: 'À propos', href: '/apropos' },
     { name: 'Contact', href: '/contact' },
   ];
 
